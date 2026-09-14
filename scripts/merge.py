@@ -24,12 +24,38 @@ def merge_by_year(by_source: dict[str, list[Edition]]) -> dict[int, Edition]:
     return merged
 
 
+# 한 회차에 여러 번 나오는 것이 정상인 타입. 학회는 트랙마다 따로 발표를
+# 하므로(본 논문 라운드, 워크숍 채택, 튜토리얼 채택) notification은 타입이
+# 이미 있다는 이유로 막으면 안 된다. 제출 트랙(poster, tutorial 등)은
+# 회차당 하나뿐이라 기존 규칙을 그대로 둔다.
+MULTI_INSTANCE_TYPES = frozenset({"notification"})
+
+
 def apply_scraped(edition: Edition, extra: list[Deadline]) -> Edition:
-    """CFP에서 추출한 단계를 채운다. 이미 있는 타입은 절대 건드리지 않는다."""
+    """CFP에서 추출한 단계를 채운다.
+
+    제출 트랙은 이미 있는 타입을 절대 건드리지 않는다 - 업스트림이 준
+    poster 마감이 있는데 긁어온 poster가 끼어들면 어느 쪽이 맞는지 알 수
+    없게 된다.
+
+    notification처럼 원래 여러 번 나오는 타입은 타입만으로 막을 수 없다.
+    WACV 2027은 ai-deadlines가 준 라운드별 결과 발표를 이미 갖고 있어서,
+    워크숍 채택 발표 세 건이 통째로 버려졌다. 이런 타입은 같은 날짜에 같은
+    라벨이 이미 있을 때만 건너뛴다.
+    """
     if not extra:
         return edition
-    existing = {d.type for d in edition.deadlines}
-    additions = [d for d in extra if d.type not in existing]
+    existing_types = {d.type for d in edition.deadlines}
+    existing_keys = {
+        (d.type, d.date, (d.label or "").strip().lower()) for d in edition.deadlines
+    }
+    additions = []
+    for d in extra:
+        if d.type in MULTI_INSTANCE_TYPES:
+            if (d.type, d.date, (d.label or "").strip().lower()) not in existing_keys:
+                additions.append(d)
+        elif d.type not in existing_types:
+            additions.append(d)
     if not additions:
         return edition
     return replace(edition, deadlines=[*edition.deadlines, *additions])

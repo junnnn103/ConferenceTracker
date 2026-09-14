@@ -1,0 +1,43 @@
+{
+  "abbr": "wacv",
+  "editions": [
+    {
+      "year": 2027,
+      "conference_start": "2027-01-04",
+      "items": [
+        {
+          "type": "notification",
+          "label": "Workshop acceptance notification",
+          "date": "2026-08-15 23:59:59",
+          "confidence": "high",
+          "raw_text": "Workshop acceptance notification: August 15, 2026",
+          "url": "https://wacv.thecvf.com/Conferences/2027/CallForWorkshops"
+        },
+        {
+          "type": "notification",
+          "label": "Workshop websites live by",
+          "date": "2026-08-25 23:59:59",
+          "confidence": "high",
+          "raw_text": "Workshop websites live by: August 25, 2026",
+          "url": "https://wacv.thecvf.com/Conferences/2027/CallForWorkshops"
+        },
+        {
+          "type": "notification",
+          "label": "Workshop author notification deadline (archival papers)",
+          "date": "2026-10-30 23:59:59",
+          "confidence": "high",
+          "raw_text": "Author notification deadline (for archival papers): October 30, 2026",
+          "url": "https://wacv.thecvf.com/Conferences/2027/CallForWorkshops"
+        },
+        {
+          "type": "tutorial",
+          "label": "Tutorial Proposal Submission Deadline",
+          "date": "2026-10-04 23:59:59",
+          "confidence": "high",
+          "raw_text": "Proposal Submission Deadline : Oct 04, 2026",
+          "url": "https://wacv.thecvf.com/Conferences/2027/CallForTutorials"
+        }
+      ]
+    }
+  ]
+}

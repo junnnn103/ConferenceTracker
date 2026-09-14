@@ -216,3 +216,50 @@ def test_pick_member_with_no_upcoming_prefers_the_most_recently_held():
 
 def test_pick_member_with_no_data_returns_none():
     assert pick_member({"iccv": [], "eccv": []}, date(2026, 1, 1)) == (None, [])
+
+
+def _dl(type_, label, day, source="cfp-scrape"):
+    from datetime import datetime
+    return Deadline(type=type_, label=label, date=datetime(2026, 10, day),
+                    timezone="AoE", source=source)
+
+
+def test_apply_scraped_keeps_multiple_notifications():
+    """학회는 트랙마다 따로 발표하므로 notification은 여러 번 나온다.
+
+    타입만으로 막으면, ai-deadlines가 준 라운드별 결과 발표가 이미 있다는
+    이유로 워크숍 채택 발표가 통째로 버려진다 - WACV 2027에서 실제로 그랬다.
+    """
+    edition = Edition(
+        year=2027, date_text="", start=None, end=None, place="", link=None,
+        deadlines=[_dl("notification", "Round 1 Final Decisions", 9, "ai-deadlines")],
+        source="ai-deadlines",
+    )
+    merged = apply_scraped(edition, [_dl("notification", "Workshop acceptance notification", 30)])
+    labels = [d.label for d in merged.deadlines]
+    assert labels == ["Round 1 Final Decisions", "Workshop acceptance notification"]
+
+
+def test_apply_scraped_skips_a_duplicate_notification():
+    """같은 날짜에 같은 라벨이면 같은 값이므로 중복해서 싣지 않는다."""
+    existing = _dl("notification", "Round 1 Final Decisions", 9, "ai-deadlines")
+    edition = Edition(
+        year=2027, date_text="", start=None, end=None, place="", link=None,
+        deadlines=[existing], source="ai-deadlines",
+    )
+    merged = apply_scraped(edition, [_dl("notification", "round 1 final decisions", 9)])
+    assert len(merged.deadlines) == 1
+
+
+def test_apply_scraped_still_guards_submission_tracks():
+    """제출 트랙은 회차당 하나뿐이라 기존 규칙을 그대로 지킨다.
+
+    업스트림이 준 poster 마감이 있는데 긁어온 poster가 끼어들면 어느 쪽이
+    맞는지 알 수 없게 된다.
+    """
+    edition = Edition(
+        year=2027, date_text="", start=None, end=None, place="", link=None,
+        deadlines=[_dl("poster", "Posters", 9, "ai-deadlines")], source="ai-deadlines",
+    )
+    merged = apply_scraped(edition, [_dl("poster", "Poster Track", 30)])
+    assert [d.label for d in merged.deadlines] == ["Posters"]

@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-09-14T04:10:41.348345+00:00",
+  "generated_at": "2026-09-14T07:25:10.304040+00:00",
   "fields": [
     {
       "id": "ML",
@@ -1783,6 +1783,46 @@
               "date": "2026-11-02T23:59:59",
               "source": "ai-deadlines",
               "timezone": "AoE"
+            },
+            {
+              "type": "notification",
+              "label": "Workshop acceptance notification",
+              "date": "2026-08-15T23:59:59",
+              "source": "cfp-scrape",
+              "evidence": {
+                "raw_text": "Workshop acceptance notification: August 15, 2026",
+                "url": "https://wacv.thecvf.com/Conferences/2027/CallForWorkshops"
+              }
+            },
+            {
+              "type": "notification",
+              "label": "Workshop websites live by",
+              "date": "2026-08-25T23:59:59",
+              "source": "cfp-scrape",
+              "evidence": {
+                "raw_text": "Workshop websites live by: August 25, 2026",
+                "url": "https://wacv.thecvf.com/Conferences/2027/CallForWorkshops"
+              }
+            },
+            {
+              "type": "notification",
+              "label": "Workshop author notification deadline (archival papers)",
+              "date": "2026-10-30T23:59:59",
+              "source": "cfp-scrape",
+              "evidence": {
+                "raw_text": "Author notification deadline (for archival papers): October 30, 2026",
+                "url": "https://wacv.thecvf.com/Conferences/2027/CallForWorkshops"
+              }
+            },
+            {
+              "type": "tutorial",
+              "label": "Tutorial Proposal Submission Deadline",
+              "date": "2026-10-04T23:59:59",
+              "source": "cfp-scrape",
+              "evidence": {
+                "raw_text": "Proposal Submission Deadline : Oct 04, 2026",
+                "url": "https://wacv.thecvf.com/Conferences/2027/CallForTutorials"
+              }
             }
           ],
           "primary_deadline": "2026-08-28T23:59:59",

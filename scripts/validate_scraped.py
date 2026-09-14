@@ -20,8 +20,14 @@ ROOT = Path(__file__).parents[1]
 SCRAPED_DIR = ROOT / "data" / "scraped"
 
 # 인정하는 트랙. 이 밖의 값은 모델이 지어낸 분류로 보고 버린다.
+# 제출 트랙에 더해 notification을 받는다. 워크숍 제안 마감은 워크숍을 열려는
+# 위원회가 내는 것이라 참가자에게는 쓸모가 없고, 정작 의미 있는 날은 어떤
+# 워크숍이 채택됐는지(그래서 어디에 낼 수 있는지) 알려주는 발표일이다.
+# docs/lib.js의 workshopNotifications가 라벨에 workshop이 든 notification을
+# 찾아 쓰므로, 그 값이 여기를 통과하지 못하면 규칙이 작동할 길이 없다.
 KNOWN_TRACKS = frozenset({
-    "poster", "lbw", "workshop", "demo", "tutorial", "doctoral_consortium", "other",
+    "poster", "lbw", "workshop", "demo", "tutorial", "doctoral_consortium",
+    "notification", "other",
 })
 
 # 개최일로부터 이보다 더 앞선 마감은 잘못 읽은 것으로 본다.

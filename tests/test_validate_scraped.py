@@ -254,3 +254,50 @@ def test_one_malformed_json_does_not_stop_next_file(tmp_path, monkeypatch):
     content = good_yaml.read_text(encoding="utf-8")
     assert "abbr: good" in content
     assert "2026-02-12" in content
+
+
+def test_workshop_notification_passes_the_track_gate():
+    """워크숍 채택 발표가 게이트를 통과해야 한다.
+
+    워크숍 제안 마감은 워크숍을 열려는 위원회가 내는 것이라 참가자에게는
+    쓸모가 없고, 정작 의미 있는 날은 어떤 워크숍이 채택됐는지 알려주는
+    발표일이다. notification이 KNOWN_TRACKS에 없으면 이 값이 들어올 길이
+    없어 docs/lib.js의 workshopNotifications 규칙이 작동하지 못한다.
+    """
+    page = "Workshop acceptance notification: August 15, 2026"
+    accepted, rejected = validate_extraction(
+        [{
+            "type": "notification",
+            "label": "Workshop acceptance notification",
+            "date": "2026-08-15 23:59:59",
+            "confidence": "high",
+            "raw_text": page,
+            "url": "https://wacv.thecvf.com/Conferences/2027/CallForWorkshops",
+        }],
+        page,
+        date(2027, 1, 4),
+        date(2026, 9, 14),
+    )
+    assert rejected == []
+    assert accepted[0]["type"] == "notification"
+    assert accepted[0]["label"] == "Workshop acceptance notification"
+
+
+def test_notification_still_needs_its_date_in_the_page():
+    """타입을 늘려도 나머지 게이트는 그대로다."""
+    page = "Workshop acceptance notification: August 15, 2026"
+    accepted, rejected = validate_extraction(
+        [{
+            "type": "notification",
+            "label": "Workshop acceptance notification",
+            "date": "2026-11-20 23:59:59",
+            "confidence": "high",
+            "raw_text": page,
+            "url": "https://example.com",
+        }],
+        page,
+        date(2027, 1, 4),
+        date(2026, 9, 14),
+    )
+    assert accepted == []
+    assert rejected[0]["reject_reason"] == "date_not_in_raw_text"
