@@ -13,7 +13,7 @@ import {
   pickEdition,
   srGradeBadgeClass,
   srGradeLabel,
-} from "./lib.js?v=ed678b97";
+} from "./lib.js?v=2957af0b";
 import { safeHref } from "./url-safety.js?v=5de46b35";
 
 const STORAGE_KEY = "conference-manager-filters";

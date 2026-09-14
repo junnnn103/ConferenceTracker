@@ -74,6 +74,9 @@ class Edition:
     link: str | None
     deadlines: list[Deadline]
     source: str
+    # 확정 개최일이 없을 때 "예년 기준 이 달쯤"을 나타낸다(1-12). 추정값이므로
+    # start/end와 달리 화면에 "(미정)"을 달아 보여준다. scripts/estimate.py 참고.
+    estimated_month: int | None = None
 
     def __post_init__(self) -> None:
         self.place = normalize_place(self.place)
@@ -93,7 +96,7 @@ class Edition:
 
     def to_dict(self) -> dict:
         primary = self.primary_deadline()
-        return {
+        out = {
             "year": self.year,
             "date_text": self.date_text,
             "start": self.start.isoformat() if self.start else None,
@@ -104,6 +107,9 @@ class Edition:
             "primary_deadline": primary.isoformat() if primary else None,
             "source": self.source,
         }
+        if self.estimated_month is not None:
+            out["estimated_month"] = self.estimated_month
+        return out
 
 
 @dataclass

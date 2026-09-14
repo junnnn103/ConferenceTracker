@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-09-11T08:09:46.892642+00:00",
+  "generated_at": "2026-09-14T04:10:41.348345+00:00",
   "fields": [
     {
       "id": "ML",
@@ -388,32 +388,6 @@
       "homepage": "https://eccv.ecva.net/",
       "editions": [
         {
-          "year": 2024,
-          "date_text": "September 29 - October 4, 2024",
-          "start": "2024-09-29",
-          "end": "2024-10-04",
-          "place": "MiCo Milano Italy",
-          "link": "https://eccv2024.ecva.net/",
-          "deadlines": [
-            {
-              "type": "abstract",
-              "label": "Abstract",
-              "date": "2024-02-29T13:00:00",
-              "source": "ccfddl",
-              "timezone": "UTC-8"
-            },
-            {
-              "type": "paper",
-              "label": "Paper",
-              "date": "2024-03-07T13:00:00",
-              "source": "ccfddl",
-              "timezone": "UTC-8"
-            }
-          ],
-          "primary_deadline": "2024-03-07T13:00:00",
-          "source": "ccfddl"
-        },
-        {
           "year": 2026,
           "date_text": "September 8-12, 2026",
           "start": "2026-09-08",
@@ -567,6 +541,18 @@
           ],
           "primary_deadline": "2026-01-28T23:59:59",
           "source": "ai-deadlines"
+        },
+        {
+          "year": 2027,
+          "date_text": "",
+          "start": null,
+          "end": null,
+          "place": "",
+          "link": null,
+          "deadlines": [],
+          "primary_deadline": null,
+          "source": "estimated",
+          "estimated_month": 7
         }
       ]
     },
@@ -2681,7 +2667,8 @@
             }
           ],
           "primary_deadline": "2026-10-30T20:00:00",
-          "source": "ccfddl"
+          "source": "ccfddl",
+          "estimated_month": 5
         }
       ]
     },
@@ -3696,6 +3683,20 @@
     {
       "abbr": "Humanoids",
       "reason": "소스에 회차 정보가 없음"
+    }
+  ],
+  "estimated": [
+    {
+      "abbr": "ICML",
+      "year": 2027,
+      "month": 7,
+      "kind": "차기 회차 미공개"
+    },
+    {
+      "abbr": "MLSys",
+      "year": 2027,
+      "month": 5,
+      "kind": "개최일 미정"
     }
   ]
 }

@@ -23,6 +23,7 @@ from scripts.models import Conference, Edition
 from scripts.sources.aideadlines import fetch_aideadlines
 from scripts.sources.ccfddl import fetch_ccfddl
 from scripts.sources.manual import load_manual
+from scripts.estimate import placeholder_edition, typical_month
 from scripts.sources.scraped import load_scraped
 
 ROOT = Path(__file__).parents[1]
@@ -70,6 +71,39 @@ def _sanitize_link(url: str | None, abbr: str, field_name: str) -> str | None:
     return url
 
 
+def _fill_estimates(
+    selected: list, all_editions: list, today, *, combined: bool
+) -> dict | None:
+    """비어 있는 개최일에 예년 기준 월을 붙인다. 무엇을 추정했는지 돌려준다.
+
+    두 경우가 있다. 회차는 있는데 개최일이 없으면 그 회차에 월만 붙이고,
+    마지막 회차까지 전부 지났으면 다음 회차 자리표시자를 만들어 넣는다.
+
+    결합 행은 두 번째를 하지 않는다 - ECCV 2026 다음은 ECCV 2028이 아니라
+    ICCV 2027이라, 연도도 이름도 여기서 정할 수 없다.
+    """
+    upcoming = [e for e in selected if not (e.end or e.start)]
+    for edition in upcoming:
+        month = typical_month([e for e in all_editions if e.year != edition.year])
+        if month is not None:
+            edition.estimated_month = month
+            return {"year": edition.year, "month": month, "kind": "개최일 미정"}
+
+    if combined:
+        return None
+    latest_end = max(
+        (e.end or e.start for e in selected if (e.end or e.start)), default=None
+    )
+    if latest_end is None or latest_end >= today:
+        return None
+    placeholder = placeholder_edition(all_editions, today)
+    if placeholder is None:
+        return None
+    selected.append(placeholder)
+    return {"year": placeholder.year, "month": placeholder.estimated_month,
+            "kind": "차기 회차 미공개"}
+
+
 def load_fields(path: Path = FIELDS_PATH) -> list[dict]:
     return yaml.safe_load(path.read_text(encoding="utf-8"))["fields"]
 
@@ -114,6 +148,8 @@ def build(
     active_fields = enabled_field_ids(fields)
     conferences: list[dict] = []
     unresolved: list[dict] = []
+    # 추정으로 채운 칸. 매주 갱신 때 진짜 일정이 올라왔는지 보라고 출력한다.
+    estimated: list[dict] = []
 
     for entry in registry:
         if entry.get("field") not in active_fields:
@@ -176,6 +212,16 @@ def build(
             unresolved.append({"abbr": display, "reason": "소스에 회차 정보가 없음"})
             continue
 
+        # 확정 일정이 없는 자리에 예년 기준 개최 월을 채운다. 추정은 언제나
+        # 마지막 단계다 - 소스가 준 값은 이미 selected에 들어와 있고, 여기서는
+        # 비어 있는 칸만 메운다. 다음 주 갱신에서 진짜 일정이 올라오면 그쪽이
+        # 그대로 이긴다.
+        estimated_note = _fill_estimates(
+            selected, editions, today, combined=bool(entry.get("members")),
+        )
+        if estimated_note:
+            estimated.append({"abbr": display, **estimated_note})
+
         homepage = _sanitize_link(homepage, display, "homepage")
         for edition in selected:
             edition.link = _sanitize_link(edition.link, display, f"{edition.year}년 CFP 링크")
@@ -200,6 +246,7 @@ def build(
         ],
         "conferences": conferences,
         "unresolved": unresolved,
+        "estimated": estimated,
     }
 
 
@@ -255,6 +302,14 @@ def main() -> int:
     print(f"학회 {len(result['conferences'])}개, 미확인 {len(result['unresolved'])}개")
     for item in result["unresolved"]:
         print(f"  미확인: {item['abbr']} - {item['reason']}", file=sys.stderr)
+    # 추정은 임시값이다. 매주 갱신 때 진짜 일정이 올라왔는지 확인하라고
+    # 목록으로 남긴다 - 조용히 들어가면 확정 일정처럼 굳어 버린다.
+    if result["estimated"]:
+        print(f"예년 기준으로 추정한 개최월 {len(result['estimated'])}건 "
+              "(확정 일정이 올라오면 자동으로 대체됨):")
+        for item in result["estimated"]:
+            print(f"  추정: {item['abbr']} {item['year']}년 {item['month']}월 "
+                  f"- {item['kind']}")
     return 0
 
 

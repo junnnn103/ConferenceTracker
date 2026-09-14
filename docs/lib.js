@@ -136,17 +136,30 @@ export function dayDelta(isoDate, now) {
  * 확정된 회차가 브라우저에서 다시 탈락하고, 이미 끝난 이전 회차가 대신
  * 뽑혀 종료된 것처럼 보인다.
  */
+/** 추정 회차가 가리키는 달의 1일. 확정 일정이 없을 때의 정렬/비교 기준이다. */
+export function estimatedStart(edition) {
+  if (!edition || !edition.estimated_month) return null;
+  return Date.UTC(edition.year, edition.estimated_month - 1, 1);
+}
+
 export function pickEdition(editions, now) {
   if (!editions || editions.length === 0) return null;
   const dated = editions.filter((e) => e.end || e.start);
   const undatedWithDeadline = editions.filter(
     (e) => !(e.end || e.start) && e.primary_deadline
   );
-  if (dated.length === 0 && undatedWithDeadline.length === 0) {
+  const hasEstimate = editions.some((e) => !(e.end || e.start) && e.estimated_month);
+  if (dated.length === 0 && undatedWithDeadline.length === 0 && !hasEstimate) {
     return editions[editions.length - 1];
   }
 
   const today = startOfDay(now);
+  // 확정 일정도 마감도 없지만 예년 기준 개최월이 붙은 회차(ICML 2027처럼
+  // 아직 아무 소스에도 안 올라온 다음 회차)도 '차기' 후보로 본다. 이게
+  // 없으면 이미 끝난 지난 회차가 계속 대표로 뽑혀 행이 회색으로 남는다.
+  const estimated = editions.filter(
+    (e) => !(e.end || e.start) && !e.primary_deadline && e.estimated_month
+  );
   const upcoming = [
     ...dated
       .filter((e) => startOfDay(e.end || e.start) >= today)
@@ -154,6 +167,9 @@ export function pickEdition(editions, now) {
     ...undatedWithDeadline
       .filter((e) => startOfDay(e.primary_deadline) >= today)
       .map((e) => [startOfDay(e.primary_deadline), e]),
+    ...estimated
+      .filter((e) => estimatedStart(e) >= today)
+      .map((e) => [estimatedStart(e), e]),
   ].sort((a, b) => a[0] - b[0]);
   if (upcoming.length > 0) return upcoming[0][1];
 
@@ -320,10 +336,25 @@ export function isFeaturedDeadline(deadline, edition, now) {
   return deadline === nextDeadline(edition, now);
 }
 
-/** 개최일 표시. 소스가 준 원문이 있으면 그대로 쓴다. */
+const MONTH_NAMES = [
+  "January", "February", "March", "April", "May", "June",
+  "July", "August", "September", "October", "November", "December",
+];
+
+/**
+ * 개최일 표시. 소스가 준 원문이 있으면 그대로 쓴다.
+ *
+ * 확정 일정이 없고 예년 기준 월만 아는 회차는 "July, 2027 (미정)"으로
+ * 보여준다 - 그냥 "미정"이라고만 두면 대략 언제인지조차 알 수 없는데,
+ * 매년 같은 달에 열리는 학회라 그 정보는 이미 갖고 있다. (미정)을 반드시
+ * 붙여 확정 일정과 구별한다.
+ */
 export function formatDateRange(edition) {
   if (!edition) return "미정";
   if (edition.date_text) return edition.date_text;
+  if (!edition.start && edition.estimated_month) {
+    return `${MONTH_NAMES[edition.estimated_month - 1]}, ${edition.year} (미정)`;
+  }
   if (!edition.start) return "미정";
   return edition.end && edition.end !== edition.start
     ? `${edition.start} ~ ${edition.end}`
@@ -395,7 +426,10 @@ function sortKey(conf, key, now) {
     case "date":
     default: {
       const when = edition?.start || edition?.end;
-      return when ? startOfDay(when) : Number.POSITIVE_INFINITY;
+      if (when) return startOfDay(when);
+      // 추정 회차는 그 달 1일 기준으로 줄 세운다. 맨 뒤로 밀면 "7월"이라고
+      // 써 놓고 12월 학회보다 아래에 놓이는 모순이 생긴다.
+      return estimatedStart(edition) ?? Number.POSITIVE_INFINITY;
     }
   }
 }

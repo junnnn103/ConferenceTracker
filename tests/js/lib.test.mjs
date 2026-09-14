@@ -7,6 +7,7 @@ import {
   bkGradeLabel,
   compareBy,
   dayDelta,
+  formatDateRange,
   formatDeadline,
   formatStage,
   gradeCellText,
@@ -789,4 +790,75 @@ test("formatStage: AoE가 아니면 날짜를 그대로 둔다", () => {
   const stage = { type: "paper", label: "Paper", date: "2027-01-18T23:59:59",
     timezone: "PST", source: "manual" };
   assert.equal(formatStage(stage, new Date(2026, 8, 11)).text, "Jan 18, 2027");
+});
+
+const estimatedEdition = (year, month) => ({
+  year, date_text: "", start: null, end: null, place: "", link: null,
+  deadlines: [], primary_deadline: null, source: "estimated", estimated_month: month,
+});
+
+test("formatDateRange: 추정 회차는 월과 (미정)으로 보여준다", () => {
+  assert.equal(formatDateRange(estimatedEdition(2027, 7)), "July, 2027 (미정)");
+  assert.equal(formatDateRange(estimatedEdition(2027, 5)), "May, 2027 (미정)");
+  // 확정 일정이 있으면 추정은 끼어들지 않는다.
+  assert.equal(
+    formatDateRange({ ...estimatedEdition(2027, 7), date_text: "July 6-11, 2027" }),
+    "July 6-11, 2027",
+  );
+});
+
+test("pickEdition: 지난 회차보다 추정 회차를 고른다", () => {
+  // 이게 없으면 끝난 회차가 계속 대표로 뽑혀 행이 회색으로 남는다.
+  const past = { year: 2026, date_text: "July 6-11, 2026", start: "2026-07-06",
+    end: "2026-07-11", place: "Seoul", link: null, deadlines: [],
+    primary_deadline: null, source: "ai-deadlines" };
+  const picked = pickEdition([past, estimatedEdition(2027, 7)], new Date(2026, 8, 14));
+  assert.equal(picked.year, 2027);
+  assert.equal(picked.source, "estimated");
+});
+
+test("pickEdition: 확정된 차기 회차가 추정보다 우선한다", () => {
+  const confirmed = { year: 2027, date_text: "March 1-5, 2027", start: "2027-03-01",
+    end: "2027-03-05", place: "Seoul", link: null, deadlines: [],
+    primary_deadline: null, source: "ccfddl" };
+  // 추정(7월)이 확정(3월)보다 늦으므로 날짜순으로도 확정이 앞선다.
+  const picked = pickEdition([confirmed, estimatedEdition(2028, 7)], new Date(2026, 8, 14));
+  assert.equal(picked.source, "ccfddl");
+});
+
+test("추정 회차만 있어도 마감은 '미정'이고 D-day가 없다", () => {
+  // 추정에 마감이 붙으면 있지도 않은 D-day가 뜬다.
+  const info = formatDeadline(estimatedEdition(2027, 7), new Date(2026, 8, 14));
+  assert.equal(info.text, "미정");
+  assert.equal(info.dday, "");
+});
+
+test("isEnded: 추정 회차가 있으면 회색 처리하지 않는다", () => {
+  const conf = {
+    abbr: "ICML", field: "ML", grade: "최우수", bk_grade: "S", ai_specialist: true,
+    editions: [
+      { year: 2026, date_text: "July 6-11, 2026", start: "2026-07-06", end: "2026-07-11",
+        place: "Seoul", link: null, deadlines: [], primary_deadline: null, source: "ai-deadlines" },
+      estimatedEdition(2027, 7),
+    ],
+  };
+  assert.equal(isEnded(conf, new Date(2026, 8, 14)), false);
+});
+
+test("정렬: 추정 회차는 그 달 기준으로 줄 선다", () => {
+  // 맨 뒤로 밀면 "July, 2027"이라고 써 놓고 그보다 늦은 12월 학회 아래에
+  // 놓이는 모순이 생긴다. 추정(2027-07)이 확정(2027-12)보다 앞서고,
+  // 확정(2026-12)보다는 뒤여야 한다 - 셋을 함께 둬야 두 갈래가 갈린다.
+  const dated = (abbr, start, end) => ({ abbr, editions: [
+    { year: Number(start.slice(0, 4)), date_text: start, start, end, place: "어딘가",
+      link: null, deadlines: [], primary_deadline: null, source: "ccfddl" },
+  ] });
+  const withEstimate = { abbr: "ICML", editions: [estimatedEdition(2027, 7)] };
+  const now = new Date(2026, 8, 14);
+  const sorted = [
+    dated("LATER", "2027-12-01", "2027-12-05"),
+    withEstimate,
+    dated("EARLIER", "2026-12-13", "2026-12-16"),
+  ].sort(compareBy("date", "asc", now));
+  assert.deepEqual(sorted.map((c) => c.abbr), ["EARLIER", "ICML", "LATER"]);
 });
