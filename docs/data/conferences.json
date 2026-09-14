@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-09-14T07:25:10.304040+00:00",
+  "generated_at": "2026-09-14T07:32:27.206286+00:00",
   "fields": [
     {
       "id": "ML",
@@ -1119,6 +1119,7 @@
               "label": "Posters",
               "date": "2027-01-21T23:59:59",
               "source": "cfp-scrape",
+              "timezone": "AoE",
               "evidence": {
                 "raw_text": "Thursday, January 21, 2027 : Submission deadline",
                 "url": "https://chi2027.acm.org/authors/posters/"
@@ -1129,6 +1130,7 @@
               "label": "Workshops",
               "date": "2026-10-01T23:59:59",
               "source": "cfp-scrape",
+              "timezone": "AoE",
               "evidence": {
                 "raw_text": "Thursday, October 1, 2026 : Organizer submission deadline",
                 "url": "https://chi2027.acm.org/authors/workshops/"
@@ -1813,16 +1815,6 @@
                 "raw_text": "Author notification deadline (for archival papers): October 30, 2026",
                 "url": "https://wacv.thecvf.com/Conferences/2027/CallForWorkshops"
               }
-            },
-            {
-              "type": "tutorial",
-              "label": "Tutorial Proposal Submission Deadline",
-              "date": "2026-10-04T23:59:59",
-              "source": "cfp-scrape",
-              "evidence": {
-                "raw_text": "Proposal Submission Deadline : Oct 04, 2026",
-                "url": "https://wacv.thecvf.com/Conferences/2027/CallForTutorials"
-              }
             }
           ],
           "primary_deadline": "2026-08-28T23:59:59",
@@ -2155,16 +2147,6 @@
               "evidence": {
                 "raw_text": "12th February 2026 - Deadline for submission of workshop proposals.",
                 "url": "https://2026.acmmm.org/site/call-workshops.html"
-              }
-            },
-            {
-              "type": "demo",
-              "label": "Demo and Video",
-              "date": "2026-06-11T23:59:59",
-              "source": "cfp-scrape",
-              "evidence": {
-                "raw_text": "Please submit via OpenReview by June 11, 2026.",
-                "url": "https://2026.acmmm.org/site/call-demos.html"
               }
             }
           ],
@@ -3172,29 +3154,10 @@
               "label": "Posters",
               "date": "2026-07-10T23:59:59",
               "source": "cfp-scrape",
+              "timezone": "AoE",
               "evidence": {
                 "raw_text": "Submission deadline Friday, July 10, 2026",
                 "url": "https://uist.acm.org/2026/cfp#posters"
-              }
-            },
-            {
-              "type": "demo",
-              "label": "Demos",
-              "date": "2026-07-10T23:59:59",
-              "source": "cfp-scrape",
-              "evidence": {
-                "raw_text": "Submission deadline Friday, July 10, 2026",
-                "url": "https://uist.acm.org/2026/cfp#demos"
-              }
-            },
-            {
-              "type": "doctoral_consortium",
-              "label": "Doctoral Symposium",
-              "date": "2026-07-10T23:59:59",
-              "source": "cfp-scrape",
-              "evidence": {
-                "raw_text": "Submission deadline Friday, July 10, 2026",
-                "url": "https://uist.acm.org/2026/cfp#doctoral-symposium"
               }
             },
             {
@@ -3202,6 +3165,7 @@
               "label": "Workshops",
               "date": "2026-07-10T23:59:59",
               "source": "cfp-scrape",
+              "timezone": "AoE",
               "evidence": {
                 "raw_text": "Submission deadline July 10th, 2026",
                 "url": "https://uist.acm.org/2026/cfp#workshops"
@@ -3413,6 +3377,7 @@
               "label": "Posters",
               "date": "2026-06-30T23:59:59",
               "source": "cfp-scrape",
+              "timezone": "AoE",
               "evidence": {
                 "raw_text": "June 30, 2026: Poster paper submission and optional material submission due",
                 "url": "https://www.ieeeismar.net/2026/call-for-posters/"
@@ -3423,39 +3388,10 @@
               "label": "Workshops",
               "date": "2026-05-22T23:59:59",
               "source": "cfp-scrape",
+              "timezone": "AoE",
               "evidence": {
                 "raw_text": "Workshop proposal deadline: May 22nd, 2026 (23:59 AoE, Friday)",
                 "url": "https://www.ieeeismar.net/2026/call-for-workshops/"
-              }
-            },
-            {
-              "type": "demo",
-              "label": "Demos",
-              "date": "2026-07-17T23:59:59",
-              "source": "cfp-scrape",
-              "evidence": {
-                "raw_text": "Submission deadline: July 17 th, 2026 (23:59 AoE)",
-                "url": "https://www.ieeeismar.net/2026/call-for-demos/"
-              }
-            },
-            {
-              "type": "doctoral_consortium",
-              "label": "Doctoral Consortium",
-              "date": "2026-06-03T23:59:59",
-              "source": "cfp-scrape",
-              "evidence": {
-                "raw_text": "Application submission deadline: June 3rd, 2026 (23:59 AoE, Wednesday)",
-                "url": "https://www.ieeeismar.net/2026/call-for-doctoral-consortium/"
-              }
-            },
-            {
-              "type": "tutorial",
-              "label": "Tutorials",
-              "date": "2026-05-22T23:59:59",
-              "source": "cfp-scrape",
-              "evidence": {
-                "raw_text": "Tutorial proposal deadline: May 22nd, 2026 (23:59 AoE, Friday)",
-                "url": "https://www.ieeeismar.net/2026/call-for-tutorials/"
               }
             }
           ],

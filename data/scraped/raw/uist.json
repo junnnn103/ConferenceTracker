@@ -11,7 +11,8 @@
           "date": "2026-07-10 23:59:59",
           "confidence": "high",
           "raw_text": "Submission deadline Friday, July 10, 2026",
-          "url": "https://uist.acm.org/2026/cfp#posters"
+          "url": "https://uist.acm.org/2026/cfp#posters",
+          "timezone": "AoE"
         },
         {
           "type": "demo",
@@ -35,9 +36,11 @@
           "date": "2026-07-10 23:59:59",
           "confidence": "high",
           "raw_text": "Submission deadline July 10th, 2026",
-          "url": "https://uist.acm.org/2026/cfp#workshops"
+          "url": "https://uist.acm.org/2026/cfp#workshops",
+          "timezone": "AoE"
         }
       ]
     }
-  ]
+  ],
+  "timezone_note": "Note: all deadlines are at 11:59pm AoE"
 }

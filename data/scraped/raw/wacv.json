@@ -28,14 +28,6 @@
           "confidence": "high",
           "raw_text": "Author notification deadline (for archival papers): October 30, 2026",
           "url": "https://wacv.thecvf.com/Conferences/2027/CallForWorkshops"
-        },
-        {
-          "type": "tutorial",
-          "label": "Tutorial Proposal Submission Deadline",
-          "date": "2026-10-04 23:59:59",
-          "confidence": "high",
-          "raw_text": "Proposal Submission Deadline : Oct 04, 2026",
-          "url": "https://wacv.thecvf.com/Conferences/2027/CallForTutorials"
         }
       ]
     }

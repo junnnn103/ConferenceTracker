@@ -301,3 +301,69 @@ def test_notification_still_needs_its_date_in_the_page():
     )
     assert accepted == []
     assert rejected[0]["reject_reason"] == "date_not_in_raw_text"
+
+
+def test_only_the_four_tracked_tracks_pass():
+    """추적하는 트랙은 워크숍/풀페이퍼/숏페이퍼(LBW)/포스터 넷뿐이다.
+
+    쓰지 않는 트랙을 받아 두면 대표 마감 자리를 차지한다 - WACV 2027에서
+    튜토리얼 제안 마감이 워크숍 일정을 밀어내고 대표로 떴다.
+    """
+    page = "Submission deadline: October 4, 2026"
+    def run(track):
+        return validate_extraction(
+            [{"type": track, "label": track, "date": "2026-10-04 23:59:59",
+              "confidence": "high", "raw_text": page, "url": "https://example.com"}],
+            page, date(2027, 1, 4), date(2026, 9, 14),
+        )
+    for track in ("poster", "lbw", "workshop", "notification"):
+        accepted, rejected = run(track)
+        assert rejected == [], f"{track}은 통과해야 한다"
+    for track in ("tutorial", "demo", "doctoral_consortium", "other"):
+        accepted, rejected = run(track)
+        assert accepted == [], f"{track}은 막혀야 한다"
+        assert rejected[0]["reject_reason"] == "unknown_track"
+
+
+def test_timezone_is_carried_when_the_page_declares_it():
+    """AoE 마감은 KST로 하루 뒤다. 시간대를 버리면 하루 이른 날짜가 뜬다.
+
+    AoE는 대개 마감 목록 맨 위에 한 번만 선언되므로 raw_text에는 안 들어온다.
+    그래서 페이지 전체를 근거로 본다.
+    """
+    page = ("Important Dates All times are in Anywhere on Earth (AoE) time zone "
+            "Thursday, January 21, 2027 : Submission deadline")
+    accepted, rejected = validate_extraction(
+        [{"type": "poster", "label": "Posters", "date": "2027-01-21 23:59:59",
+          "timezone": "AoE", "confidence": "high",
+          "raw_text": "Thursday, January 21, 2027 : Submission deadline",
+          "url": "https://chi2027.acm.org/authors/posters/"}],
+        page, date(2027, 5, 10), date(2026, 9, 14),
+    )
+    assert rejected == []
+    assert accepted[0]["timezone"] == "AoE"
+
+
+def test_aoe_claim_is_rejected_when_the_page_never_says_it():
+    """시간대도 근거가 있어야 한다. ACM MM 페이지에는 AoE 표기가 없다."""
+    page = "Workshop proposals due February 12, 2026"
+    accepted, rejected = validate_extraction(
+        [{"type": "workshop", "label": "Workshops", "date": "2026-02-12 23:59:59",
+          "timezone": "AoE", "confidence": "high", "raw_text": page,
+          "url": "https://example.com"}],
+        page, date(2026, 10, 1), date(2025, 9, 14),
+    )
+    assert accepted == []
+    assert rejected[0]["reject_reason"] == "timezone_not_in_page"
+
+
+def test_deadline_without_a_timezone_stays_without_one():
+    """페이지가 안 밝힌 시간대를 지어내지 않는다."""
+    page = "Author notification deadline (for archival papers): October 30, 2026"
+    accepted, _ = validate_extraction(
+        [{"type": "notification", "label": "Workshop author notification",
+          "date": "2026-10-30 23:59:59", "confidence": "high", "raw_text": page,
+          "url": "https://example.com"}],
+        page, date(2027, 1, 4), date(2026, 9, 14),
+    )
+    assert "timezone" not in accepted[0]

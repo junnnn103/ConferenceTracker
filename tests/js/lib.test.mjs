@@ -862,3 +862,45 @@ test("정렬: 추정 회차는 그 달 기준으로 줄 선다", () => {
   ].sort(compareBy("date", "asc", now));
   assert.deepEqual(sorted.map((c) => c.abbr), ["EARLIER", "ICML", "LATER"]);
 });
+
+test("추적하지 않는 트랙은 대표 마감이 되지 않는다", () => {
+  // WACV 2027에서 튜토리얼 제안 마감(10/4)이 워크숍 저자 통보(10/30)를
+  // 밀어내고 대표로 뜬 적이 있다. 쓰지 않는 트랙은 후보에서 빠져야 한다.
+  const now = new Date(2026, 8, 14);
+  const withTutorial = {
+    year: 2027, date_text: "", start: "2027-01-04", end: "2027-01-08",
+    place: "FL", link: null, source: "ai-deadlines",
+    primary_deadline: "2026-08-28T23:59:59",
+    deadlines: [
+      { type: "submission", label: "Round 2 Paper Submissions", date: "2026-08-28T23:59:59", source: "ai-deadlines" },
+      { type: "tutorial", label: "Tutorial Proposal", date: "2026-10-04T23:59:59", source: "cfp-scrape" },
+      { type: "notification", label: "Workshop author notification deadline", date: "2026-10-30T23:59:59", source: "cfp-scrape" },
+    ],
+  };
+  const info = formatDeadline(withTutorial, now);
+  assert.equal(info.label, "Workshop author notification deadline");
+});
+
+test("포스터와 LBW는 여전히 대표가 된다", () => {
+  // 넷 중 둘이라 후보에서 빠지면 안 된다.
+  const now = new Date(2026, 8, 14);
+  const edition = (type, label) => ({
+    year: 2027, date_text: "", start: "2027-05-10", end: "2027-05-15",
+    place: "어딘가", link: null, source: "ai-deadlines",
+    primary_deadline: "2026-09-10T23:59:59",
+    deadlines: [
+      { type: "paper", label: "Papers", date: "2026-09-10T23:59:59", source: "ai-deadlines" },
+      { type, label, date: "2027-01-21T23:59:59", source: "cfp-scrape" },
+    ],
+  });
+  assert.equal(formatDeadline(edition("poster", "Posters"), now).label, "Posters");
+  assert.equal(formatDeadline(edition("lbw", "Late-Breaking Work"), now).label, "Late-Breaking Work");
+});
+
+test("AoE로 표시된 scrape 마감은 KST로 하루 뒤에 뜬다", () => {
+  // CHI 포스터는 페이지가 AoE를 선언한다. 시간대를 버리면 Jan 21로 하루
+  // 이르게 보인다.
+  const stage = { type: "poster", label: "Posters", date: "2027-01-21T23:59:59",
+    timezone: "AoE", source: "cfp-scrape" };
+  assert.equal(formatStage(stage, new Date(2026, 8, 14)).text, "Jan 22, 2027");
+});

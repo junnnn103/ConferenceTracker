@@ -11,7 +11,8 @@
           "date": "2026-06-30 23:59:59",
           "confidence": "high",
           "raw_text": "June 30, 2026: Poster paper submission and optional material submission due",
-          "url": "https://www.ieeeismar.net/2026/call-for-posters/"
+          "url": "https://www.ieeeismar.net/2026/call-for-posters/",
+          "timezone": "AoE"
         },
         {
           "type": "workshop",
@@ -19,7 +20,8 @@
           "date": "2026-05-22 23:59:59",
           "confidence": "high",
           "raw_text": "Workshop proposal deadline: May 22nd, 2026 (23:59 AoE, Friday)",
-          "url": "https://www.ieeeismar.net/2026/call-for-workshops/"
+          "url": "https://www.ieeeismar.net/2026/call-for-workshops/",
+          "timezone": "AoE"
         },
         {
           "type": "demo",
@@ -47,5 +49,6 @@
         }
       ]
     }
-  ]
+  ],
+  "timezone_note": "Each deadline is 23:59:59 AoE (Anywhere on Earth) == GMT/UTC-12:00"
 }

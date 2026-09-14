@@ -25,15 +25,23 @@ SCRAPED_DIR = ROOT / "data" / "scraped"
 # 워크숍이 채택됐는지(그래서 어디에 낼 수 있는지) 알려주는 발표일이다.
 # docs/lib.js의 workshopNotifications가 라벨에 workshop이 든 notification을
 # 찾아 쓰므로, 그 값이 여기를 통과하지 못하면 규칙이 작동할 길이 없다.
-KNOWN_TRACKS = frozenset({
-    "poster", "lbw", "workshop", "demo", "tutorial", "doctoral_consortium",
-    "notification", "other",
-})
+# 추적하는 트랙은 넷뿐이다: 워크숍, 풀페이퍼, 숏페이퍼(LBW), 포스터.
+# 풀페이퍼/숏페이퍼는 공개 소스(ai-deadlines, ccfddl)가 이미 주므로 CFP에서
+# 긁어올 것은 poster와 lbw다. workshop은 제안 마감이 아니라 채택 발표가
+# 의미 있는 값이라 notification도 받는다 - docs/lib.js의 workshopNotifications가
+# 라벨에 workshop이 든 notification을 찾아 쓴다.
+#
+# tutorial/demo/doctoral_consortium은 뺀다. 쓰지 않는 트랙을 받아 두면 대표
+# 마감 자리를 차지한다 - 실제로 WACV 2027에서 튜토리얼 제안 마감이 워크숍
+# 일정을 밀어내고 대표로 떴다.
+KNOWN_TRACKS = frozenset({"poster", "lbw", "workshop", "notification"})
 
 # 개최일로부터 이보다 더 앞선 마감은 잘못 읽은 것으로 본다.
 MAX_LEAD = timedelta(days=548)  # 약 18개월
 
 _TIME_FORMATS = ("%Y-%m-%d %H:%M:%S", "%Y-%m-%d %H:%M", "%Y-%m-%d")
+
+_AOE_RE = re.compile(r"anywhere\s+on\s+earth|\bAoE\b", re.IGNORECASE)
 
 _MONTH_NUMBERS = {
     "jan": 1, "feb": 2, "mar": 3, "apr": 4, "may": 5, "jun": 6,
@@ -143,10 +151,28 @@ def validate_extraction(
             reject(item, "date_not_in_raw_text")
             continue
 
-        accepted.append({
+        entry = {
             "type": track,
             "label": str(item.get("label") or track.replace("_", " ").title()),
             "date": when.strftime("%Y-%m-%d %H:%M:%S"),
+        }
+        # 페이지가 시간대를 밝혔으면 싣는다. AoE 마감은 KST로 하루 뒤라,
+        # 이 값이 없으면 화면이 하루 이른 날짜를 보여준다. scraped.py는
+        # 예전부터 이 필드를 읽고 있었는데 검증기가 버리고 있었다.
+        #
+        # 시간대도 날짜와 같이 페이지에 근거가 있어야 한다. AoE는 대개 마감
+        # 목록 맨 위에 한 번만 선언되므로(CHI "All times are in Anywhere on
+        # Earth (AoE) time zone") 그 문장이 raw_text에 들어오지는 않는다.
+        # 그래서 페이지 전체를 근거로 본다 - 약한 대조지만, 시간대를 아예
+        # 언급하지 않는 페이지(ACM MM)에 AoE를 붙이는 것은 막는다.
+        timezone = str(item.get("timezone") or "").strip()
+        if timezone:
+            if _AOE_RE.search(timezone) and not _AOE_RE.search(haystack):
+                reject(item, "timezone_not_in_page")
+                continue
+            entry["timezone"] = timezone
+        accepted.append({
+            **entry,
             "evidence": {
                 "raw_text": normalize_whitespace(item.get("raw_text")),
                 "url": item.get("url") or "",

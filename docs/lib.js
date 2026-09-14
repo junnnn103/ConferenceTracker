@@ -31,13 +31,10 @@ const ABSTRACT_TYPES = ["abstract"];
 // 논문을 내는 사람의 마감이 아니다. 대신 "어떤 워크숍이 채택됐는지" 알려주는
 // notification이 참가자에게 의미 있는 날짜라, 그 값이 있으면 그것을 쓴다
 // (workshopNotification 참고).
-const LATE_SUBMISSION_TYPES = [
-  "poster",
-  "lbw",
-  "demo",
-  "tutorial",
-  "doctoral_consortium",
-];
+// tutorial/demo/doctoral_consortium은 추적하지 않는 트랙이라 뺀다. 남겨 두면
+// 쓰지도 않을 마감이 대표 자리를 차지한다 - WACV 2027에서 튜토리얼 제안
+// 마감(10/4)이 워크숍 저자 통보(10/30)를 밀어내고 대표로 떴다.
+const LATE_SUBMISSION_TYPES = ["poster", "lbw"];
 
 /** 워크숍 채택 결과 발표일. 라벨에 workshop이 들어간 notification을 찾는다. */
 function workshopNotifications(deadlines) {

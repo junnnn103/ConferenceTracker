@@ -11,7 +11,8 @@
           "date": "2027-01-21 23:59:59",
           "confidence": "high",
           "raw_text": "Thursday, January 21, 2027 : Submission deadline",
-          "url": "https://chi2027.acm.org/authors/posters/"
+          "url": "https://chi2027.acm.org/authors/posters/",
+          "timezone": "AoE"
         },
         {
           "type": "workshop",
@@ -19,9 +20,11 @@
           "date": "2026-10-01 23:59:59",
           "confidence": "high",
           "raw_text": "Thursday, October 1, 2026 : Organizer submission deadline",
-          "url": "https://chi2027.acm.org/authors/workshops/"
+          "url": "https://chi2027.acm.org/authors/workshops/",
+          "timezone": "AoE"
         }
       ]
     }
-  ]
+  ],
+  "timezone_note": "Important Dates All times are in Anywhere on Earth (AoE) time zone"
 }

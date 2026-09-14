@@ -5,12 +5,14 @@ editions:
   - type: poster
     label: Posters
     date: '2027-01-21 23:59:59'
+    timezone: AoE
     evidence:
       raw_text: 'Thursday, January 21, 2027 : Submission deadline'
       url: https://chi2027.acm.org/authors/posters/
   - type: workshop
     label: Workshops
     date: '2026-10-01 23:59:59'
+    timezone: AoE
     evidence:
       raw_text: 'Thursday, October 1, 2026 : Organizer submission deadline'
       url: https://chi2027.acm.org/authors/workshops/

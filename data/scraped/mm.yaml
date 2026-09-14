@@ -8,9 +8,3 @@ editions:
     evidence:
       raw_text: 12th February 2026 - Deadline for submission of workshop proposals.
       url: https://2026.acmmm.org/site/call-workshops.html
-  - type: demo
-    label: Demo and Video
-    date: '2026-06-11 23:59:59'
-    evidence:
-      raw_text: Please submit via OpenReview by June 11, 2026.
-      url: https://2026.acmmm.org/site/call-demos.html
