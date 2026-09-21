@@ -2,6 +2,15 @@ name: build
 
 on:
   schedule:
+    # 주의: schedule은 "기본 브랜치에 있는" 워크플로만 본다. 이 파일이
+    # 기본 브랜치(master)에 없으면 cron은 GitHub 입장에서 존재하지 않는다 -
+    # 워크플로 목록에 active로 뜨고 push/workflow_dispatch는 멀쩡히 돌기
+    # 때문에 겉으로는 정상으로 보인다. 실제로 이 저장소는 2026-09-09부터
+    # 2026-09-21까지 월요일이 두 번 지나도록 한 번도 자동 갱신되지 않았다.
+    # Pages는 아무 브랜치에서나 서빙되므로 "브랜치로 사이트가 뜬다"를
+    # "cron도 돈다"로 착각하기 쉽다. 둘은 별개다.
+    # 확인: gh run list --json event --jq '[.[]|select(.event=="schedule")]'
+    #
     # 일요일 21:00 UTC = 월요일 06:00 KST. 주 1회.
     # 마감 D-day는 브라우저가 뷰어의 시계로 계산하므로 매일 빌드할 필요가 없다.
     # 이 실행이 하는 일은 업스트림 두 저장소의 변경을 받아오는 것뿐이다.
@@ -11,7 +20,7 @@ on:
   # 것이라 사이트 코드(docs/, tests/)만 고친 push에서는 할 일이 없고, 실패하면
   # 알림 메일만 쌓인다. 데이터·빌드 로직이 바뀐 push에서만 돈다.
   push:
-    branches: [master, main, feature/conference-tracker]
+    branches: [master, main]
     paths:
       - "data/**"
       - "scripts/**"

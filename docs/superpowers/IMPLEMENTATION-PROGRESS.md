@@ -1,6 +1,6 @@
 # 구현 진행 상황 및 인수인계
 
-마지막 갱신: 2026-09-09 · 브랜치 `feature/conference-tracker` · 원격 push 완료
+마지막 갱신: 2026-09-21 · 브랜치 `master` · 원격 push 완료
 
 이 문서는 **세션이 끊겨도 작업을 이어갈 수 있게** 하는 기록이다.
 서브에이전트 실행 원장(`.superpowers/`)은 gitignore 대상이라 사라질 수 있으므로,
@@ -64,8 +64,27 @@ CFP 추출을 나머지 34개로 넓히는 것, 주 1회 예약 실행을 거는
 ## 배포 이후 (2026-09-09)
 
 사이트가 https://junnnn103.github.io/ConferenceTracker/ 에 떠 있다.
-Pages 소스는 `feature/conference-tracker` 브랜치의 `/docs`이므로 master 병합은 필요 없다.
-갱신은 매주 월요일 06:00 KST(GitHub Actions).
+Pages 소스는 `master`의 `/docs`, 갱신은 매주 월요일 06:00 KST(GitHub Actions).
+
+> **2026-09-21 정정.** 원래 여기에 "Pages 소스가 feature 브랜치이므로 master
+> 병합은 필요 없다"고 적어 뒀는데, Pages에만 맞고 cron에는 틀린 말이었다.
+> GitHub의 `schedule`은 **기본 브랜치에 있는** 워크플로만 본다. 워크플로가
+> feature 브랜치에만 있어서 주간 갱신이 9/9부터 9/21까지 **한 번도 돌지
+> 않았다** - 월요일이 두 번 지나는 동안. `gh workflow list`에는 active로 뜨고
+> push/workflow_dispatch는 정상이라 겉으로는 멀쩡해 보인다.
+>
+> 확인 방법: `gh run list --json event --jq '[.[]|select(.event=="schedule")]'`
+> 가 비어 있으면 한 번도 안 돈 것이다. 실행 이력에 `push`만 있고 `schedule`이
+> 없다는 사실 자체가 신호다.
+>
+> 고친 방법: feature를 master로 fast-forward, Pages 소스를 master/docs로 변경.
+> 이후 작업은 master에서 한다.
+>
+> 교훈은 이 프로젝트의 다른 사고들과 같다 - **자기 일관성 검사는 코드가
+> 일관되게 틀렸을 때도 통과한다.** 워크플로 파일은 문법도 cron 표현식도
+> 맞았고 수동 실행도 성공했다. 틀린 것은 그 파일이 놓인 위치였고, 그것은
+> 파일 안을 아무리 봐도 안 보인다. "설정했다"가 아니라 "실제로 돌았다"를
+> 확인해야 한다.
 
 소유자가 화면을 보고 요청한 것과, 그 과정에서 드러난 결함을 처리했다:
 
