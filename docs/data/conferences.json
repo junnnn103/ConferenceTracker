@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-09-14T07:32:27.206286+00:00",
+  "generated_at": "2026-09-21T05:06:17.891862+00:00",
   "fields": [
     {
       "id": "ML",
@@ -1182,12 +1182,12 @@
             {
               "type": "paper",
               "label": "Paper",
-              "date": "2026-09-16T23:59:59",
+              "date": "2026-09-23T23:59:59",
               "source": "ccfddl",
               "timezone": "UTC-12"
             }
           ],
-          "primary_deadline": "2026-09-16T23:59:59",
+          "primary_deadline": "2026-09-23T23:59:59",
           "source": "ccfddl"
         }
       ]
@@ -2604,25 +2604,6 @@
       "homepage": "https://signalprocessingsociety.org/event-names/icip",
       "editions": [
         {
-          "year": 2025,
-          "date_text": "Sep 14-17, 2025",
-          "start": "2025-09-14",
-          "end": "2025-09-17",
-          "place": "Anchorage Alaska USA",
-          "link": "https://2025.ieeeicip.org/",
-          "deadlines": [
-            {
-              "type": "paper",
-              "label": "Paper",
-              "date": "2025-01-22T23:59:59",
-              "source": "ccfddl",
-              "timezone": "UTC+0"
-            }
-          ],
-          "primary_deadline": "2025-01-22T23:59:59",
-          "source": "ccfddl"
-        },
-        {
           "year": 2026,
           "date_text": "Sep 13-17, 2026",
           "start": "2026-09-13",
@@ -2640,6 +2621,18 @@
           ],
           "primary_deadline": "2026-02-04T23:59:59",
           "source": "ccfddl"
+        },
+        {
+          "year": 2027,
+          "date_text": "",
+          "start": null,
+          "end": null,
+          "place": "",
+          "link": null,
+          "deadlines": [],
+          "primary_deadline": null,
+          "source": "estimated",
+          "estimated_month": 9
         }
       ]
     },
@@ -2674,9 +2667,9 @@
         },
         {
           "year": 2027,
-          "date_text": "",
-          "start": null,
-          "end": null,
+          "date_text": "June 21-25, 2027",
+          "start": "2027-06-21",
+          "end": "2027-06-25",
           "place": "Bellevue Washington USA",
           "link": "https://mlsys.org/",
           "deadlines": [
@@ -2689,8 +2682,7 @@
             }
           ],
           "primary_deadline": "2026-10-30T20:00:00",
-          "source": "ccfddl",
-          "estimated_month": 5
+          "source": "ccfddl"
         }
       ]
     },
@@ -3669,10 +3661,10 @@
       "kind": "차기 회차 미공개"
     },
     {
-      "abbr": "MLSys",
+      "abbr": "ICIP",
       "year": 2027,
-      "month": 5,
-      "kind": "개최일 미정"
+      "month": 9,
+      "kind": "차기 회차 미공개"
     }
   ]
 }
