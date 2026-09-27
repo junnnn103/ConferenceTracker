@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-09-21T05:06:17.891862+00:00",
+  "generated_at": "2026-09-27T23:40:56.501992+00:00",
   "fields": [
     {
       "id": "ML",
@@ -378,110 +378,79 @@
       ]
     },
     {
-      "abbr": "ECCV",
+      "abbr": "ICCV",
       "abbr_group": "iccv/eccv",
       "full_name": "International Conference on Computer Vision / European Conference on Computer Vision",
       "grade": "최우수",
       "bk_grade": "S",
       "ai_specialist": true,
       "field": "CV",
-      "homepage": "https://eccv.ecva.net/",
+      "homepage": "https://iccv.thecvf.com/",
       "editions": [
         {
-          "year": 2026,
-          "date_text": "September 8-12, 2026",
-          "start": "2026-09-08",
-          "end": "2026-09-12",
-          "place": "Malmö Sweden",
-          "link": "https://eccv.ecva.net/Conferences/2026",
+          "year": 2025,
+          "date_text": "October 19-25, 2025",
+          "start": "2025-10-19",
+          "end": "2025-10-25",
+          "place": "Honolulu Hawaii",
+          "link": "https://iccv.thecvf.com/Conferences/2025",
           "deadlines": [
             {
-              "type": "submission",
-              "label": "Tutorial Proposal Submission",
-              "date": "2026-02-15T23:59:59",
+              "type": "abstract",
+              "label": "Abstract submission",
+              "date": "2025-03-04T09:59:59",
               "source": "ai-deadlines",
-              "timezone": "AoE"
-            },
-            {
-              "type": "registration",
-              "label": "Paper Registration",
-              "date": "2026-02-26T22:00:00",
-              "source": "ai-deadlines",
-              "timezone": "UTC"
-            },
-            {
-              "type": "submission",
-              "label": "Workshop Proposal Submission",
-              "date": "2026-02-27T23:59:59",
-              "source": "ai-deadlines",
-              "timezone": "AoE"
+              "timezone": "UTC+0"
             },
             {
               "type": "paper",
-              "label": "Paper Submission",
-              "date": "2026-03-05T22:00:00",
+              "label": "Paper submission",
+              "date": "2025-03-08T09:59:59",
               "source": "ai-deadlines",
-              "timezone": "UTC"
-            },
-            {
-              "type": "supplementary",
-              "label": "Supplemental Materials",
-              "date": "2026-03-12T22:00:00",
-              "source": "ai-deadlines",
-              "timezone": "UTC"
-            },
-            {
-              "type": "notification",
-              "label": "Tutorial/Workshop Decisions",
-              "date": "2026-04-12T20:00:00",
-              "source": "ai-deadlines",
-              "timezone": "UTC"
+              "timezone": "UTC+0"
             },
             {
               "type": "review_release",
-              "label": "Reviews Released to Authors",
-              "date": "2026-05-02T23:59:59",
+              "label": "Reviews released",
+              "date": "2025-05-09T23:59:59",
               "source": "ai-deadlines",
-              "timezone": "UTC"
+              "timezone": "AoE"
+            },
+            {
+              "type": "rebuttal_start",
+              "label": "Rebuttal period start",
+              "date": "2025-05-10T00:00:00",
+              "source": "ai-deadlines",
+              "timezone": "AoE"
             },
             {
               "type": "rebuttal_end",
-              "label": "Rebuttal Deadline",
-              "date": "2026-05-11T21:00:00",
-              "source": "ai-deadlines",
-              "timezone": "UTC"
-            },
-            {
-              "type": "submission",
-              "label": "AI Art Submission",
-              "date": "2026-06-14T23:59:59",
+              "label": "Rebuttal period end",
+              "date": "2025-05-16T23:59:59",
               "source": "ai-deadlines",
               "timezone": "AoE"
             },
             {
               "type": "notification",
-              "label": "Final Decisions",
-              "date": "2026-06-17T23:59:59",
-              "source": "ai-deadlines",
-              "timezone": "UTC"
-            },
-            {
-              "type": "camera_ready",
-              "label": "Camera Ready Deadline",
-              "date": "2026-06-26T23:59:59",
-              "source": "ai-deadlines",
-              "timezone": "AoE"
-            },
-            {
-              "type": "notification",
-              "label": "AI Art Acceptance Notification",
-              "date": "2026-06-29T23:59:59",
+              "label": "Final decision",
+              "date": "2025-06-20T23:59:59",
               "source": "ai-deadlines",
               "timezone": "AoE"
             }
           ],
-          "primary_deadline": "2026-03-05T22:00:00",
+          "primary_deadline": "2025-03-08T09:59:59",
           "source": "ai-deadlines"
+        },
+        {
+          "year": 2027,
+          "date_text": "October 2-8, 2027",
+          "start": "2027-10-02",
+          "end": "2027-10-08",
+          "place": "Hong Kong China",
+          "link": "https://iccv.thecvf.com/Conferences/2027",
+          "deadlines": [],
+          "primary_deadline": null,
+          "source": "ccfddl"
         }
       ]
     },
@@ -801,13 +770,20 @@
           "deadlines": [
             {
               "type": "paper",
-              "label": "Paper",
+              "label": "ARR Submission",
               "date": "2025-05-19T23:59:59",
+              "source": "ccfddl",
+              "timezone": "UTC-12"
+            },
+            {
+              "type": "paper",
+              "label": "Commitment deadline for papers reviewed by ARR",
+              "date": "2025-08-01T23:59:00",
               "source": "ccfddl",
               "timezone": "UTC-12"
             }
           ],
-          "primary_deadline": "2025-05-19T23:59:59",
+          "primary_deadline": "2025-08-01T23:59:00",
           "source": "ccfddl"
         },
         {
@@ -2616,7 +2592,7 @@
               "label": "Paper",
               "date": "2026-02-04T23:59:59",
               "source": "ccfddl",
-              "timezone": "UTC+0"
+              "timezone": "AoE"
             }
           ],
           "primary_deadline": "2026-02-04T23:59:59",
@@ -2659,7 +2635,7 @@
               "label": "Paper",
               "date": "2025-10-30T20:00:00",
               "source": "ccfddl",
-              "timezone": "AoE"
+              "timezone": "UTC"
             }
           ],
           "primary_deadline": "2025-10-30T20:00:00",
@@ -2876,13 +2852,6 @@
             },
             {
               "type": "paper",
-              "label": "third round (only for resubmissions after major revisions)",
-              "date": "2025-08-01T23:59:59",
-              "source": "ccfddl",
-              "timezone": "AoE"
-            },
-            {
-              "type": "paper",
               "label": "fourth round",
               "date": "2025-11-01T23:59:59",
               "source": "ccfddl",
@@ -2911,13 +2880,6 @@
               "type": "paper",
               "label": "second round",
               "date": "2026-05-01T23:59:59",
-              "source": "ccfddl",
-              "timezone": "AoE"
-            },
-            {
-              "type": "paper",
-              "label": "third round (only for resubmissions after major revisions)",
-              "date": "2026-08-01T23:59:59",
               "source": "ccfddl",
               "timezone": "AoE"
             },
@@ -3104,19 +3066,19 @@
             {
               "type": "paper",
               "label": "abstract deadline",
-              "date": "2025-04-02T17:00:00",
+              "date": "2025-04-02T23:59:00",
               "source": "ccfddl",
-              "timezone": "UTC-8"
+              "timezone": "AoE"
             },
             {
               "type": "paper",
               "label": "paper deadline",
-              "date": "2025-04-09T17:00:00",
+              "date": "2025-04-09T23:59:00",
               "source": "ccfddl",
-              "timezone": "UTC-8"
+              "timezone": "AoE"
             }
           ],
-          "primary_deadline": "2025-04-09T17:00:00",
+          "primary_deadline": "2025-04-09T23:59:00",
           "source": "ccfddl"
         },
         {
@@ -3232,12 +3194,12 @@
             {
               "type": "paper",
               "label": "Paper",
-              "date": "2026-06-17T23:59:59",
+              "date": "2026-06-24T23:59:59",
               "source": "ccfddl",
               "timezone": "AoE"
             }
           ],
-          "primary_deadline": "2026-06-17T23:59:59",
+          "primary_deadline": "2026-06-24T23:59:59",
           "source": "ccfddl"
         }
       ]
@@ -3476,13 +3438,20 @@
           "deadlines": [
             {
               "type": "paper",
-              "label": "Paper",
+              "label": "ARR Submission",
               "date": "2025-10-06T23:59:59",
+              "source": "ccfddl",
+              "timezone": "AoE"
+            },
+            {
+              "type": "paper",
+              "label": "Commitment deadline for papers reviewed by ARR",
+              "date": "2025-12-14T23:59:00",
               "source": "ccfddl",
               "timezone": "AoE"
             }
           ],
-          "primary_deadline": "2025-10-06T23:59:59",
+          "primary_deadline": "2025-12-14T23:59:00",
           "source": "ccfddl"
         },
         {
@@ -3495,13 +3464,20 @@
           "deadlines": [
             {
               "type": "paper",
-              "label": "ARR Submission; commitment deadline: 2026-10-11",
+              "label": "ARR Submission",
               "date": "2026-08-03T23:59:59",
+              "source": "ccfddl",
+              "timezone": "UTC-12"
+            },
+            {
+              "type": "paper",
+              "label": "EACL commitment after ARR meta-reviews; reviewed papers only",
+              "date": "2026-10-11T23:59:59",
               "source": "ccfddl",
               "timezone": "UTC-12"
             }
           ],
-          "primary_deadline": "2026-08-03T23:59:59",
+          "primary_deadline": "2026-10-11T23:59:59",
           "source": "ccfddl"
         }
       ]
@@ -3552,13 +3528,13 @@
           "deadlines": [
             {
               "type": "paper",
-              "label": "MAY 2025 SUBMISSION CYCLE",
-              "date": "2025-05-13T23:59:59",
+              "label": "MAY 2025 SUBMISSION CYCLE (12:00 EDT)",
+              "date": "2025-05-14T12:00:00",
               "source": "ccfddl",
-              "timezone": "AoE"
+              "timezone": "UTC-4"
             }
           ],
-          "primary_deadline": "2025-05-13T23:59:59",
+          "primary_deadline": "2025-05-14T12:00:00",
           "source": "ccfddl"
         }
       ]
