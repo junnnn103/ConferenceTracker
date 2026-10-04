@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-09-27T23:40:56.501992+00:00",
+  "generated_at": "2026-10-04T23:50:58.786276+00:00",
   "fields": [
     {
       "id": "ML",
@@ -744,8 +744,16 @@
           "end": "2027-08-22",
           "place": "Kyoto Japan",
           "link": "https://2027.aclweb.org/",
-          "deadlines": [],
-          "primary_deadline": null,
+          "deadlines": [
+            {
+              "type": "paper",
+              "label": "ARR Submission",
+              "date": "2027-01-04T23:59:59",
+              "source": "ccfddl",
+              "timezone": "UTC-12"
+            }
+          ],
+          "primary_deadline": "2027-01-04T23:59:59",
           "source": "ccfddl"
         }
       ]
@@ -762,10 +770,10 @@
       "editions": [
         {
           "year": 2025,
-          "date_text": "November 5 - 9, 2025",
+          "date_text": "November 5-7, 2025",
           "start": "2025-11-05",
-          "end": "2025-11-09",
-          "place": "Suzhou China",
+          "end": "2025-11-07",
+          "place": "Suzhou China (Hybrid)",
           "link": "https://2025.emnlp.org/",
           "deadlines": [
             {
@@ -1504,25 +1512,6 @@
       "homepage": "https://www.isca-speech.org/",
       "editions": [
         {
-          "year": 2025,
-          "date_text": "August 17-22, 2025",
-          "start": "2025-08-17",
-          "end": "2025-08-22",
-          "place": "Rotterdam Netherlands",
-          "link": "https://www.interspeech2025.org/home",
-          "deadlines": [
-            {
-              "type": "paper",
-              "label": "Paper",
-              "date": "2025-02-19T23:59:59",
-              "source": "ccfddl",
-              "timezone": "UTC+0"
-            }
-          ],
-          "primary_deadline": "2025-02-19T23:59:59",
-          "source": "ccfddl"
-        },
-        {
           "year": 2026,
           "date_text": "September 28-October 1, 2026",
           "start": "2026-09-28",
@@ -1575,6 +1564,25 @@
           ],
           "primary_deadline": "2026-02-25T23:59:59",
           "source": "ai-deadlines"
+        },
+        {
+          "year": 2027,
+          "date_text": "August 29 - September 2, 2027",
+          "start": "2027-08-29",
+          "end": "2027-09-02",
+          "place": "São Paulo Brazil",
+          "link": "https://interspeech2027.org/",
+          "deadlines": [
+            {
+              "type": "paper",
+              "label": "Paper",
+              "date": "2027-02-09T23:59:59",
+              "source": "ccfddl",
+              "timezone": "UTC+0"
+            }
+          ],
+          "primary_deadline": "2027-02-09T23:59:59",
+          "source": "ccfddl"
         }
       ]
     },
@@ -2298,39 +2306,6 @@
       "homepage": "https://www.ieee-ras.org/conferences-workshops/financially-co-sponsored/iros/",
       "editions": [
         {
-          "year": 2025,
-          "date_text": "October 19-25, 2025",
-          "start": "2025-10-19",
-          "end": "2025-10-25",
-          "place": "Hangzhou China",
-          "link": "http://www.iros25.org/",
-          "deadlines": [
-            {
-              "type": "paper",
-              "label": "Paper submission deadline",
-              "date": "2025-03-02T23:59:59",
-              "source": "ai-deadlines",
-              "timezone": "PST"
-            },
-            {
-              "type": "notification",
-              "label": "Notification of acceptance",
-              "date": "2025-06-30T23:59:59",
-              "source": "ai-deadlines",
-              "timezone": "AoE"
-            },
-            {
-              "type": "camera_ready",
-              "label": "Final paper submission deadline",
-              "date": "2025-07-31T23:59:59",
-              "source": "ai-deadlines",
-              "timezone": "AoE"
-            }
-          ],
-          "primary_deadline": "2025-03-02T23:59:59",
-          "source": "ai-deadlines"
-        },
-        {
           "year": 2026,
           "date_text": "September 27 - October 1, 2026",
           "start": "2026-09-27",
@@ -2369,6 +2344,25 @@
           ],
           "primary_deadline": "2026-03-07T23:59:59",
           "source": "ai-deadlines"
+        },
+        {
+          "year": 2027,
+          "date_text": "September 26 - October 1, 2027",
+          "start": "2027-09-26",
+          "end": "2027-10-01",
+          "place": "Florence Italy",
+          "link": "https://2027.ieee-iros.org/",
+          "deadlines": [
+            {
+              "type": "paper",
+              "label": "Paper submission deadline: March 1, 2027; exact cutoff time and timezone not specified on the official IEEE RAS event page",
+              "date": "2027-03-01T23:59:00",
+              "source": "ccfddl",
+              "timezone": "AoE"
+            }
+          ],
+          "primary_deadline": "2027-03-01T23:59:00",
+          "source": "ccfddl"
         }
       ]
     },
@@ -2581,9 +2575,9 @@
       "editions": [
         {
           "year": 2026,
-          "date_text": "Sep 13-17, 2026",
-          "start": "2026-09-13",
-          "end": "2026-09-17",
+          "date_text": "September 14-16, 2026",
+          "start": "2026-09-14",
+          "end": "2026-09-16",
           "place": "Tampere Finland",
           "link": "https://2026.ieeeicip.org/",
           "deadlines": [
@@ -2624,11 +2618,11 @@
       "editions": [
         {
           "year": 2026,
-          "date_text": "May 17-22, 2026",
-          "start": "2026-05-17",
-          "end": "2026-05-22",
+          "date_text": "May 19-21, 2026",
+          "start": "2026-05-19",
+          "end": "2026-05-21",
           "place": "Bellevue Washington USA",
-          "link": "https://mlsys.org/",
+          "link": "https://mlsys.org/Conferences/2026",
           "deadlines": [
             {
               "type": "paper",
@@ -2780,8 +2774,8 @@
       "editions": [
         {
           "year": 2025,
-          "date_text": "December 8-11, 2025",
-          "start": "2025-12-08",
+          "date_text": "December 9-11, 2025",
+          "start": "2025-12-09",
           "end": "2025-12-11",
           "place": "Macau SAR China",
           "link": "https://conferences.cis.um.edu.mo/ieeebigdata2025/",
@@ -2849,16 +2843,9 @@
               "date": "2025-05-01T23:59:59",
               "source": "ccfddl",
               "timezone": "AoE"
-            },
-            {
-              "type": "paper",
-              "label": "fourth round",
-              "date": "2025-11-01T23:59:59",
-              "source": "ccfddl",
-              "timezone": "AoE"
             }
           ],
-          "primary_deadline": "2025-11-01T23:59:59",
+          "primary_deadline": "2025-05-01T23:59:59",
           "source": "ccfddl"
         },
         {
@@ -2882,16 +2869,9 @@
               "date": "2026-05-01T23:59:59",
               "source": "ccfddl",
               "timezone": "AoE"
-            },
-            {
-              "type": "paper",
-              "label": "fourth round",
-              "date": "2026-11-01T23:59:59",
-              "source": "ccfddl",
-              "timezone": "AoE"
             }
           ],
-          "primary_deadline": "2026-11-01T23:59:59",
+          "primary_deadline": "2026-05-01T23:59:59",
           "source": "ccfddl"
         }
       ]
@@ -2907,36 +2887,10 @@
       "homepage": "https://recsys.acm.org/",
       "editions": [
         {
-          "year": 2025,
-          "date_text": "September 22-26, 2025",
-          "start": "2025-09-22",
-          "end": "2025-09-26",
-          "place": "Prague Czech Republic",
-          "link": "https://recsys.acm.org/recsys25",
-          "deadlines": [
-            {
-              "type": "abstract",
-              "label": "Abstract",
-              "date": "2025-04-01T23:59:59",
-              "source": "ccfddl",
-              "timezone": "AoE"
-            },
-            {
-              "type": "paper",
-              "label": "Paper",
-              "date": "2025-04-08T23:59:59",
-              "source": "ccfddl",
-              "timezone": "AoE"
-            }
-          ],
-          "primary_deadline": "2025-04-08T23:59:59",
-          "source": "ccfddl"
-        },
-        {
           "year": 2026,
-          "date_text": "September 28 - October 2, 2026",
-          "start": "2026-09-28",
-          "end": "2026-10-02",
+          "date_text": "September 29 - October 1, 2026",
+          "start": "2026-09-29",
+          "end": "2026-10-01",
           "place": "Minneapolis Minnesota USA",
           "link": "https://recsys.acm.org/recsys26",
           "deadlines": [
@@ -2956,6 +2910,17 @@
             }
           ],
           "primary_deadline": "2026-04-21T23:59:59",
+          "source": "ccfddl"
+        },
+        {
+          "year": 2027,
+          "date_text": "August 23-27, 2027",
+          "start": "2027-08-23",
+          "end": "2027-08-27",
+          "place": "Honolulu O‘ahu Hawaii USA",
+          "link": "https://recsys.acm.org/recsys27/",
+          "deadlines": [],
+          "primary_deadline": null,
           "source": "ccfddl"
         }
       ]
@@ -3064,15 +3029,15 @@
           "link": "https://uist.acm.org/2025/",
           "deadlines": [
             {
-              "type": "paper",
-              "label": "abstract deadline",
+              "type": "abstract",
+              "label": "Abstract",
               "date": "2025-04-02T23:59:00",
               "source": "ccfddl",
               "timezone": "AoE"
             },
             {
               "type": "paper",
-              "label": "paper deadline",
+              "label": "Paper",
               "date": "2025-04-09T23:59:00",
               "source": "ccfddl",
               "timezone": "AoE"
@@ -3143,9 +3108,9 @@
       "editions": [
         {
           "year": 2026,
-          "date_text": "July 6 - July 10, 2026",
-          "start": "2026-07-06",
-          "end": "2026-07-10",
+          "date_text": "July 5-9, 2026",
+          "start": "2026-07-05",
+          "end": "2026-07-09",
           "place": "Bangkok Thailand",
           "link": "https://2026.ieeeicme.org/",
           "deadlines": [
@@ -3184,6 +3149,25 @@
       "homepage": "https://signalprocessingsociety.org/event-names/slt",
       "editions": [
         {
+          "year": 2024,
+          "date_text": "December 2-5, 2024",
+          "start": "2024-12-02",
+          "end": "2024-12-05",
+          "place": "Macao China",
+          "link": "https://2024.ieeeslt.org/",
+          "deadlines": [
+            {
+              "type": "paper",
+              "label": "Paper",
+              "date": "2024-06-20T23:59:59",
+              "source": "ccfddl",
+              "timezone": "AoE"
+            }
+          ],
+          "primary_deadline": "2024-06-20T23:59:59",
+          "source": "ccfddl"
+        },
+        {
           "year": 2026,
           "date_text": "December 13-16, 2026",
           "start": "2026-12-13",
@@ -3192,14 +3176,21 @@
           "link": "https://attend.ieee.org/slt-2026/",
           "deadlines": [
             {
+              "type": "abstract",
+              "label": "Abstract registration / full paper",
+              "date": "2026-06-24T23:59:00",
+              "source": "ccfddl",
+              "timezone": "AoE"
+            },
+            {
               "type": "paper",
-              "label": "Paper",
-              "date": "2026-06-24T23:59:59",
+              "label": "Abstract registration / full paper",
+              "date": "2026-07-01T23:59:00",
               "source": "ccfddl",
               "timezone": "AoE"
             }
           ],
-          "primary_deadline": "2026-06-24T23:59:59",
+          "primary_deadline": "2026-07-01T23:59:00",
           "source": "ccfddl"
         }
       ]
@@ -3216,8 +3207,8 @@
       "editions": [
         {
           "year": 2026,
-          "date_text": "March 21 - 25, 2026",
-          "start": "2026-03-21",
+          "date_text": "March 23-25, 2026",
+          "start": "2026-03-23",
           "end": "2026-03-25",
           "place": "Daegu Korea",
           "link": "https://ieeevr.org/2026/",
@@ -3280,9 +3271,9 @@
       "editions": [
         {
           "year": 2025,
-          "date_text": "Oct 8-12, 2025",
-          "start": "2025-10-08",
-          "end": "2025-10-12",
+          "date_text": "October 9-11, 2025",
+          "start": "2025-10-09",
+          "end": "2025-10-11",
           "place": "Daejeon South Korea",
           "link": "https://www.ieeeismar.net/2025/",
           "deadlines": [
@@ -3306,8 +3297,8 @@
         },
         {
           "year": 2026,
-          "date_text": "Oct 5-9, 2026",
-          "start": "2026-10-05",
+          "date_text": "October 7-9, 2026",
+          "start": "2026-10-07",
           "end": "2026-10-09",
           "place": "Bari Italy",
           "link": "https://www.ieeeismar.net/2026/",
@@ -3374,14 +3365,14 @@
           "deadlines": [
             {
               "type": "abstract",
-              "label": "Abstract",
+              "label": "Registration / full paper",
               "date": "2025-05-16T23:59:00",
               "source": "ccfddl",
               "timezone": "UTC-12"
             },
             {
               "type": "paper",
-              "label": "Paper",
+              "label": "Registration / full paper",
               "date": "2025-05-23T23:59:00",
               "source": "ccfddl",
               "timezone": "UTC-12"
@@ -3400,14 +3391,14 @@
           "deadlines": [
             {
               "type": "abstract",
-              "label": "Abstract",
+              "label": "Registration / full paper",
               "date": "2026-05-05T23:59:00",
               "source": "ccfddl",
               "timezone": "UTC-12"
             },
             {
               "type": "paper",
-              "label": "Paper",
+              "label": "Registration / full paper",
               "date": "2026-05-12T23:59:00",
               "source": "ccfddl",
               "timezone": "UTC-12"
@@ -3430,10 +3421,10 @@
       "editions": [
         {
           "year": 2026,
-          "date_text": "March 24-29, 2026",
-          "start": "2026-03-24",
-          "end": "2026-03-29",
-          "place": "Rabat Morocco",
+          "date_text": "March 25-27, 2026",
+          "start": "2026-03-25",
+          "end": "2026-03-27",
+          "place": "Rabat Morocco (Hybrid)",
           "link": "https://2026.eacl.org/",
           "deadlines": [
             {
