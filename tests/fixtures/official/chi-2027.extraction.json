@@ -1,0 +1,11 @@
+{"abbr": "chi", "year": 2027, "edition": null,
+ "items": [
+   {"type": "notification", "label": "List of accepted workshops released", "date": "2026-12-17 23:59:59",
+    "timezone": "AoE", "confidence": "high",
+    "raw_text": "Thursday, December 17, 2026 : List of accepted workshops released by workshop chairs on the CHI website",
+    "url": "https://chi2027.acm.org/authors/workshops/"},
+   {"type": "poster", "label": "Workshops", "date": "2026-10-01 23:59:59",
+    "timezone": "AoE", "confidence": "high",
+    "raw_text": "Thursday, October 1, 2026 : Organizer submission deadline",
+    "url": "https://chi2027.acm.org/authors/workshops/"}],
+ "not_published": [], "no_track": []}
