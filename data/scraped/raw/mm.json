@@ -6,14 +6,6 @@
       "conference_start": "2026-11-10",
       "items": [
         {
-          "type": "workshop",
-          "label": "Workshops",
-          "date": "2026-02-12 23:59:59",
-          "confidence": "high",
-          "raw_text": "12th February 2026 - Deadline for submission of workshop proposals.",
-          "url": "https://2026.acmmm.org/site/call-workshops.html"
-        },
-        {
           "type": "demo",
           "label": "Demo and Video",
           "date": "2026-06-11 23:59:59",

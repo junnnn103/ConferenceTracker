@@ -2,7 +2,7 @@ import json
 from datetime import date, datetime
 
 from scripts.build import build, enabled_field_ids
-from scripts.models import Deadline, Edition
+from scripts.models import Deadline, Edition, OfficialEdition
 
 FIELDS = [
     {"id": "CV", "label": "CV", "color": "#3b82f6", "enabled": True},
@@ -472,3 +472,47 @@ def test_scraped_by_member_name_attaches_to_combined_row():
     # scraped deadline이 붙음
     types = [d["type"] for d in conf["editions"][0]["deadlines"]]
     assert "workshop" in types
+
+
+def test_official_adds_deadline_to_upstream_edition():
+    off = {("cvpr", 2026): OfficialEdition(year=2026, deadlines=[
+        Deadline("commitment", "Commitment", datetime(2026, 1, 10, 23, 59, 59), "AoE", "official")])}
+    out = build(REGISTRY, FIELDS, make_fetchers(hf={"cvpr": [cvpr_edition()]}), {}, {}, TODAY,
+                official=off)
+    cvpr = next(c for c in out["conferences"] if c["abbr"] == "CVPR")
+    types = [d["type"] for e in cvpr["editions"] for d in e["deadlines"]]
+    assert "commitment" in types and "paper" in types
+
+
+def test_official_creates_missing_edition_with_dates():
+    off = {("hri", 2026): OfficialEdition(year=2026, date_text="March 16-19, 2026",
+                                          start=date(2026, 3, 16), end=date(2026, 3, 19),
+                                          place="Edinburgh, Scotland")}
+    out = build(REGISTRY, FIELDS, make_fetchers(), {}, {}, TODAY, official=off)
+    hri = next(c for c in out["conferences"] if c["abbr"] == "HRI")
+    assert hri["editions"][0]["place"] == "Edinburgh Scotland"
+    assert hri["editions"][0]["source"] == "official"
+
+
+COMBINED = {
+    "abbr": "iccv/eccv", "display": "ICCV/ECCV", "full_name": "ICCV / ECCV",
+    "grade": "최우수", "ai_specialist": True, "field": "CV", "homepage": None,
+    "sources": {"ai_deadlines": None, "ccfddl": None},
+    "members": [
+        {"display": "ICCV", "homepage": None, "sources": {"ai_deadlines": "iccv", "ccfddl": None}},
+        {"display": "ECCV", "homepage": None, "sources": {"ai_deadlines": "eccv", "ccfddl": None}},
+    ],
+}
+
+
+def test_official_applies_to_combined_row_member():
+    """Review Focus 5: 결합 행은 구성원 이름(iccv)으로 쌓인다."""
+    iccv = Edition(year=2027, date_text="October 2-8, 2027", start=date(2027, 10, 2),
+                   end=date(2027, 10, 8), place="Hong Kong China", link=None, deadlines=[],
+                   source="ai-deadlines")
+    off = {("iccv", 2027): OfficialEdition(year=2027, deadlines=[
+        Deadline("paper", "Paper submission", datetime(2027, 3, 7, 23, 59, 59), "AoE", "official")])}
+    out = build([COMBINED], FIELDS, make_fetchers(hf={"iccv": [iccv]}), {}, {}, TODAY, official=off)
+    row = out["conferences"][0]
+    assert row["abbr"] == "ICCV"
+    assert [d["type"] for e in row["editions"] for d in e["deadlines"]] == ["paper"]

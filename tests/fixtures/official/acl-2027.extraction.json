@@ -1,0 +1,7 @@
+{"abbr": "acl", "year": 2027,
+ "edition": null,
+ "items": [{"type": "paper", "label": "ARR submission deadline (long & short papers)",
+            "date": "2027-01-04 23:59:59", "timezone": "AoE", "confidence": "high",
+            "raw_text": "ARR submission deadline (long & short papers) Jan 4, 2027",
+            "url": "https://2027.aclweb.org/calls/main/"}],
+ "not_published": ["ARR commitment deadline: TBA"], "no_track": []}

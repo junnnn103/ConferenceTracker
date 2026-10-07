@@ -14,3 +14,6 @@ BK학회리스트/
 
 # SDD 작업공간 (git 무시)
 .superpowers/
+
+# 공식 사이트 확인의 실행별 작업 파일 (페이지 본문, 추출 JSON, 대상 목록)
+data/official/raw/

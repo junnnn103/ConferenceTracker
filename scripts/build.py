@@ -18,18 +18,20 @@ from urllib.parse import urlparse
 import yaml
 
 from scripts.bootstrap_registry import load_registry
-from scripts.merge import apply_scraped, merge_by_year, pick_member, select_editions
+from scripts.merge import apply_official, apply_scraped, merge_by_year, pick_member, select_editions
 from scripts.models import Conference, Edition
 from scripts.sources.aideadlines import fetch_aideadlines
 from scripts.sources.ccfddl import fetch_ccfddl
 from scripts.sources.manual import load_manual
 from scripts.estimate import placeholder_edition, typical_month
+from scripts.sources.official import load_official
 from scripts.sources.scraped import load_scraped
 
 ROOT = Path(__file__).parents[1]
 FIELDS_PATH = ROOT / "data" / "fields.yaml"
 MANUAL_PATH = ROOT / "data" / "manual.yaml"
 SCRAPED_DIR = ROOT / "data" / "scraped"
+OFFICIAL_DIR = ROOT / "data" / "official"
 OUTPUT_PATH = ROOT / "docs" / "data" / "conferences.json"
 
 TZ_UTC = timezone.utc  # 표시는 클라이언트가 하므로 생성 시각만 UTC로 남긴다
@@ -137,6 +139,18 @@ def _gather(source_ids: dict, fetchers: dict, abbr: str) -> dict[str, list[Editi
     return by_source
 
 
+def _apply_official_all(editions: list[Edition], official: dict, keys: tuple[str, str]) -> list[Edition]:
+    """공식 사이트에서 확인한 칸을 덮는다. 구성원 이름, registry abbr 순서로 찾는다."""
+    by_year = {e.year: e for e in editions}
+    years = {year for (key, year) in official if key in keys}
+    for year in years:
+        off = official.get((keys[0], year)) or official.get((keys[1], year))
+        updated = apply_official(by_year.get(year), off)
+        if updated is not None:
+            by_year[year] = updated
+    return sorted(by_year.values(), key=lambda e: e.year)
+
+
 def build(
     registry: list[dict],
     fields: list[dict],
@@ -144,6 +158,7 @@ def build(
     manual: dict[str, list[Edition]],
     scraped: dict[tuple[str, int], list],
     today: date,
+    official: dict | None = None,
 ) -> dict:
     active_fields = enabled_field_ids(fields)
     conferences: list[dict] = []
@@ -195,10 +210,13 @@ def build(
                 by_source["manual"] = manual_editions
             editions = list(merge_by_year(by_source).values())
 
-        selected = select_editions(editions, today)
         # 결합 행의 abbr_group("iccv/eccv")은 파일명이 될 수 없으므로 선택된
         # 구성원 이름으로 먼저 찾고, 비결합 행을 위해 abbr_group으로 폴백한다.
         member_key = display.lower()
+        # 공식 값은 회차 선택 전에 덮는다 - 업스트림에 없던 회차를 공식 값이
+        # 만들 수도 있고, 그 회차도 선택 대상이어야 한다 (설계 §8 적용 순서).
+        editions = _apply_official_all(editions, official or {}, (member_key, abbr_group))
+        selected = select_editions(editions, today)
         selected = [
             apply_scraped(
                 e,
@@ -272,6 +290,7 @@ def main() -> int:
         fetchers=fetchers,
         manual=load_manual(MANUAL_PATH),
         scraped=load_scraped(SCRAPED_DIR),
+        official=load_official(OFFICIAL_DIR),
         today=date.today(),
     )
 

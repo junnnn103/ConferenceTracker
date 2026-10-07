@@ -2,13 +2,14 @@ from datetime import date, datetime
 
 from scripts.merge import (
     SOURCE_PRIORITY,
+    apply_official,
     apply_scraped,
     edition_status,
     merge_by_year,
     pick_member,
     select_editions,
 )
-from scripts.models import Deadline, Edition
+from scripts.models import Deadline, Edition, OfficialEdition
 
 
 def ed(year, source, start=None, end=None, deadlines=None, place="X"):
@@ -263,3 +264,76 @@ def test_apply_scraped_still_guards_submission_tracks():
     )
     merged = apply_scraped(edition, [_dl("poster", "Poster Track", 30)])
     assert [d.label for d in merged.deadlines] == ["Posters"]
+
+
+def _upstream_2027():
+    return Edition(
+        year=2027, date_text="TBD", start=None, end=None, place="Somewhere", link="https://x/2027",
+        deadlines=[
+            Deadline("paper", "Round 1", datetime(2026, 6, 26, 23, 59, 59), "AoE", "ai-deadlines"),
+            Deadline("paper", "Round 2", datetime(2026, 8, 28, 23, 59, 59), "AoE", "ai-deadlines"),
+            Deadline("review_release", "Reviews", datetime(2026, 10, 9), "AoE", "ai-deadlines"),
+            Deadline("commitment_deadline", "Commitment", datetime(2026, 11, 1), "AoE", "ai-deadlines"),
+            Deadline("notification", "Workshop acceptance", datetime(2026, 8, 15), None, "cfp-scrape"),
+        ],
+        source="ai-deadlines",
+    )
+
+
+def test_official_overwrites_dates_and_place_only():
+    off = OfficialEdition(year=2027, date_text="January 4-8, 2027", start=date(2027, 1, 4),
+                          end=date(2027, 1, 8), place="Orlando, FL, USA")
+    out = apply_official(_upstream_2027(), off)
+    assert (out.start, out.end, out.place, out.date_text) == (
+        date(2027, 1, 4), date(2027, 1, 8), "Orlando FL USA", "January 4-8, 2027")
+    assert out.link == "https://x/2027"
+    assert [d.type for d in out.deadlines].count("review_release") == 1, "세부 일정은 보존"
+
+
+def test_official_replaces_a_type_as_a_whole():
+    """롤링 마감처럼 한 타입이 여러 번 나오므로 하나씩이 아니라 타입 단위로 바꾼다."""
+    off = OfficialEdition(year=2027, deadlines=[
+        Deadline("paper", "Paper submission", datetime(2026, 9, 1, 23, 59, 59), "AoE", "official")])
+    out = apply_official(_upstream_2027(), off)
+    papers = [d for d in out.deadlines if d.type == "paper"]
+    assert [d.label for d in papers] == ["Paper submission"]
+
+
+def test_official_commitment_replaces_ai_deadlines_commitment_deadline():
+    off = OfficialEdition(year=2027, deadlines=[
+        Deadline("commitment", "Commitment deadline", datetime(2026, 11, 3), "AoE", "official")])
+    out = apply_official(_upstream_2027(), off)
+    types = [d.type for d in out.deadlines]
+    assert "commitment" in types and "commitment_deadline" not in types
+
+
+def test_official_keeps_upstream_types_it_did_not_mention():
+    off = OfficialEdition(year=2027, deadlines=[
+        Deadline("poster", "Posters", datetime(2026, 11, 20), "AoE", "official")])
+    out = apply_official(_upstream_2027(), off)
+    assert [d.type for d in out.deadlines].count("paper") == 2
+
+
+def test_official_notification_is_added_unless_identical():
+    same = Deadline("notification", "workshop acceptance", datetime(2026, 8, 15), None, "official")
+    other = Deadline("notification", "Workshop author notification", datetime(2026, 10, 30), None, "official")
+    out = apply_official(_upstream_2027(), OfficialEdition(year=2027, deadlines=[same, other]))
+    labels = [d.label for d in out.deadlines if d.type == "notification"]
+    assert labels == ["Workshop acceptance", "Workshop author notification"]
+
+
+def test_official_creates_missing_edition_only_with_dates():
+    assert apply_official(None, OfficialEdition(year=2027, place="Kyoto")) is None
+    out = apply_official(None, OfficialEdition(year=2027, date_text="August 17-22, 2027",
+                                              start=date(2027, 8, 17), end=date(2027, 8, 22),
+                                              place="Kyoto, Japan"))
+    assert out.source == "official" and out.place == "Kyoto Japan"
+
+
+def test_official_dates_clear_an_estimate():
+    """추정 회차는 개최일이 비어 있을 때만 붙는다. 공식 개최일이 오면 추정 표시가 사라져야 한다."""
+    est = Edition(year=2027, date_text="", start=None, end=None, place="", link=None,
+                  deadlines=[], source="estimated", estimated_month=7)
+    out = apply_official(est, OfficialEdition(year=2027, date_text="July 6-11, 2027",
+                                             start=date(2027, 7, 6), end=date(2027, 7, 11)))
+    assert out.estimated_month is None and out.start == date(2027, 7, 6)

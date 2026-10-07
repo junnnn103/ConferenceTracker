@@ -904,3 +904,32 @@ test("AoE로 표시된 scrape 마감은 KST로 하루 뒤에 뜬다", () => {
     timezone: "AoE", source: "cfp-scrape" };
   assert.equal(formatStage(stage, new Date(2026, 8, 14)).text, "Jan 22, 2027");
 });
+
+test("ARR 마감이 지나면 commitment 마감이 대표가 된다", () => {
+  const edition = {
+    year: 2027, date_text: "", start: "2027-08-17", end: "2027-08-22",
+    place: "Kyoto Japan", link: null, source: "ccfddl",
+    primary_deadline: "2027-03-01T23:59:59",
+    deadlines: [
+      { type: "paper", label: "ARR Submission", date: "2027-01-04T23:59:59", timezone: "AoE", source: "ccfddl" },
+      { type: "commitment", label: "Commitment deadline", date: "2027-03-01T23:59:59", timezone: "AoE", source: "official" },
+    ],
+  };
+  assert.equal(formatDeadline(edition, new Date(2026, 9, 7)).label, "ARR Submission");
+  assert.equal(formatDeadline(edition, new Date(2027, 0, 20)).label, "Commitment deadline");
+});
+
+test("commitment_deadline과 short_paper도 본 논문 후보다", () => {
+  const edition = {
+    year: 2026, date_text: "", start: "2026-07-02", end: "2026-07-07",
+    place: "San Diego USA", link: null, source: "ai-deadlines",
+    primary_deadline: "2026-03-14T23:59:59",
+    deadlines: [
+      { type: "paper", label: "Paper submission deadline", date: "2026-01-05T23:59:59", timezone: "AoE", source: "ai-deadlines" },
+      { type: "commitment_deadline", label: "ARR commitment deadline", date: "2026-03-14T23:59:59", timezone: "AoE", source: "ai-deadlines" },
+      { type: "short_paper", label: "Short papers", date: "2026-02-01T23:59:59", timezone: "AoE", source: "official" },
+    ],
+  };
+  assert.equal(formatDeadline(edition, new Date(2026, 0, 20)).label, "Short papers");
+  assert.equal(formatDeadline(edition, new Date(2026, 1, 10)).label, "ARR commitment deadline");
+});
