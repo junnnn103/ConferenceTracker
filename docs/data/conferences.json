@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-10-07T04:33:44.640226+00:00",
+  "generated_at": "2026-10-07T06:43:06.777325+00:00",
   "fields": [
     {
       "id": "ML",
@@ -734,7 +734,7 @@
               "timezone": "AoE"
             }
           ],
-          "primary_deadline": "2026-01-05T23:59:59",
+          "primary_deadline": "2026-03-14T23:59:59",
           "source": "ai-deadlines"
         },
         {
@@ -859,7 +859,7 @@
               "timezone": "AoE"
             }
           ],
-          "primary_deadline": "2026-05-25T23:59:59",
+          "primary_deadline": "2026-08-02T23:59:59",
           "source": "ai-deadlines"
         }
       ]

@@ -13,7 +13,10 @@ from datetime import date, datetime
 # ECCV의 튜토리얼/워크숍/AI Art 제출처럼 논문과 무관한 트랙에도 쓰이므로,
 # "paper" 타입이 하나라도 있으면 그것만 후보로 삼고 "submission"은 "paper"가
 # 전혀 없는 학회(ICASSP, INTERSPEECH 등)에서만 대신 쓴다.
-PAPER_TYPES = ("paper",)
+# commitment(ACL/EACL 등 ARR 학회가 쓰는 "이 학회로 제출 확정" 마감)과
+# short_paper도 본 논문 마감이다. ai-deadlines는 commitment를
+# commitment_deadline이라는 이름으로 준다.
+PAPER_TYPES = ("paper", "short_paper", "commitment", "commitment_deadline")
 SUBMISSION_FALLBACK_TYPES = ("submission",)
 
 # 참고: docs/lib.js는 여기에 더해 poster/lbw/workshop 등 후발 제출 트랙까지

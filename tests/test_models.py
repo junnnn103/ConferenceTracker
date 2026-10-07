@@ -133,3 +133,31 @@ def test_conference_bk_grade_serializes_when_set():
         bk_grade="S",
     )
     assert conf.to_dict()["bk_grade"] == "S"
+
+
+def _edition_with(*deadlines):
+    return Edition(2027, "", None, None, "", None, list(deadlines), "ccfddl")
+
+
+def test_commitment_counts_as_main_paper():
+    """ARR 학회는 commitment가 그 학회에 내는 실제 마감이다.
+
+    paper만 본 논문으로 치면 ACL 2027처럼 ARR 마감(1/4)이 지난 뒤
+    commitment 마감이 올라와도 대표 마감이 되지 못한다.
+    """
+    ed = _edition_with(
+        Deadline("paper", "ARR", datetime(2027, 1, 4, 23, 59, 59), "AoE", "ccfddl"),
+        Deadline("commitment", "Commitment", datetime(2027, 3, 1, 23, 59, 59), "AoE", "official"),
+        Deadline("poster", "Posters", datetime(2027, 4, 1, 23, 59, 59), "AoE", "cfp-scrape"),
+    )
+    assert ed.primary_deadline() == datetime(2027, 3, 1, 23, 59, 59)
+
+
+def test_commitment_deadline_and_short_paper_count_too():
+    """ai-deadlines는 commitment_deadline이라는 이름을 쓴다."""
+    ed = _edition_with(
+        Deadline("commitment_deadline", "ARR commitment deadline", datetime(2026, 3, 14), "AoE", "ai-deadlines"),
+        Deadline("short_paper", "Short papers", datetime(2026, 2, 1), "AoE", "official"),
+        Deadline("submission", "Tutorial proposals", datetime(2026, 5, 1), None, "ai-deadlines"),
+    )
+    assert ed.primary_deadline() == datetime(2026, 3, 14)

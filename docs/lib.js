@@ -17,7 +17,8 @@ const BK_RANK = { S: 0, A: 1 };
 // scripts/models.py의 PAPER_TYPES/SUBMISSION_FALLBACK_TYPES와 반드시 같아야
 // 한다 — 여기서 다르게 고르면 build가 계산한 primary_deadline과 브라우저가
 // 고르는 다음 회차가 서로 다른 기준으로 어긋나게 된다.
-const PAPER_TYPES = ["paper"];
+// scripts/models.py의 PAPER_TYPES와 같아야 한다.
+const PAPER_TYPES = ["paper", "short_paper", "commitment", "commitment_deadline"];
 const SUBMISSION_FALLBACK_TYPES = ["submission"];
 // abstract는 본 논문의 선행 조건이다. 많은 학회가 초록을 먼저 등록해야
 // 본문을 낼 수 있게 해서(17개 학회가 본 논문 1주 전후로 abstract를 둔다),
