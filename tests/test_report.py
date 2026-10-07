@@ -77,3 +77,86 @@ def test_send_attaches_full_report_only_when_truncated(tmp_path):
 def test_research_binary_falls_back_when_not_on_path(monkeypatch):
     monkeypatch.setattr(rp.shutil, "which", lambda name: None)
     assert rp.research_bin().endswith("/.local/bin/research")
+
+
+def test_rendering_tolerates_missing_keys():
+    """Missing keys in entries must not raise; must render with .get() defaults."""
+    # Test held with missing keys
+    held_incomplete = [{"abbr": "X"}]
+    run = make_run(held=held_incomplete)
+    summary, _ = rp.render_summary(run)
+    assert summary  # Should not raise
+    report = rp.render_report(run)
+    assert report  # Should not raise
+
+    # Test rejected with missing keys
+    rejected_incomplete = [{}]
+    run = make_run(rejected=rejected_incomplete)
+    summary, _ = rp.render_summary(run)
+    assert summary
+    report = rp.render_report(run)
+    assert report
+
+    # Test applied with missing keys
+    applied_incomplete = [{"abbr": "Y"}]
+    run = make_run(applied=applied_incomplete)
+    summary, _ = rp.render_summary(run)
+    assert summary
+    report = rp.render_report(run)
+    assert report
+
+    # Test tba with missing keys
+    tba_incomplete = [{"abbr": "Z"}]
+    run = make_run(tba=tba_incomplete)
+    summary, _ = rp.render_summary(run)
+    assert summary
+    report = rp.render_report(run)
+    assert report
+
+
+def test_send_discord_handles_timeout():
+    """send_discord must catch TimeoutExpired and return False."""
+    def timeout_runner(cmd, **kw):
+        raise rp.subprocess.TimeoutExpired(cmd="x", timeout=1)
+
+    result = rp.send_discord("요약", Path("/test.md"), attach=False, runner=timeout_runner)
+    assert result is False
+
+
+def test_send_discord_handles_file_not_found():
+    """send_discord must catch FileNotFoundError and return False."""
+    def file_error_runner(cmd, **kw):
+        raise FileNotFoundError("test")
+
+    result = rp.send_discord("요약", Path("/test.md"), attach=False, runner=file_error_runner)
+    assert result is False
+
+
+def test_final_message_with_attachment_fits_discord_limit():
+    """Final Discord message (summary + attachment line) must be <= 2000 chars."""
+    held = [{"abbr": f"C{i}", "year": 2027, "item": {"type": "poster", "date": "2027-01-01 00:00:00",
+             "label": "x" * 80}, "review": None, "reasons": ["what:other"]} for i in range(60)]
+    run = make_run(held=held)
+    summary, truncated = rp.render_summary(run)
+    assert truncated
+
+    # Simulate what send_discord does
+    attachment_line = f"\nMEDIA:/Users/jay/.hermes/reports/conference-tracker/2026-10-12.md"
+    final_message = summary + attachment_line
+    assert len(final_message) <= 2000
+
+
+def test_upcoming_deadlines_preserved_after_truncation():
+    """Truncated summary with many held items must still include upcoming deadlines."""
+    held = [{"abbr": f"C{i}", "year": 2027, "item": {"type": "poster", "date": "2027-01-01 00:00:00",
+             "label": "x" * 80}, "review": None, "reasons": ["what:other"]} for i in range(60)]
+    upcoming = [
+        {"abbr": "CHI", "label": "Posters", "date": "2026-10-21", "dday": 9},
+        {"abbr": "SIGCHI", "label": "Papers", "date": "2026-10-22", "dday": 10},
+    ]
+    run = make_run(held=held, upcoming=upcoming)
+    summary, truncated = rp.render_summary(run)
+    assert truncated
+    assert "[14일 안 마감]" in summary
+    assert "CHI" in summary
+    assert "SIGCHI" in summary

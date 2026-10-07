@@ -98,23 +98,23 @@ def _lines(run: RunResult) -> list[str]:
              f"탈락 {len(run.rejected)} · 접속 실패 {len(run.blocked)}"]
     if run.failures:
         lines += ["", "[실패]"] + [f"- {f}" for f in run.failures]
+    if run.upcoming:
+        lines += ["", "[14일 안 마감]"] + [f"- D-{u.get('dday')} {u.get('abbr')} {u.get('label')} ({u.get('date')})"
+                                         for u in run.upcoming]
+    if run.blocked:
+        lines += ["", "[접속 실패]"] + [f"- {b.get('abbr')} {b.get('year')}" for b in run.blocked]
     if run.applied:
-        lines += ["", "[반영]"] + [f"- {a['abbr']} {a['year']} {a['label']}: {a['date'][:10]} <{a['url']}>"
+        lines += ["", "[반영]"] + [f"- {a.get('abbr')} {a.get('year')} {a.get('label')}: {(a.get('date') or '')[:10]} <{a.get('url')}>"
                                    for a in run.applied]
     if run.held:
         lines += ["", "[보류: 해석 불일치 - 확인 필요]"] + [
-            f"- {h['abbr']} {h['year']} {h['item'].get('type')} {str(h['item'].get('date', ''))[:10]}"
-            f" {h['item'].get('label', '')}: {', '.join(h['reasons'])}" for h in run.held]
+            f"- {h.get('abbr')} {h.get('year')} {h.get('item', {}).get('type')} {str(h.get('item', {}).get('date', ''))[:10]}"
+            f" {h.get('item', {}).get('label', '')}: {', '.join(h.get('reasons', []))}" for h in run.held]
     if run.rejected:
-        lines += ["", "[게이트 탈락]"] + [f"- {r['abbr']} {r['year']} {r['item'].get('type')}: {r['reason']}"
+        lines += ["", "[게이트 탈락]"] + [f"- {r.get('abbr')} {r.get('year')} {r.get('item', {}).get('type')}: {r.get('reason')}"
                                        for r in run.rejected]
-    if run.blocked:
-        lines += ["", "[접속 실패]"] + [f"- {b['abbr']} {b['year']}" for b in run.blocked]
     if run.tba:
-        lines += ["", "[아직 미공개]"] + [f"- {t['abbr']} {t['year']}: {'; '.join(t['items'])}" for t in run.tba]
-    if run.upcoming:
-        lines += ["", "[14일 안 마감]"] + [f"- D-{u['dday']} {u['abbr']} {u['label']} ({u['date']})"
-                                         for u in run.upcoming]
+        lines += ["", "[아직 미공개]"] + [f"- {t.get('abbr')} {t.get('year')}: {'; '.join(t.get('items', []))}" for t in run.tba]
     return lines
 
 
@@ -123,18 +123,18 @@ def render_summary(run: RunResult) -> tuple[str, bool]:
     if len(text) <= DISCORD_LIMIT:
         return text, False
     tail = "\n… (전체 보고서 첨부)"
-    return text[: DISCORD_LIMIT - len(tail) - 60].rsplit("\n", 1)[0] + tail, True
+    return text[: DISCORD_LIMIT - 200].rsplit("\n", 1)[0] + tail, True
 
 
 def render_report(run: RunResult) -> str:
     lines = _lines(run)
     if run.changes:
         lines += ["", "[사이트 값 변경 (이전 → 새 값)]"] + [
-            f"- {c['abbr']} {c['year']} {c['field']}: {c['old']} → {c['new']}" for c in run.changes]
+            f"- {c.get('abbr')} {c.get('year')} {c.get('field')}: {c.get('old')} → {c.get('new')}" for c in run.changes]
     if run.held:
         lines += ["", "[보류 항목 상세]"]
         for h in run.held:
-            lines += [f"- {h['abbr']} {h['year']}", f"  추출: {h['item']}", f"  검토: {h['review']}"]
+            lines += [f"- {h.get('abbr')} {h.get('year')}", f"  추출: {h.get('item')}", f"  검토: {h.get('review')}"]
     return "\n".join(lines) + "\n"
 
 
@@ -151,7 +151,10 @@ def research_bin() -> str:
 
 
 def send_discord(summary: str, report_path: Path, attach: bool, runner=subprocess.run) -> bool:
-    message = summary + (f"\nMEDIA:{report_path}" if attach else "")
-    proc = runner([research_bin(), "send", "-t", "discord", message],
-                  capture_output=True, text=True, timeout=60)
-    return proc.returncode == 0
+    try:
+        message = summary + (f"\nMEDIA:{report_path}" if attach else "")
+        proc = runner([research_bin(), "send", "-t", "discord", message],
+                      capture_output=True, text=True, timeout=60)
+        return proc.returncode == 0
+    except (subprocess.SubprocessError, OSError):
+        return False
