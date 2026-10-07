@@ -213,6 +213,63 @@ def check_edition(edition: dict, pages: dict[str, str], year: int) -> str | None
     return None
 
 
+SUBMISSION_TYPES = CORE_TYPES | {"poster", "lbw"}
+
+# 제출 마감이 아니라는 신호. 2026-09의 CHI 오류("Organizer submission
+# deadline"을 워크숍 제출 마감으로 해석)는 이 규칙만으로도 걸린다.
+_FORBIDDEN_WORDS = re.compile(
+    r"\b(proposals?|organi[sz]ers?|jurors?|reviewers?|camera[\s-]*ready|registration|e-rights)\b",
+    re.IGNORECASE,
+)
+_APPROXIMATE = re.compile(r"\bapproximately\b", re.IGNORECASE)
+
+
+def year_near(page: str, raw: str, year: int, width: int = 1500) -> bool:
+    """인용문 앞뒤 width자 안이나 페이지 머리(제목 등)에 대상 연도가 있는가."""
+    flat, needle, y = squash(page), squash(raw), str(year)
+    i = flat.find(needle)
+    if i < 0:
+        return False
+    return y in flat[max(0, i - width): i + len(needle) + width] or y in flat[:2000]
+
+
+def check_interpretation(item: dict, pages: dict[str, str], year: int) -> str | None:
+    """게이트 10, 12. 실재하는 문장을 잘못 해석한 것을 잡는다."""
+    raw = item.get("raw_text") or ""
+    if _APPROXIMATE.search(raw):
+        return "approximate"
+    if item["type"] in SUBMISSION_TYPES:
+        words = {w.lower() for w in _FORBIDDEN_WORDS.findall(raw)}
+        if item["type"] == "abstract":
+            # 초록 마감은 흔히 "Abstract registration"이라고 부른다.
+            words.discard("registration")
+        if words:
+            return "forbidden_word"
+    url = item.get("url") or ""
+    if str(year) not in url and not year_near(pages[item["url"]], raw, year):
+        return "year_not_near"
+    return None
+
+
+def check_order(deadlines: list[dict]) -> tuple[list[dict], list[dict]]:
+    """게이트 11. 초록은 본 논문보다 늦을 수 없고 commitment는 본 논문보다 이를 수 없다.
+
+    워크숍 채택 발표는 본 논문과 순서가 정해져 있지 않아 보지 않는다.
+    """
+    papers = [_parse_datetime(d["date"]) for d in deadlines if d["type"] == "paper"]
+    if not papers:
+        return deadlines, []
+    first = min(papers)
+    kept, bad = [], []
+    for d in deadlines:
+        when = _parse_datetime(d["date"])
+        if (d["type"] == "abstract" and when > first) or (d["type"] == "commitment" and when < first):
+            bad.append({**d, "reject_reason": "order"})
+        else:
+            kept.append(d)
+    return kept, bad
+
+
 def _accepted_edition(edition: dict) -> dict:
     return {
         "date_text": normalize_whitespace(edition.get("date_text") or ""),
@@ -256,9 +313,17 @@ def validate_official(extraction: dict, pages: dict[str, str], conference_start:
             conference_start = date.fromisoformat(str(edition["start"]))
 
     for item in extraction.get("items") or []:
-        reason = check_common(item, pages, conference_start) or check_strict(item, year)
+        reason = (
+            check_common(item, pages, conference_start)
+            or check_strict(item, year)
+            or check_interpretation(item, pages, year)
+        )
         if reason:
             rejected.append({**item, "reject_reason": reason})
         else:
             accepted["deadlines"].append(_accepted_deadline(item))
+
+    kept, out_of_order = check_order(accepted["deadlines"])
+    accepted["deadlines"] = kept
+    rejected.extend(out_of_order)
     return accepted, rejected

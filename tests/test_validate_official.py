@@ -203,3 +203,88 @@ def test_mentions_range_requires_word_boundary():
     from scripts.validate_official import mentions_range
     result = mentions_range("Summary 3-5", date(2027, 3, 3), date(2027, 3, 5))
     assert result is False
+
+
+# Task 4: 해석 규칙 10-12
+CHI_WS = "https://chi2027.acm.org/authors/workshops/"
+CHI_WS_PAGE = (
+    "Workshops - ACM CHI 2027\nImportant Dates All times are in Anywhere on Earth (AoE) time zone.\n"
+    "Thursday, October 1, 2026 : Organizer submission deadline\n"
+    "Thursday, December 17, 2026 : List of accepted workshops released by workshop chairs on the CHI website\n"
+    "Participant submissions are due approximately Thursday, February 11, 2027 .\n"
+)
+
+
+def run_chi_ws(*items):
+    extraction = {"abbr": "chi", "year": 2027, "items": list(items)}
+    return validate_official(extraction, {CHI_WS: CHI_WS_PAGE}, date(2027, 5, 10))
+
+
+def ws_item(type_, date_, raw, label="x"):
+    return {"type": type_, "label": label, "date": date_, "timezone": "AoE",
+            "confidence": "high", "raw_text": raw, "url": CHI_WS}
+
+
+def test_organizer_deadline_cannot_be_a_submission():
+    """2026-09부터 사이트에 실려 있던 CHI 오류. 문장도 날짜도 실재해서 게이트 1-5를 통과했다."""
+    _, rejected = run_chi_ws(ws_item("poster", "2026-10-01 23:59:59",
+                                     "Thursday, October 1, 2026 : Organizer submission deadline"))
+    assert rejected[0]["reject_reason"] == "forbidden_word"
+
+
+def test_approximate_date_is_never_applied():
+    _, rejected = run_chi_ws(ws_item("notification", "2027-02-11 23:59:59",
+                                     "Participant submissions are due approximately Thursday, February 11, 2027"))
+    assert rejected[0]["reject_reason"] == "approximate"
+
+
+def test_workshop_list_release_passes():
+    accepted, rejected = run_chi_ws(ws_item("notification", "2026-12-17 23:59:59",
+        "Thursday, December 17, 2026 : List of accepted workshops released by workshop chairs on the CHI website"))
+    assert rejected == [] and accepted["deadlines"][0]["type"] == "notification"
+
+
+def test_abstract_registration_is_not_forbidden():
+    """Review Focus 2: 초록 마감은 흔히 'Abstract registration'이라고 부른다."""
+    url = "https://example.org/2027/dates"
+    page = "Example 2027 Important dates. Abstract registration deadline: March 1, 2027"
+    extraction = {"abbr": "ex", "year": 2027, "items": [{
+        "type": "abstract", "label": "Abstract registration", "date": "2027-03-01 23:59:59",
+        "confidence": "high", "raw_text": "Abstract registration deadline: March 1, 2027", "url": url}]}
+    accepted, rejected = validate_official(extraction, {url: page}, None)
+    assert rejected == [] and accepted["deadlines"][0]["type"] == "abstract"
+
+
+def test_registration_is_forbidden_for_paper():
+    url = "https://example.org/2027/dates"
+    page = "Example 2027. Paper registration deadline: March 1, 2027"
+    extraction = {"abbr": "ex", "year": 2027, "items": [{
+        "type": "paper", "label": "Paper", "date": "2027-03-01 23:59:59",
+        "confidence": "high", "raw_text": "Paper registration deadline: March 1, 2027", "url": url}]}
+    _, rejected = validate_official(extraction, {url: page}, None)
+    assert rejected[0]["reject_reason"] == "forbidden_word"
+
+
+def test_year_must_be_near_the_sentence():
+    """작년 회차 페이지의 날짜를 올해 것으로 읽는 실수를 막는다."""
+    url = "https://example.org/old"
+    page = "Example 2026 Call for Papers. " + ("filler " * 600) + "Paper deadline: March 1, 2027"
+    extraction = {"abbr": "ex", "year": 2028, "items": [{
+        "type": "poster", "label": "Posters", "date": "2027-03-01 23:59:59",
+        "confidence": "high", "raw_text": "Paper deadline: March 1, 2027", "url": url}]}
+    _, rejected = validate_official(extraction, {url: page}, None)
+    assert rejected[0]["reject_reason"] == "year_not_near"
+
+
+def test_abstract_after_paper_is_out_of_order():
+    url = "https://example.org/2027/dates"
+    page = "Example 2027. Paper deadline: March 1, 2027. Abstract deadline: March 5, 2027"
+    items = [
+        {"type": "paper", "label": "Paper", "date": "2027-03-01 23:59:59", "confidence": "high",
+         "raw_text": "Paper deadline: March 1, 2027", "url": url},
+        {"type": "abstract", "label": "Abstract", "date": "2027-03-05 23:59:59", "confidence": "high",
+         "raw_text": "Abstract deadline: March 5, 2027", "url": url},
+    ]
+    accepted, rejected = validate_official({"abbr": "ex", "year": 2027, "items": items}, {url: page}, None)
+    assert [d["type"] for d in accepted["deadlines"]] == ["paper"]
+    assert rejected[0]["reject_reason"] == "order"
