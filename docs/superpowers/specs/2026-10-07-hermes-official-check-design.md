@@ -212,13 +212,13 @@ ai-deadlines, wikicfp 등 목록으로 관리)는 받지 않는다. 공식 사�
 검토자가 답하는 것 (JSON):
 ```json
 {"who_submits": "author | organizer | reviewer | none",
- "what": "paper | short_paper | abstract | commitment | poster | lbw | workshop_acceptance | workshop_paper | other",
+ "what": "paper | short_paper | abstract | commitment | poster | lbw | workshop_acceptance | workshop_paper_notification | workshop_paper | other",
  "event_year": 2027, "exact": true, "date": "2026-12-17"}
 ```
 `edition` 항목이면 개최 시작일·종료일·장소를 따로 답한다.
 
 **일치 판정.** 추출자의 `type`과 검토자의 `what`이 대응하고(`notification` ↔
-`workshop_acceptance`), `who_submits`가 제출 타입이면 `author`, 날짜·연도가 같고,
+`workshop_acceptance` 또는 `workshop_paper_notification`, `poster` ↔ `lbw`는 같은 층으로 본다), `who_submits`가 제출 타입이면 `author`, 날짜·연도가 같고,
 `exact`가 참이면 일치. 하나라도 다르면 불일치.
 
 - 일치 → 반영
@@ -231,11 +231,33 @@ ai-deadlines, wikicfp 등 목록으로 관리)는 받지 않는다. 공식 사�
 **호출.** `claude -p`를 도구 없이, JSON 출력으로 부른다. 항목당 한 번, 짧은 발췌만
 넣는다. 주당 수 건~20건 수준.
 
-**도입 전 시험 (역검증).** 켜기 전에 정답을 아는 사례로 돌린다. 잡아야 할 것:
-CHI 2027 10/1 Organizer submission deadline(워크숍 제출 마감이라고 주장), CHI 2027
-"approximately Feb 11"(확정값이라고 주장). 통과시켜야 할 것: ACL 2027 ARR 1/4,
-CHI 2027 12/17 워크숍 목록 공개, 지금 `data/scraped/`에 실린 10건. 잡아야 할 것을
-모두 잡고 통과시켜야 할 것을 모두 통과시킬 때만 켠다. 결과는 구현 기록에 남긴다.
+`workshop_paper_notification`(워크숍 논문 저자 통보)을 받는 이유: 소유자가 WACV 2027의
+"Author notification deadline (for archival papers): October 30, 2026"을 워크숍
+일정의 기준으로 삼자고 직접 정했다(2026-09-14).
+
+**도입 전 시험 (역검증).** 켜기 전에 정답을 아는 사례로 돌린다. 기대값은 원문을 읽고
+항목마다 정한다 - 지금 실린 값이라고 맞는 것이 아니다. 2026-10-07 확인 결과 지금
+`data/scraped/`의 10건 중 4건이 규칙에 어긋난다.
+
+| 사례 | 원문 | 기대 |
+|---|---|---|
+| ACL 2027 paper 1/4 | ARR submission deadline (long & short papers) | 통과 |
+| CHI 2027 paper 9/10 | Paper submission deadline, including videos… | 통과 |
+| CHI 2027 poster 1/21 | Submission deadline (posters 페이지) | 통과 |
+| CHI 2027 notification 12/17 | List of accepted workshops released… | 통과 |
+| ISMAR 2026 poster 6/30 | Poster paper submission… | 통과 |
+| UIST 2026 poster 7/10 | Submission deadline (posters 페이지) | 통과 |
+| WACV 2027 notification 8/15 | Workshop acceptance notification | 통과 |
+| WACV 2027 notification 10/30 | Author notification deadline (for archival papers) | 통과 |
+| CHI 2027 10/1을 notification으로 주장 | Organizer submission deadline | 보류 |
+| CHI 2027 2/11을 workshop으로 주장 | Participant submissions are due approximately… | 보류 |
+| ISMAR 2026 workshop 5/22 | Workshop proposal deadline | 보류 |
+| ACM MM 2026 workshop 2/12 | Deadline for submission of workshop proposals | 보류 |
+| UIST 2026 workshop 7/10 | Submission deadline (workshops 페이지) | 원문 문맥 확인 후 확정 |
+| WACV 2027 notification 8/25 | Workshop websites live by | 보류 |
+
+기대값과 모두 일치할 때만 켠다. 결과는 구현 기록에 남긴다. "보류"로 확인된 기존 항목은
+사이트에서 뺀다 - CHI 10/1과 같은 종류의 오류다.
 
 ## 8. 병합: 새 출처 `official`
 
