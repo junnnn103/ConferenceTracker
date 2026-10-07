@@ -111,7 +111,9 @@ def results_for(target: dict, o: TargetOutcome) -> dict[str, str]:
             else:
                 out[c] = "tba"
         elif c == "D":
-            out[c] = "tba" if o.tba else "found"
+            # 보류 항목이 있거나 미공개 항목이 있으면 다음 주에 다시 본다.
+            done = bool(approved["edition"] or approved["deadlines"])
+            out[c] = "found" if done and not o.held and not o.tba else "tba"
         else:
             out[c] = "found"
     return out
@@ -150,13 +152,30 @@ def _commit_and_push(run, result: RunResult, today: date) -> None:
         # conferences.json 같은 파생 파일 충돌이다. 손으로 병합하지 않는다 -
         # 우리 입력(data/official)만 살려 원격 위에서 다시 빌드한다 (설계 §11).
         run(["git", "rebase", "--abort"])
-        run(["git", "stash", "push", "-u", "-m", "official-check push 재시도", "--", "data/official"])
+        sha = (run(["git", "rev-parse", "HEAD"]).stdout or "").strip()
         run(["git", "reset", "--hard", "origin/master"])
-        run(["git", "stash", "pop"])
+        run(["git", "checkout", sha, "--", "data/official"])
         if not _rebuild_and_test(run, result):
             return
         _commit(run, message)
     result.failures.append("push 실패 (3회 시도)")
+
+
+def _prep_is_today(today: date) -> bool:
+    try:
+        meta = json.loads((RAW_DIR / "prep.json").read_text(encoding="utf-8"))
+        return meta.get("date") == today.isoformat()
+    except (OSError, ValueError, AttributeError):
+        return False
+
+
+def _finish(result: RunResult, send, notify: bool) -> int:
+    report_path = write_report(result)
+    if notify and should_send(result):
+        summary, truncated = render_summary(result)
+        if not send(summary, report_path, truncated):
+            result.failures.append("디스코드 전송 실패")
+    return 1 if result.failures else 0
 
 
 def apply_run(today: date, ask=ask_claude, run=_run, send=send_discord,
@@ -166,35 +185,44 @@ def apply_run(today: date, ask=ask_claude, run=_run, send=send_discord,
     log = load_checklog(CHECKLOG_PATH)
     result = RunResult(today=today, targets=worklist)
 
+    if not _prep_is_today(today):
+        result.failures.append("prep 기록이 없거나 오늘 것이 아님 - 반영하지 않음")
+        result.upcoming = upcoming_deadlines(before, today)
+        return _finish(result, send, notify)
+
     for t in worklist:
+        label = {"abbr": t["abbr"], "year": t["year"]}
         try:
             o = process_target(t, RAW_DIR, before, ask)
+            if o.error:
+                result.failures.append(f"{t['abbr']} {t['year']}: {o.error}")
+                continue  # 기록을 갱신하지 않으므로 다음 주에 다시 본다
+            if o.access == "blocked":
+                result.blocked.append(label)
+            else:
+                approved = o.approved or {"edition": None, "deadlines": []}
+                if approved["edition"] or approved["deadlines"]:
+                    path = OFFICIAL_DIR / f"{o.key}.yaml"
+                    write_official(path, merge_official_doc(load_doc(path), o.key, o.year, approved, today))
+                    for d in approved["deadlines"]:
+                        result.applied.append({**label, "type": d["type"], "label": d["label"],
+                                               "date": d["date"], "url": d["evidence"]["url"]})
+                    if approved["edition"]:
+                        e = approved["edition"]
+                        result.applied.append({**label, "type": "edition", "label": f"{e['date_text']} @ {e['place']}",
+                                               "date": e["start"], "url": e["evidence"]["url"]})
+                result.rejected += [{**label, "item": r, "reason": r["reject_reason"]} for r in o.rejected]
+                result.held += [{**label, **h} for h in o.held]
+                if o.tba:
+                    result.tba.append({**label, "items": o.tba})
         except Exception as exc:  # LLM 출력은 믿지 않는다. 한 대상이 전체 실행을 멈추게 하지 않는다.
             result.failures.append(f"{t['abbr']} {t['year']}: 처리 중 오류: {exc}")
             continue  # 기록을 갱신하지 않으므로 다음 주에 다시 본다
-        label = {"abbr": t["abbr"], "year": t["year"]}
-        if o.error:
-            result.failures.append(f"{t['abbr']} {t['year']}: {o.error}")
-            continue  # 기록을 갱신하지 않으므로 다음 주에 다시 본다
-        if o.access == "blocked":
-            result.blocked.append(label)
-        else:
-            approved = o.approved or {"edition": None, "deadlines": []}
-            if approved["edition"] or approved["deadlines"]:
-                path = OFFICIAL_DIR / f"{o.key}.yaml"
-                write_official(path, merge_official_doc(load_doc(path), o.key, o.year, approved, today))
-                for d in approved["deadlines"]:
-                    result.applied.append({**label, "type": d["type"], "label": d["label"],
-                                           "date": d["date"], "url": d["evidence"]["url"]})
-                if approved["edition"]:
-                    e = approved["edition"]
-                    result.applied.append({**label, "type": "edition", "label": f"{e['date_text']} @ {e['place']}",
-                                           "date": e["start"], "url": e["evidence"]["url"]})
-            result.rejected += [{**label, "item": r, "reason": r["reject_reason"]} for r in o.rejected]
-            result.held += [{**label, **h} for h in o.held]
-            if o.tba:
-                result.tba.append({**label, "items": o.tba})
-        record(log, o.key, o.year, today, t["criteria"], results_for(t, o), o.access, o.tba, t["urgent"])
+        # 보류 항목도 다음 주에 다시 보도록 tba에 남긴다.
+        held_labels = [(h.get("item") or {}).get("label") or (h.get("item") or {}).get("type") or "?"
+                       for h in o.held]
+        record(log, o.key, o.year, today, t["criteria"], results_for(t, o), o.access,
+               list(o.tba) + held_labels, t["urgent"])
     save_checklog(CHECKLOG_PATH, log)
 
     ok = _rebuild_and_test(run, result)
@@ -205,28 +233,22 @@ def apply_run(today: date, ask=ask_claude, run=_run, send=send_discord,
         if push:
             _commit_and_push(run, result, today)
     else:
-        run(["git", "stash", "push", "-u", "-m", f"official-check 실패 {today.isoformat()}"])
+        run(["git", "stash", "push", "-u", "-m", f"official-check 실패 {today.isoformat()}", "--", *COMMIT_PATHS])
         result.failures.append(f"작업 내용은 git stash에 보관 (official-check 실패 {today.isoformat()})")
-
-    report_path = write_report(result)
-    if notify and should_send(result):
-        summary, truncated = render_summary(result)
-        if not send(summary, report_path, truncated):
-            result.failures.append("디스코드 전송 실패")
-    return 1 if result.failures else 0
+    return _finish(result, send, notify)
 
 
 def prep_run(today: date, run=_run, fetch=http_fetch) -> int:
+    # 지난 실행의 추출 JSON이 남아 있으면 이번 주 결과로 오인된다. 무엇보다 먼저 비운다.
+    RAW_DIR.mkdir(parents=True, exist_ok=True)
+    for old in RAW_DIR.iterdir():
+        if old.is_file():
+            old.unlink()
     if run(["git", "pull", "--rebase", "--autostash", "origin", "master"]).returncode != 0:
         print("git pull 실패 - 이번 주 확인을 건너뜁니다.")
         return 1
     data = json.loads(DATA_PATH.read_text(encoding="utf-8"))
     targets = select_targets(data, load_checklog(CHECKLOG_PATH), today)
-    # 지난 실행의 추출 JSON이 남아 있으면 이번 주 결과로 오인된다. 비우고 시작한다.
-    RAW_DIR.mkdir(parents=True, exist_ok=True)
-    for old in RAW_DIR.iterdir():
-        if old.is_file():
-            old.unlink()
     WORKLIST_PATH.write_text(json.dumps(targets, ensure_ascii=False, indent=2), encoding="utf-8")
 
     print(f"이번 주 대상 {len(targets)}개 ({today.isoformat()})")
@@ -237,6 +259,8 @@ def prep_run(today: date, run=_run, fetch=http_fetch) -> int:
                 else f"페이지 {len(r.pages)}개 → data/official/raw/{t['key']}-{t['year']}.txt")
         print(f"- {t['key']} {t['year']} ({t['name']}) 기준 {','.join(t['criteria'])} "
               f"access={r.access} {tail}")
+    # 끝까지 수집했을 때만 오늘 것으로 표시한다.
+    (RAW_DIR / "prep.json").write_text(json.dumps({"date": today.isoformat()}), encoding="utf-8")
     return 0
 
 
