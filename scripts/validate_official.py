@@ -8,10 +8,11 @@ Hermes가 쓴 추출 JSON을 스크립트(fetch_pages.py)가 직접 받은 페�
 from __future__ import annotations
 
 import re
-from datetime import date
+from datetime import date, datetime
 
 from scripts.validate_scraped import (
     MAX_LEAD,
+    _MONTH_NUMBERS,
     _parse_datetime,
     mentions_date,
     normalize_whitespace,
@@ -75,6 +76,88 @@ def check_common(item: dict, pages: dict[str, str], conference_start: date | Non
     return None
 
 
+_RANGE = re.compile(
+    r"(?P<m1>jan|feb|mar|apr|may|jun|jul|aug|sep|oct|nov|dec)[a-z]*\.?\s+(?P<d1>\d{1,2})(?:st|nd|rd|th)?"
+    r"\s*[-–—~]\s*"
+    r"(?:(?P<m2>jan|feb|mar|apr|may|jun|jul|aug|sep|oct|nov|dec)[a-z]*\.?\s+)?(?P<d2>\d{1,2})(?:st|nd|rd|th)?\b",
+    re.IGNORECASE,
+)
+
+
+def _at_midnight(d: date) -> datetime:
+    return datetime(d.year, d.month, d.day)
+
+
+def mentions_range(raw: str, start: date, end: date) -> bool:
+    """개최일 범위가 문장에 있는가.
+
+    "August 17–22, 2027"에서 22는 앞에 월이 없어 mentions_date가 못 찾는다.
+    "June 28 – July 2"와 일-월 순서("28 June – 2 July")도 받는다.
+    """
+    if mentions_date(raw, _at_midnight(start)) and mentions_date(raw, _at_midnight(end)):
+        return True
+    for m in _RANGE.finditer(raw or ""):
+        m1 = _MONTH_NUMBERS[m["m1"].lower()[:3]]
+        m2 = _MONTH_NUMBERS[(m["m2"] or m["m1"]).lower()[:3]]
+        if (m1, int(m["d1"])) == (start.month, start.day) and (m2, int(m["d2"])) == (end.month, end.day):
+            return True
+    return False
+
+
+def _place_in(raw: str, place: str) -> bool:
+    norm = lambda s: re.sub(r"[\s,]+", "", str(s or "")).lower()
+    return bool(norm(place)) and norm(place) in norm(raw)
+
+
+def check_strict(item: dict, year: int) -> str | None:
+    """게이트 6, 9 - 본 논문 마감에만. 바로 반영되고 업스트림 값을 덮으므로 더 엄격하게."""
+    if item["type"] not in CORE_TYPES:
+        return None
+    if str(item.get("confidence", "")).lower() != "high":
+        return "core_needs_high_confidence"
+    if _parse_datetime(item["date"]).year not in (year - 1, year):
+        return "wrong_year"
+    return None
+
+
+def check_edition(edition: dict, pages: dict[str, str], year: int) -> str | None:
+    """게이트 1, 6–9 - 회차(개최일·장소)."""
+    if str(edition.get("confidence", "")).lower() != "high":
+        return "core_needs_high_confidence"
+    page = pages.get(edition.get("url") or "")
+    if page is None:
+        return "url_not_fetched"
+    raw = normalize_whitespace(edition.get("raw_text") or "")
+    if not raw or not contains_ignoring_space(page, raw):
+        return "raw_text_not_in_page"
+    try:
+        start = date.fromisoformat(str(edition.get("start")))
+        end = date.fromisoformat(str(edition.get("end")))
+    except ValueError:
+        return "unparseable_date"
+    if end < start:
+        return "end_before_start"
+    if start.year != year:
+        return "wrong_year"
+    if not mentions_date(raw, _at_midnight(start)):
+        return "start_not_in_raw_text"
+    if not mentions_range(raw, start, end):
+        return "end_not_in_raw_text"
+    if edition.get("place") and not _place_in(raw, edition["place"]):
+        return "place_not_in_raw_text"
+    return None
+
+
+def _accepted_edition(edition: dict) -> dict:
+    return {
+        "date_text": normalize_whitespace(edition.get("date_text") or ""),
+        "start": str(edition["start"]),
+        "end": str(edition["end"]),
+        "place": normalize_whitespace(edition.get("place") or ""),
+        "evidence": {"raw_text": normalize_whitespace(edition["raw_text"]), "url": edition["url"]},
+    }
+
+
 def _accepted_deadline(item: dict) -> dict:
     when = _parse_datetime(item["date"])
     entry = {
@@ -94,10 +177,21 @@ def _accepted_deadline(item: dict) -> dict:
 
 def validate_official(extraction: dict, pages: dict[str, str], conference_start: date | None):
     """통과 항목과 탈락 항목을 나눠 돌려준다. 한 항목이 떨어져도 나머지는 계속 본다."""
+    year = int(extraction["year"])
     accepted: dict = {"edition": None, "deadlines": []}
     rejected: list[dict] = []
+
+    edition = extraction.get("edition")
+    if edition:
+        reason = check_edition(edition, pages, year)
+        if reason:
+            rejected.append({**edition, "type": "edition", "reject_reason": reason})
+        else:
+            accepted["edition"] = _accepted_edition(edition)
+            conference_start = date.fromisoformat(str(edition["start"]))
+
     for item in extraction.get("items") or []:
-        reason = check_common(item, pages, conference_start)
+        reason = check_common(item, pages, conference_start) or check_strict(item, year)
         if reason:
             rejected.append({**item, "reject_reason": reason})
         else:

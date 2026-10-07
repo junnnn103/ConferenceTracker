@@ -87,3 +87,86 @@ def test_load_pages_splits_sections():
 def test_contains_ignoring_space():
     assert contains_ignoring_space("a  b\nc", "abc")
     assert not contains_ignoring_space("abc", "")
+
+
+ACL_URL = "https://2027.aclweb.org/"
+ACL_PAGE = (
+    "The 65th Annual Meeting of the Association for Computational Linguistics\n"
+    "Kyoto, Japan\nAugust 17–22, 2027\n"
+    "ARR submission deadline January 4, 2027\n"
+    "All deadlines are 11.59 pm UTC -12h (anywhere on earth).\n"
+)
+
+
+def acl_edition(**over):
+    base = {
+        "date_text": "August 17-22, 2027", "start": "2027-08-17", "end": "2027-08-22",
+        "place": "Kyoto, Japan", "raw_text": "Kyoto, Japan August 17–22, 2027",
+        "url": ACL_URL, "confidence": "high",
+    }
+    base.update(over)
+    return base
+
+
+def run_acl(edition=None, *items):
+    extraction = {"abbr": "acl", "year": 2027, "edition": edition, "items": list(items)}
+    return validate_official(extraction, {ACL_URL: ACL_PAGE}, None)
+
+
+def test_edition_with_range_and_place_is_accepted():
+    accepted, rejected = run_acl(acl_edition())
+    assert rejected == []
+    assert accepted["edition"]["start"] == "2027-08-17"
+    assert accepted["edition"]["place"] == "Kyoto, Japan"
+
+
+def test_edition_accepts_ranges_in_both_orders():
+    """Review Focus 1: DIS는 '28 June – 2 July 2027'처럼 일-월 순서로 쓴다."""
+    url = "https://dis.acm.org/2027/"
+    page = "Stockholm, Sweden 28 June – 2 July 2027"
+    extraction = {"abbr": "dis", "year": 2027, "items": [], "edition": {
+        "date_text": "June 28 - July 2, 2027", "start": "2027-06-28", "end": "2027-07-02",
+        "place": "Stockholm, Sweden", "raw_text": page, "url": url, "confidence": "high"}}
+    accepted, rejected = validate_official(extraction, {url: page}, None)
+    assert rejected == [] and accepted["edition"]["end"] == "2027-07-02"
+    page2 = "Stockholm, Sweden, June 28th – July 2nd 2027"
+    extraction["edition"]["raw_text"] = page2
+    accepted, rejected = validate_official(extraction, {url: page2}, None)
+    assert rejected == []
+
+
+def test_edition_end_must_be_in_the_sentence():
+    _, rejected = run_acl(acl_edition(end="2027-08-23"))
+    assert rejected[0]["reject_reason"] == "end_not_in_raw_text"
+
+
+def test_edition_place_must_be_in_the_sentence():
+    _, rejected = run_acl(acl_edition(place="Tokyo, Japan"))
+    assert rejected[0]["reject_reason"] == "place_not_in_raw_text"
+
+
+def test_edition_needs_high_confidence():
+    _, rejected = run_acl(acl_edition(confidence="medium"))
+    assert rejected[0]["reject_reason"] == "core_needs_high_confidence"
+
+
+def test_edition_year_must_match_target():
+    _, rejected = run_acl(acl_edition(start="2026-08-17", end="2026-08-22"))
+    assert rejected[0]["reject_reason"] == "wrong_year"
+
+
+def test_core_deadline_needs_high_confidence_but_poster_does_not():
+    paper = {"type": "paper", "label": "ARR", "date": "2027-01-04 23:59:59", "timezone": "AoE",
+             "confidence": "medium", "raw_text": "ARR submission deadline January 4, 2027", "url": ACL_URL}
+    poster = {**paper, "type": "poster", "label": "Posters"}
+    accepted, rejected = run_acl(None, paper, poster)
+    assert [r["reject_reason"] for r in rejected] == ["core_needs_high_confidence"]
+    assert [d["type"] for d in accepted["deadlines"]] == ["poster"]
+
+
+def test_accepted_edition_start_bounds_the_deadlines():
+    """회차가 통과하면 그 개최일로 게이트 4를 건다."""
+    late = {"type": "paper", "label": "ARR", "date": "2027-01-04 23:59:59", "timezone": "AoE",
+            "confidence": "high", "raw_text": "ARR submission deadline January 4, 2027", "url": ACL_URL}
+    accepted, rejected = run_acl(acl_edition(), late)
+    assert rejected == [] and len(accepted["deadlines"]) == 1
