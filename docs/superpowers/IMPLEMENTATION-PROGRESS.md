@@ -310,3 +310,28 @@ openpyxl 차단 후 임포트 확인까지. 그런데 **코드가 일관되게 �
 
 `docs/data/conferences.json` — 현재는 학회 1개짜리 퇴화 버전이라 커밋하지 않았다.
 Task 10이 소스 매핑을 채운 뒤 제대로 생성해 커밋한다.
+
+## Task 12 검토자 역검증 (2026-10-07)
+
+모델 `claude-haiku-4-5-20251001` (가장 가벼운 모델) 첫 실행에서 14/14 일치. Sonnet·Opus는 돌리지 않았다
+(규칙: 가벼운 순서로 첫 14/14에서 멈춘다). `REVIEW_MODEL`은 Haiku 그대로. 프롬프트 수정 없음.
+
+| 사례 | 기대 | 결과 | 검토자 답 요약 |
+|---|---|---|---|
+| ACL 2027 paper | pass | pass | - |
+| CHI 2027 paper | pass | pass | - |
+| CHI 2027 poster | pass | pass | - |
+| CHI 2027 workshop list | pass | pass | - |
+| ISMAR 2026 poster | pass | pass | - |
+| UIST 2026 poster | pass | pass | - |
+| WACV 2027 workshop acceptance | pass | pass | - |
+| WACV 2027 workshop author notification | pass | pass | - |
+| CHI 2027 organizer deadline as notification | hold | hold | organizer / other, exact |
+| CHI 2027 approximate participant deadline | hold | hold | author / workshop_paper, exact=False |
+| ISMAR 2026 workshop proposal | hold | hold | organizer / other |
+| ACM MM 2026 workshop proposal | hold | hold | organizer / other |
+| UIST 2026 workshop (organizers) | hold | hold | organizer / other |
+| WACV 2027 websites live | hold | hold | organizer / other |
+
+기존 오류 정리: ISMAR/MM/UIST 2026 워크숍 제안 마감과 WACV 2027 `Workshop websites live by`를
+`data/scraped/raw/*.json`에서 제거하고 `mm.yaml`을 삭제, 다시 빌드. `conferences.json`의 `Workshops` 항목은 0개.
