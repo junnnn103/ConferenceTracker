@@ -77,9 +77,21 @@ def check_common(item: dict, pages: dict[str, str], conference_start: date | Non
 
 
 _RANGE = re.compile(
-    r"(?P<m1>jan|feb|mar|apr|may|jun|jul|aug|sep|oct|nov|dec)[a-z]*\.?\s+(?P<d1>\d{1,2})(?:st|nd|rd|th)?"
+    r"\b(?P<m1>jan|feb|mar|apr|may|jun|jul|aug|sep|oct|nov|dec)[a-z]*\.?\s+(?P<d1>\d{1,2})(?:st|nd|rd|th)?"
     r"\s*[-–—~]\s*"
     r"(?:(?P<m2>jan|feb|mar|apr|may|jun|jul|aug|sep|oct|nov|dec)[a-z]*\.?\s+)?(?P<d2>\d{1,2})(?:st|nd|rd|th)?\b",
+    re.IGNORECASE,
+)
+
+_RANGE_DAY_MONTH = re.compile(
+    r"\b(?P<d1>\d{1,2})(?:st|nd|rd|th)?\s*[-–—~]\s*(?P<d2>\d{1,2})(?:st|nd|rd|th)?\s+"
+    r"(?P<month>jan|feb|mar|apr|may|jun|jul|aug|sep|oct|nov|dec)[a-z]*",
+    re.IGNORECASE,
+)
+
+_RANGE_WORD_SEP = re.compile(
+    r"\b(?P<m>jan|feb|mar|apr|may|jun|jul|aug|sep|oct|nov|dec)[a-z]*\.?\s+(?P<d1>\d{1,2})(?:st|nd|rd|th)?\s+"
+    r"(?:to|through|until)\s+(?P<d2>\d{1,2})(?:st|nd|rd|th)?\b",
     re.IGNORECASE,
 )
 
@@ -93,13 +105,25 @@ def mentions_range(raw: str, start: date, end: date) -> bool:
 
     "August 17–22, 2027"에서 22는 앞에 월이 없어 mentions_date가 못 찾는다.
     "June 28 – July 2"와 일-월 순서("28 June – 2 July")도 받는다.
+    "17–22 August 2027"(공유 월), "August 17 to 22, 2027"(단어 구분자)도 받는다.
     """
     if mentions_date(raw, _at_midnight(start)) and mentions_date(raw, _at_midnight(end)):
         return True
+    # Month-Day format: "August 17–22" or "June 28 – July 2"
     for m in _RANGE.finditer(raw or ""):
         m1 = _MONTH_NUMBERS[m["m1"].lower()[:3]]
         m2 = _MONTH_NUMBERS[(m["m2"] or m["m1"]).lower()[:3]]
         if (m1, int(m["d1"])) == (start.month, start.day) and (m2, int(m["d2"])) == (end.month, end.day):
+            return True
+    # Day-Month format: "17–22 August 2027"
+    for m in _RANGE_DAY_MONTH.finditer(raw or ""):
+        month = _MONTH_NUMBERS[m["month"].lower()[:3]]
+        if (month, int(m["d1"])) == (start.month, start.day) and (month, int(m["d2"])) == (end.month, end.day):
+            return True
+    # Word separator format: "August 17 to 22, 2027"
+    for m in _RANGE_WORD_SEP.finditer(raw or ""):
+        month = _MONTH_NUMBERS[m["m"].lower()[:3]]
+        if (month, int(m["d1"])) == (start.month, start.day) and (month, int(m["d2"])) == (end.month, end.day):
             return True
     return False
 
@@ -107,6 +131,47 @@ def mentions_range(raw: str, start: date, end: date) -> bool:
 def _place_in(raw: str, place: str) -> bool:
     norm = lambda s: re.sub(r"[\s,]+", "", str(s or "")).lower()
     return bool(norm(place)) and norm(place) in norm(raw)
+
+
+def _start_in_range(raw: str, start: date, end: date) -> bool:
+    """Start date is mentioned either standalone or as beginning of a range."""
+    if mentions_date(raw, _at_midnight(start)):
+        return True
+    # Check if any range in the text starts at the start date
+    for m in _RANGE.finditer(raw or ""):
+        m1 = _MONTH_NUMBERS[m["m1"].lower()[:3]]
+        if (m1, int(m["d1"])) == (start.month, start.day):
+            return True
+    for m in _RANGE_DAY_MONTH.finditer(raw or ""):
+        month = _MONTH_NUMBERS[m["month"].lower()[:3]]
+        if (month, int(m["d1"])) == (start.month, start.day):
+            return True
+    for m in _RANGE_WORD_SEP.finditer(raw or ""):
+        month = _MONTH_NUMBERS[m["m"].lower()[:3]]
+        if (month, int(m["d1"])) == (start.month, start.day):
+            return True
+    return False
+
+
+def _end_in_range(raw: str, start: date, end: date) -> bool:
+    """End date is mentioned either standalone or as ending of a range that starts at start date."""
+    if mentions_date(raw, _at_midnight(end)):
+        return True
+    # Check if any range in the text starts at start and ends at end
+    for m in _RANGE.finditer(raw or ""):
+        m1 = _MONTH_NUMBERS[m["m1"].lower()[:3]]
+        m2 = _MONTH_NUMBERS[(m["m2"] or m["m1"]).lower()[:3]]
+        if (m1, int(m["d1"])) == (start.month, start.day) and (m2, int(m["d2"])) == (end.month, end.day):
+            return True
+    for m in _RANGE_DAY_MONTH.finditer(raw or ""):
+        month = _MONTH_NUMBERS[m["month"].lower()[:3]]
+        if (month, int(m["d1"])) == (start.month, start.day) and (month, int(m["d2"])) == (end.month, end.day):
+            return True
+    for m in _RANGE_WORD_SEP.finditer(raw or ""):
+        month = _MONTH_NUMBERS[m["m"].lower()[:3]]
+        if (month, int(m["d1"])) == (start.month, start.day) and (month, int(m["d2"])) == (end.month, end.day):
+            return True
+    return False
 
 
 def check_strict(item: dict, year: int) -> str | None:
@@ -139,9 +204,9 @@ def check_edition(edition: dict, pages: dict[str, str], year: int) -> str | None
         return "end_before_start"
     if start.year != year:
         return "wrong_year"
-    if not mentions_date(raw, _at_midnight(start)):
+    if not _start_in_range(raw, start, end):
         return "start_not_in_raw_text"
-    if not mentions_range(raw, start, end):
+    if not _end_in_range(raw, start, end):
         return "end_not_in_raw_text"
     if edition.get("place") and not _place_in(raw, edition["place"]):
         return "place_not_in_raw_text"

@@ -3,6 +3,7 @@ from datetime import date
 from scripts.validate_official import (
     contains_ignoring_space,
     load_pages,
+    mentions_range,
     validate_official,
 )
 
@@ -170,3 +171,35 @@ def test_accepted_edition_start_bounds_the_deadlines():
             "confidence": "high", "raw_text": "ARR submission deadline January 4, 2027", "url": ACL_URL}
     accepted, rejected = run_acl(acl_edition(), late)
     assert rejected == [] and len(accepted["deadlines"]) == 1
+
+
+def test_edition_accepts_day_month_order_range():
+    """Fix round 1: '17–22 August 2027'(공유 월, 일-월 순서) 같은 범위를 받는다."""
+    url = "https://dis.acm.org/2027/"
+    page = "Stockholm, Sweden 17–22 August 2027"
+    extraction = {"abbr": "dis", "year": 2027, "items": [], "edition": {
+        "date_text": "August 17 - 22, 2027", "start": "2027-08-17", "end": "2027-08-22",
+        "place": "Stockholm, Sweden", "raw_text": page, "url": url, "confidence": "high"}}
+    accepted, rejected = validate_official(extraction, {url: page}, None)
+    assert rejected == []
+    assert accepted["edition"]["start"] == "2027-08-17"
+    assert accepted["edition"]["place"] == "Stockholm, Sweden"
+
+
+def test_edition_accepts_word_separator_range():
+    """Fix round 1: 'August 17 to 22, 2027' 같은 단어 구분자 범위를 받는다."""
+    url = "https://chi2027.acm.org/"
+    page = "Kyoto, Japan August 17 to 22, 2027"
+    extraction = {"abbr": "chi", "year": 2027, "items": [], "edition": {
+        "date_text": "August 17 - 22, 2027", "start": "2027-08-17", "end": "2027-08-22",
+        "place": "Kyoto, Japan", "raw_text": page, "url": url, "confidence": "high"}}
+    accepted, rejected = validate_official(extraction, {url: page}, None)
+    assert rejected == []
+    assert accepted["edition"]["start"] == "2027-08-17"
+
+
+def test_mentions_range_requires_word_boundary():
+    """Fix round 1: word boundary 확인 - 'Summary 3-5'는 March 3-5로 매칭되지 않아야 한다."""
+    from scripts.validate_official import mentions_range
+    result = mentions_range("Summary 3-5", date(2027, 3, 3), date(2027, 3, 5))
+    assert result is False
