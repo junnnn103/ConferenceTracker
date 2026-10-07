@@ -258,3 +258,41 @@ def test_held_only_target_stays_tba_in_checklog(monkeypatch, tmp_path):
     entry = yaml.safe_load((tmp_path / "official" / "checklog.yaml").read_text(encoding="utf-8"))
     entry = entry["acl/2027"]
     assert entry["results"]["D"] == "tba" and entry["tba"]
+
+
+def test_apply_with_empty_raw_dir_reports_instead_of_crashing(monkeypatch, tmp_path):
+    run, calls = wire(monkeypatch, tmp_path, lambda cmd: Proc(0))
+    for f in (tmp_path / "raw").iterdir():
+        f.unlink()
+    sent = []
+    code = orun.apply_run(TODAY, ask=agree_with([ACL_PAPER]), run=run,
+                          send=lambda s, p, a: sent.append(s) or True)
+    assert code == 1
+    assert "prep 기록이 없거나 오늘 것이 아님" in sent[0]
+    assert calls == []
+
+
+def test_conflict_recovery_failure_stops_before_push(monkeypatch, tmp_path):
+    pushes = []
+
+    def script(cmd):
+        if cmd[:3] == ["git", "diff", "--cached"]:
+            return Proc(1)
+        if cmd[:2] == ["git", "push"]:
+            pushes.append(cmd)
+            return Proc(1)
+        if cmd[:2] == ["git", "rebase"] and cmd[2:] == ["origin/master"]:
+            return Proc(1)
+        if cmd[:2] == ["git", "rev-parse"]:
+            return Proc(0, out="abc123\n")
+        if cmd[:2] == ["git", "checkout"]:
+            return Proc(1, err="pathspec")
+        return Proc(0)
+
+    calls = []
+    run = lambda cmd: calls.append(cmd) or script(cmd)
+    result = RunResult(today=TODAY, targets=[])
+    orun._commit_and_push(run, result, TODAY)
+    assert len(pushes) == 1, "복구가 실패한 뒤에는 push하지 않는다"
+    assert any("push 충돌 복구 실패" in f for f in result.failures)
+    assert not any("scripts.build" in " ".join(c) for c in calls)

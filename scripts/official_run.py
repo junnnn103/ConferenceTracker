@@ -152,9 +152,17 @@ def _commit_and_push(run, result: RunResult, today: date) -> None:
         # conferences.json 같은 파생 파일 충돌이다. 손으로 병합하지 않는다 -
         # 우리 입력(data/official)만 살려 원격 위에서 다시 빌드한다 (설계 §11).
         run(["git", "rebase", "--abort"])
-        sha = (run(["git", "rev-parse", "HEAD"]).stdout or "").strip()
-        run(["git", "reset", "--hard", "origin/master"])
-        run(["git", "checkout", sha, "--", "data/official"])
+        head = run(["git", "rev-parse", "HEAD"])
+        sha = (head.stdout or "").strip()
+        if head.returncode != 0 or not sha:
+            result.failures.append("push 충돌 복구 실패: git rev-parse HEAD")
+            return
+        if run(["git", "reset", "--hard", "origin/master"]).returncode != 0:
+            result.failures.append(f"push 충돌 복구 실패: git reset --hard origin/master (우리 커밋 {sha[:10]})")
+            return
+        if run(["git", "checkout", sha, "--", "data/official"]).returncode != 0:
+            result.failures.append(f"push 충돌 복구 실패: git checkout {sha[:10]} -- data/official")
+            return
         if not _rebuild_and_test(run, result):
             return
         _commit(run, message)
@@ -180,15 +188,20 @@ def _finish(result: RunResult, send, notify: bool) -> int:
 
 def apply_run(today: date, ask=ask_claude, run=_run, send=send_discord,
               push: bool = True, notify: bool = True) -> int:
-    worklist = json.loads(WORKLIST_PATH.read_text(encoding="utf-8"))
     before = json.loads(DATA_PATH.read_text(encoding="utf-8"))
-    log = load_checklog(CHECKLOG_PATH)
-    result = RunResult(today=today, targets=worklist)
-
-    if not _prep_is_today(today):
+    worklist = None
+    if _prep_is_today(today):
+        try:
+            worklist = json.loads(WORKLIST_PATH.read_text(encoding="utf-8"))
+        except (OSError, ValueError):
+            worklist = None
+    if worklist is None:
+        result = RunResult(today=today, targets=[])
         result.failures.append("prep 기록이 없거나 오늘 것이 아님 - 반영하지 않음")
         result.upcoming = upcoming_deadlines(before, today)
         return _finish(result, send, notify)
+    log = load_checklog(CHECKLOG_PATH)
+    result = RunResult(today=today, targets=worklist)
 
     for t in worklist:
         label = {"abbr": t["abbr"], "year": t["year"]}
