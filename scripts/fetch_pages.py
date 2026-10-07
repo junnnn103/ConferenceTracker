@@ -91,8 +91,18 @@ def _dedupe(urls: Iterable[str]) -> list[str]:
     return out
 
 
-def crawl(start_urls: list[str], fetch: Fetch, max_pages: int = MAX_PAGES):
-    queue, seen = list(start_urls), set()
+def _unique_pages(pages: list[tuple[str, str]]) -> list[tuple[str, str]]:
+    seen, out = set(), []
+    for url, text in pages:
+        if url not in seen:
+            seen.add(url)
+            out.append((url, text))
+    return out
+
+
+def crawl(start_urls: list[str], fetch: Fetch, max_pages: int = MAX_PAGES, seen: set | None = None):
+    queue = list(start_urls)
+    seen = set() if seen is None else seen
     pages: list[tuple[str, str]] = []
     attempts: list[dict] = []
     while queue and len(pages) < max_pages:
@@ -115,15 +125,28 @@ def crawl(start_urls: list[str], fetch: Fetch, max_pages: int = MAX_PAGES):
 def fetch_target(target: dict, fetch: Fetch, extra_urls: Iterable[str] = ()) -> FetchResult:
     year = int(target["year"])
     has_year = lambda text: str(year) in text
-    starts = _dedupe(u for u in (target.get("homepage"), target.get("edition_link"))
-                     if u and is_allowed_url(u))
-    pages, attempts = crawl(starts, fetch)
+    home, edition = target.get("homepage"), target.get("edition_link")
+    home = home if home and is_allowed_url(home) else None
+    edition = edition if edition and is_allowed_url(edition) else None
+    seen: set = set()
+    pages: list[tuple[str, str]] = []
+    attempts: list[dict] = []
+    # 회차 사이트를 먼저, 따로 받는다. 학회 본부 사이트의 링크가 쪽수를
+    # 다 써서 회차 사이트의 마감 페이지가 밀리지 않게 한다.
+    if edition:
+        budget = MAX_PAGES - 2 if home and home != edition else MAX_PAGES
+        pages, attempts = crawl([edition], fetch, budget, seen)
+    if home and home != edition:
+        more, more_attempts = crawl([home], fetch, MAX_PAGES - len(pages), seen)
+        pages += more
+        attempts += more_attempts
     extra = _dedupe(u for u in extra_urls if is_allowed_url(u))
 
     if extra:
-        more, more_attempts = crawl(extra, fetch)
+        more, more_attempts = crawl(extra, fetch, MAX_PAGES, seen)
         attempts += more_attempts
-        pages = (more + [p for p in pages if has_year(p[1])])[:MAX_PAGES]
+        merged = more + [p for p in pages if has_year(p[1])]
+        pages = _unique_pages(merged)[:MAX_PAGES]
         found = any(has_year(text) for _, text in pages)
         access = "via_alternate" if found else "blocked"
     else:

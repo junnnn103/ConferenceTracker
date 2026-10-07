@@ -92,3 +92,29 @@ def test_write_result_roundtrips_through_load_pages(tmp_path):
     pages = load_pages((tmp_path / "acl-2027.txt").read_text(encoding="utf-8"))
     assert pages["https://a/"].strip() == "alpha 2027"
     assert (tmp_path / "acl-2027.fetch.json").exists()
+
+
+def test_edition_site_is_not_starved_by_homepage_links():
+    home_links = [(f"/news/call{i}/", "Call for Papers") for i in range(10)]
+    site = {
+        "https://soc.org/": (200, page("Society 2027", home_links)),
+        "https://ed.org/": (200, page("ED 2027", [("/calls/", "Calls")])),
+        "https://ed.org/calls/": (200, page("Calls 2027", [("/calls/main/", "Main track call")])),
+        "https://ed.org/calls/main/": (200, page("Paper deadline 2027")),
+    }
+    for i in range(10):
+        site[f"https://soc.org/news/call{i}/"] = (200, page(f"news {i} 2027"))
+    target = {"key": "ed", "year": 2027, "homepage": "https://soc.org/", "edition_link": "https://ed.org/"}
+    r = fetch_target(target, fake(site))
+    assert "https://ed.org/calls/main/" in [u for u, _ in r.pages]
+    assert len(r.pages) <= 8
+
+
+def test_alternate_equal_to_edition_link_is_fetched_once():
+    site = {"https://ed.org/": (200, page("ED 2027"))}
+    fetch = fake(site)
+    target = {"key": "ed", "year": 2027, "homepage": None, "edition_link": "https://ed.org/"}
+    r = fetch_target(target, fetch, ["https://ed.org/"])
+    assert fetch.calls.count("https://ed.org/") == 1
+    assert [u for u, _ in r.pages] == ["https://ed.org/"]
+    assert r.access == "via_alternate"
