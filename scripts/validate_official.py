@@ -245,8 +245,7 @@ def check_interpretation(item: dict, pages: dict[str, str], year: int) -> str | 
             words.discard("registration")
         if words:
             return "forbidden_word"
-    url = item.get("url") or ""
-    if str(year) not in url and not year_near(pages[item["url"]], raw, year):
+    if not year_near(pages[item["url"]], raw, year):
         return "year_not_near"
     return None
 

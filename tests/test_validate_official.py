@@ -9,7 +9,7 @@ from scripts.validate_official import (
 
 URL = "https://chi2027.acm.org/authors/papers/"
 PAGE = (
-    "Important Dates All times are in Anywhere on Earth (AoE) time zone.\n"
+    "CHI 2027 Important Dates All times are in Anywhere on Earth (AoE) time zone.\n"
     "Thursday, September 10, 2026 : Paper submission deadline, including videos\n"
 )
 START = date(2027, 5, 10)
@@ -62,7 +62,7 @@ def test_aoe_needs_evidence_on_the_page():
 
 
 def test_utc_minus_12_counts_as_aoe_evidence():
-    page = ("All deadlines are 11.59 pm UTC -12h. "
+    page = ("CHI 2027 All deadlines are 11.59 pm UTC -12h. "
             "Thursday, September 10, 2026 : Paper submission deadline, including videos")
     _, rejected = run(item(), pages={URL: page})
     assert rejected == []
@@ -288,3 +288,14 @@ def test_abstract_after_paper_is_out_of_order():
     accepted, rejected = validate_official({"abbr": "ex", "year": 2027, "items": items}, {url: page}, None)
     assert [d["type"] for d in accepted["deadlines"]] == ["paper"]
     assert rejected[0]["reject_reason"] == "order"
+
+
+def test_year_near_check_not_skipped_by_url_presence():
+    """URL containing year doesn't skip year_near check. Year must appear in page near sentence or in page head."""
+    url = "https://example.org/2028/old"  # URL contains 2028
+    page = "Example 2026 Call for Papers. " + ("filler " * 600) + "Paper deadline: March 1, 2027"
+    extraction = {"abbr": "ex", "year": 2028, "items": [{
+        "type": "poster", "label": "Posters", "date": "2027-03-01 23:59:59",
+        "confidence": "high", "raw_text": "Paper deadline: March 1, 2027", "url": url}]}
+    _, rejected = validate_official(extraction, {url: page}, None)
+    assert rejected[0]["reject_reason"] == "year_not_near"
