@@ -11,7 +11,8 @@
    찾으면 직접 읽지 말고 이렇게 받게 한다:
    `.venv/bin/python -m scripts.fetch_pages --target <key> <year> --urls <주소1> [<주소2> ...]`
    못 찾으면 건너뛴다.
-3. `access=ok`인 대상과, 2단계에서 `--urls`로 다시 받은(`via_alternate`) 대상 모두에 대해
+3. `access`가 `needs_alternate`도 `blocked`도 아닌 **모든** 대상 - 즉 `ok`, `via_edition_link`,
+   그리고 2단계에서 `--urls`로 다시 받은 `via_alternate` - 에 대해
    `data/official/raw/<key>-<year>.txt`**만** 읽고
    `data/official/raw/<key>-<year>.json`을 아래 형식으로 쓴다.
 4. 마지막에 `.venv/bin/python -m scripts.official_run apply`를 실행한다.
@@ -32,7 +33,8 @@
 
 ## 규칙
 
-- 사전 스크립트 출력이 준비 실패를 알리면(예: `git pull 실패`) 아무것도 하지 말고 그 줄을 그대로 답하고 멈춘다.
+- 사전 스크립트 출력이 `준비 실패`로 시작하면(예: `준비 실패: git pull 실패 ...`, `준비 실패: master 브랜치가 아님 ...`)
+  아무것도 하지 말고 그 줄을 그대로 답하고 멈춘다. 알림은 스크립트가 이미 보냈다.
 - 쓰는 파일은 `data/official/raw/<key>-<year>.json` **하나뿐**이다. `data/official/*.yaml`,
   `checklog.yaml`, `docs/**` 등 다른 파일은 절대 고치지 않는다. git 명령은 실행하지 않는다.
 

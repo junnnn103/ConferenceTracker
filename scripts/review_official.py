@@ -204,13 +204,18 @@ def _ask(ask, prompt) -> tuple[dict | None, list[str]]:
 
 def review(accepted: dict, pages: dict[str, str], conference: str, year: int,
            current: dict | None, ask=ask_claude) -> tuple[dict, list[dict]]:
+    """사이트 값과 같아 검토를 건너뛴 항목은 approved에 남기되 "unchanged": True를 붙인다.
+
+    확인 기록에서는 찾은 것으로 세지만, data/official에는 쓰지 않는다 - 검토 없이
+    replace 타입을 쓰면 그 타입의 다른 업스트림 날짜(예: 회차별 마감)가 지워진다.
+    """
     approved: dict = {"edition": None, "deadlines": []}
     held: list[dict] = []
 
     edition = accepted.get("edition")
     if edition:
         if _edition_unchanged(edition, current):
-            approved["edition"] = edition
+            approved["edition"] = {**edition, "unchanged": True}
         else:
             url, raw = edition["evidence"]["url"], edition["evidence"]["raw_text"]
             exc = excerpt(pages.get(url, ""), raw)
@@ -226,7 +231,7 @@ def review(accepted: dict, pages: dict[str, str], conference: str, year: int,
 
     for item in accepted.get("deadlines") or []:
         if _deadline_unchanged(item, current):
-            approved["deadlines"].append(item)
+            approved["deadlines"].append({**item, "unchanged": True})
             continue
         url, raw = item["evidence"]["url"], item["evidence"]["raw_text"]
         exc = excerpt(pages.get(url, ""), raw)

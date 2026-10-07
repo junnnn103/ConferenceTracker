@@ -160,3 +160,12 @@ def test_upcoming_deadlines_preserved_after_truncation():
     assert "[14일 안 마감]" in summary
     assert "CHI" in summary
     assert "SIGCHI" in summary
+
+
+def test_rejected_only_run_sends_nothing_but_rejected_still_reported():
+    """설계 §10: 바뀐 것도 실패도 없으면 보내지 않는다. 게이트 탈락만으로는 보내지 않는다."""
+    rejected = [{"abbr": "CHI", "year": 2027, "item": {"type": "notification"}, "reason": "forbidden_word"}]
+    assert not rp.should_send(make_run(rejected=rejected))
+    run = make_run(rejected=rejected, failures=["x"])
+    assert rp.should_send(run)
+    assert "forbidden_word" in rp.render_summary(run)[0]

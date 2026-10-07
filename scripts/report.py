@@ -89,7 +89,8 @@ def upcoming_deadlines(data: dict, today: date, days: int = 14) -> list[dict]:
 
 
 def should_send(run: RunResult) -> bool:
-    return bool(run.changes or run.applied or run.held or run.rejected or run.blocked or run.failures)
+    # 게이트 탈락만으로는 보내지 않는다 (설계 §10). 보낼 때는 보고서에 함께 적힌다.
+    return bool(run.changes or run.applied or run.held or run.blocked or run.failures)
 
 
 def _lines(run: RunResult) -> list[str]:

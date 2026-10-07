@@ -67,7 +67,17 @@ def test_unchanged_value_is_not_reviewed():
     ask = asker(json.dumps(AGREE))
     current = {"deadlines": [{"type": "notification", "date": "2026-12-17T23:59:59", "label": "x"}]}
     approved, held = run(ask, current=current)
-    assert ask.prompts == [] and approved["deadlines"] == [NOTICE]
+    assert ask.prompts == [] and approved["deadlines"] == [{**NOTICE, "unchanged": True}]
+
+
+def test_unchanged_edition_is_marked_and_changed_item_is_not():
+    edition = {"date_text": "May 10-14, 2027", "start": "2027-05-10", "end": "2027-05-14", "place": "Pittsburgh, USA",
+               "evidence": {"url": URL, "raw_text": "x"}}
+    current = {"start": "2027-05-10", "end": "2027-05-14", "place": "Pittsburgh, USA", "deadlines": []}
+    approved, held = ro.review({"edition": edition, "deadlines": [NOTICE]}, {URL: PAGE}, "CHI", 2027, current,
+                               ask=asker(json.dumps(AGREE)))
+    assert approved["edition"] == {**edition, "unchanged": True}
+    assert approved["deadlines"] == [NOTICE] and "unchanged" not in approved["deadlines"][0]
 
 
 def test_poster_and_lbw_are_the_same_tier_and_workshop_paper_notification_counts():
