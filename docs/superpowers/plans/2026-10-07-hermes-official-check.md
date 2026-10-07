@@ -2338,6 +2338,24 @@ def test_excerpt_finds_sentence_despite_whitespace():
 def test_claude_binary_falls_back_when_not_on_path(monkeypatch):
     monkeypatch.setattr(ro.shutil, "which", lambda name: None)
     assert ro.claude_bin().endswith("/.local/bin/claude")
+
+
+def test_review_model_is_pinned(monkeypatch):
+    """세션 기본값(Opus)을 따라가면 Pro 플랜에서 사용량이 커진다. 모델을 고정한다."""
+    seen = {}
+
+    class Done:
+        returncode, stdout, stderr = 0, '{"result": "{}", "is_error": false}', ""
+
+    def fake_run(cmd, **kw):
+        seen["cmd"] = cmd
+        return Done()
+
+    monkeypatch.setattr(ro.subprocess, "run", fake_run)
+    ro.ask_claude("q")
+    assert seen["cmd"][seen["cmd"].index("--model") + 1] == ro.REVIEW_MODEL
+    ro.ask_claude("q", model="claude-sonnet-5")
+    assert "claude-sonnet-5" in seen["cmd"]
 ```
 
 - [ ] **Step 2: 실패 확인**
@@ -2368,6 +2386,11 @@ from scripts.models import normalize_place
 from scripts.validate_official import squash
 
 EXCERPT_WIDTH = 1500
+
+# 검토 모델은 세션 기본값을 따르지 않고 고정한다. Task 12 역검증을 가벼운 모델부터
+# 돌려 14/14를 맞힌 가장 가벼운 모델로 정한다. 2026-10-07 실측: 검토 한 건에 입력
+# 4-7천 토큰. 같은 사례에서 Sonnet 5는 who_submits를 틀렸고 Haiku 4.5와 Opus는 맞혔다.
+REVIEW_MODEL = "claude-haiku-4-5-20251001"
 
 # 추출자의 type -> 검토자의 what으로 인정하는 값.
 # poster와 lbw는 같은 층이다. 워크숍 논문 저자 통보는 소유자가 2026-09-14에
@@ -2497,10 +2520,11 @@ def claude_bin() -> str:
     return shutil.which("claude") or str(Path.home() / ".local" / "bin" / "claude")
 
 
-def ask_claude(prompt: str, timeout: int = 180) -> str:
+def ask_claude(prompt: str, timeout: int = 180, model: str | None = None) -> str:
     """도구 없이, 저장소 밖에서 부른다 - 프로젝트 문맥이 판단에 끼지 않게."""
     proc = subprocess.run(
-        [claude_bin(), "-p", "--tools", "", "--output-format", "json", "--no-session-persistence"],
+        [claude_bin(), "-p", "--model", model or REVIEW_MODEL, "--tools", "",
+         "--output-format", "json", "--no-session-persistence"],
         input=prompt, capture_output=True, text=True, timeout=timeout, cwd=tempfile.gettempdir(),
     )
     if proc.returncode != 0:
@@ -2573,7 +2597,7 @@ def review(accepted: dict, pages: dict[str, str], conference: str, year: int,
 - [ ] **Step 4: 통과와 판별 확인**
 
 Run: `.venv/bin/python -m pytest -q tests/test_review_official.py`
-Expected: `10 passed`.
+Expected: `11 passed`.
 
 판별 확인: `build_deadline_prompt` 호출에 `item["label"]`을 `conference` 자리에 넣어 보면 `test_reviewer_never_sees_the_extractors_answer`가 실패해야 한다. `_ask`의 `except` 블록에서 `return {}, []`를 돌려주게 바꾸면 `test_review_failure_holds_instead_of_applying`이 실패해야 한다(빈 리뷰는 불일치로 잡히지만 사유가 `review_failed`로 시작하지 않는다). 원복.
 
@@ -3542,7 +3566,9 @@ import json
 import sys
 from pathlib import Path
 
-from scripts.review_official import ask_claude, review
+import argparse
+
+from scripts.review_official import REVIEW_MODEL, ask_claude, review
 from scripts.validate_official import load_pages
 
 ROOT = Path(__file__).parents[1]
@@ -3557,6 +3583,11 @@ def pages_for(path: Path, url: str) -> dict[str, str]:
 
 
 def main() -> int:
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--model", default=REVIEW_MODEL)
+    args = parser.parse_args()
+    ask = lambda prompt: ask_claude(prompt, model=args.model)
+    print(f"검토 모델: {args.model}")
     cases = json.loads(CASES.read_text(encoding="utf-8"))
     mismatches = 0
     for case in cases:
@@ -3565,7 +3596,7 @@ def main() -> int:
         item = {"type": claim["type"], "label": "-", "date": f"{claim['date']} 23:59:59",
                 "evidence": {"raw_text": claim["raw_text"], "url": claim["url"]}}
         approved, held = review({"edition": None, "deadlines": [item]}, pages,
-                                case["conference"], case["year"], None, ask=ask_claude)
+                                case["conference"], case["year"], None, ask=ask)
         got = "pass" if approved["deadlines"] else "hold"
         ok = got == case["expect"]
         mismatches += not ok
@@ -3579,12 +3610,16 @@ if __name__ == "__main__":
     raise SystemExit(main())
 ```
 
-- [ ] **Step 3: 역검증 실행**
+- [ ] **Step 3: 역검증 실행 - 가벼운 모델부터**
+
+Pro 플랜에서도 매주 부담이 없도록, 14/14를 맞히는 **가장 가벼운** 모델을 검토자로 쓴다.
 
 ```bash
-.venv/bin/python -m scripts.backtest_review
+.venv/bin/python -m scripts.backtest_review --model claude-haiku-4-5-20251001
+.venv/bin/python -m scripts.backtest_review --model claude-sonnet-5
+.venv/bin/python -m scripts.backtest_review --model claude-opus-5-5
 ```
-Expected: `14/14 일치`, 종료 코드 0.
+가벼운 순서로 돌리다 `14/14 일치`가 나오면 거기서 멈추고, 그 모델을 `scripts/review_official.py`의 `REVIEW_MODEL`에 넣는다(이미 그 값이면 그대로). 각 모델의 결과(일치 수, 틀린 사례)를 모두 기록한다. 세 모델 모두 14/14가 안 되면 아래 절차로 간다.
 
 어긋나면: 해당 사례의 검토자 답(출력의 `review`)을 읽고 원인을 가린다. (a) 프롬프트의 범주 정의가 모호하면 `DEADLINE_PROMPT`를 고치고 Task 9 테스트를 다시 돌린 뒤 역검증을 처음부터 다시 한다. (b) 기대값 자체가 틀렸다고 판단되면 **고치지 말고 멈춰서** 소유자에게 사례와 원문을 보여 주고 판단을 받는다. 같은 사례에 대해 결과가 실행마다 달라지면 세 번 돌려 다수결을 기록하고 그 사실도 소유자에게 알린다.
 
