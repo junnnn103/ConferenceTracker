@@ -116,6 +116,21 @@ class Edition:
 
 
 @dataclass
+class OfficialEdition:
+    """공식 사이트에서 확인한 값 (설계 §8).
+
+    회차를 통째로 대신하지 않고 merge.apply_official이 칸 단위로 덮는다.
+    통째로 바꾸면 ai-deadlines가 준 리뷰 공개일 같은 세부 일정을 잃는다.
+    """
+    year: int
+    date_text: str = ""
+    start: date | None = None
+    end: date | None = None
+    place: str = ""
+    deadlines: list[Deadline] = dc_field(default_factory=list)
+
+
+@dataclass
 class Conference:
     abbr: str
     abbr_group: str

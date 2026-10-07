@@ -8,7 +8,7 @@
 from dataclasses import replace
 from datetime import date
 
-from scripts.models import Deadline, Edition
+from scripts.models import Deadline, Edition, OfficialEdition, normalize_place
 
 # 앞에 올수록 우선한다.
 SOURCE_PRIORITY = ("manual", "ai-deadlines", "ccfddl")
@@ -59,6 +59,50 @@ def apply_scraped(edition: Edition, extra: list[Deadline]) -> Edition:
     if not additions:
         return edition
     return replace(edition, deadlines=[*edition.deadlines, *additions])
+
+
+# 공식 값이 오면 같은 타입의 기존 마감을 통째로 대신한다. 롤링 마감처럼 한
+# 타입이 여러 번 나오므로 하나씩이 아니라 타입 단위로 바꾼다.
+OFFICIAL_REPLACE_TYPES = frozenset({"paper", "short_paper", "abstract", "commitment", "poster", "lbw"})
+# ai-deadlines는 commitment를 commitment_deadline이라는 이름으로 준다.
+_REPLACE_ALIASES = {"commitment": {"commitment", "commitment_deadline"}}
+
+
+def _same_entry(a: Deadline, b: Deadline) -> bool:
+    return (a.type, a.date, (a.label or "").strip().lower()) == (
+        b.type, b.date, (b.label or "").strip().lower())
+
+
+def apply_official(edition: Edition | None, off: OfficialEdition) -> Edition | None:
+    """공식 사이트에서 확인한 칸만 덮는다 (설계 §8).
+
+    해당 연도 회차가 없으면 개최일이 있을 때만 새로 만든다.
+    """
+    if edition is None:
+        if off.start is None:
+            return None
+        return Edition(
+            year=off.year, date_text=off.date_text, start=off.start, end=off.end or off.start,
+            place=off.place, link=None, deadlines=list(off.deadlines), source="official",
+        )
+
+    replaced: set[str] = set()
+    for d in off.deadlines:
+        if d.type in OFFICIAL_REPLACE_TYPES:
+            replaced |= _REPLACE_ALIASES.get(d.type, {d.type})
+    deadlines = [d for d in edition.deadlines if d.type not in replaced]
+    for d in off.deadlines:
+        if d.type in OFFICIAL_REPLACE_TYPES or not any(_same_entry(d, x) for x in deadlines):
+            deadlines.append(d)
+
+    out = replace(edition, deadlines=deadlines)
+    if off.start:
+        out.start, out.end = off.start, off.end or off.start
+        out.date_text = off.date_text
+        out.estimated_month = None
+    if off.place:
+        out.place = normalize_place(off.place)
+    return out
 
 
 def edition_status(edition: Edition, today: date) -> str:
