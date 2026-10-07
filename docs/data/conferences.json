@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-10-04T23:50:58.786276+00:00",
+  "generated_at": "2026-10-07T04:33:44.640226+00:00",
   "fields": [
     {
       "id": "ML",
@@ -786,12 +786,12 @@
             {
               "type": "paper",
               "label": "Commitment deadline for papers reviewed by ARR",
-              "date": "2025-08-01T23:59:00",
+              "date": "2025-08-01T23:59:59",
               "source": "ccfddl",
               "timezone": "UTC-12"
             }
           ],
-          "primary_deadline": "2025-08-01T23:59:00",
+          "primary_deadline": "2025-08-01T23:59:59",
           "source": "ccfddl"
         },
         {
@@ -1110,13 +1110,13 @@
               }
             },
             {
-              "type": "workshop",
-              "label": "Workshops",
-              "date": "2026-10-01T23:59:59",
+              "type": "notification",
+              "label": "List of accepted workshops released",
+              "date": "2026-12-17T23:59:59",
               "source": "cfp-scrape",
               "timezone": "AoE",
               "evidence": {
-                "raw_text": "Thursday, October 1, 2026 : Organizer submission deadline",
+                "raw_text": "Thursday, December 17, 2026 : List of accepted workshops released by workshop chairs on the CHI website",
                 "url": "https://chi2027.acm.org/authors/workshops/"
               }
             }
@@ -2356,12 +2356,12 @@
             {
               "type": "paper",
               "label": "Paper submission deadline: March 1, 2027; exact cutoff time and timezone not specified on the official IEEE RAS event page",
-              "date": "2027-03-01T23:59:00",
+              "date": "2027-03-01T23:59:59",
               "source": "ccfddl",
               "timezone": "AoE"
             }
           ],
-          "primary_deadline": "2027-03-01T23:59:00",
+          "primary_deadline": "2027-03-01T23:59:59",
           "source": "ccfddl"
         }
       ]
@@ -3031,19 +3031,19 @@
             {
               "type": "abstract",
               "label": "Abstract",
-              "date": "2025-04-02T23:59:00",
+              "date": "2025-04-02T23:59:59",
               "source": "ccfddl",
               "timezone": "AoE"
             },
             {
               "type": "paper",
               "label": "Paper",
-              "date": "2025-04-09T23:59:00",
+              "date": "2025-04-09T23:59:59",
               "source": "ccfddl",
               "timezone": "AoE"
             }
           ],
-          "primary_deadline": "2025-04-09T23:59:00",
+          "primary_deadline": "2025-04-09T23:59:59",
           "source": "ccfddl"
         },
         {
@@ -3178,19 +3178,19 @@
             {
               "type": "abstract",
               "label": "Abstract registration / full paper",
-              "date": "2026-06-24T23:59:00",
+              "date": "2026-06-24T23:59:59",
               "source": "ccfddl",
               "timezone": "AoE"
             },
             {
               "type": "paper",
               "label": "Abstract registration / full paper",
-              "date": "2026-07-01T23:59:00",
+              "date": "2026-07-01T23:59:59",
               "source": "ccfddl",
               "timezone": "AoE"
             }
           ],
-          "primary_deadline": "2026-07-01T23:59:00",
+          "primary_deadline": "2026-07-01T23:59:59",
           "source": "ccfddl"
         }
       ]
@@ -3366,19 +3366,19 @@
             {
               "type": "abstract",
               "label": "Registration / full paper",
-              "date": "2025-05-16T23:59:00",
+              "date": "2025-05-16T23:59:59",
               "source": "ccfddl",
               "timezone": "UTC-12"
             },
             {
               "type": "paper",
               "label": "Registration / full paper",
-              "date": "2025-05-23T23:59:00",
+              "date": "2025-05-23T23:59:59",
               "source": "ccfddl",
               "timezone": "UTC-12"
             }
           ],
-          "primary_deadline": "2025-05-23T23:59:00",
+          "primary_deadline": "2025-05-23T23:59:59",
           "source": "ccfddl"
         },
         {
@@ -3392,19 +3392,19 @@
             {
               "type": "abstract",
               "label": "Registration / full paper",
-              "date": "2026-05-05T23:59:00",
+              "date": "2026-05-05T23:59:59",
               "source": "ccfddl",
               "timezone": "UTC-12"
             },
             {
               "type": "paper",
               "label": "Registration / full paper",
-              "date": "2026-05-12T23:59:00",
+              "date": "2026-05-12T23:59:59",
               "source": "ccfddl",
               "timezone": "UTC-12"
             }
           ],
-          "primary_deadline": "2026-05-12T23:59:00",
+          "primary_deadline": "2026-05-12T23:59:59",
           "source": "ccfddl"
         }
       ]
@@ -3437,12 +3437,12 @@
             {
               "type": "paper",
               "label": "Commitment deadline for papers reviewed by ARR",
-              "date": "2025-12-14T23:59:00",
+              "date": "2025-12-14T23:59:59",
               "source": "ccfddl",
               "timezone": "AoE"
             }
           ],
-          "primary_deadline": "2025-12-14T23:59:00",
+          "primary_deadline": "2025-12-14T23:59:59",
           "source": "ccfddl"
         },
         {

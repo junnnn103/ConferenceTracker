@@ -9,10 +9,11 @@ editions:
     evidence:
       raw_text: 'Thursday, January 21, 2027 : Submission deadline'
       url: https://chi2027.acm.org/authors/posters/
-  - type: workshop
-    label: Workshops
-    date: '2026-10-01 23:59:59'
+  - type: notification
+    label: List of accepted workshops released
+    date: '2026-12-17 23:59:59'
     timezone: AoE
     evidence:
-      raw_text: 'Thursday, October 1, 2026 : Organizer submission deadline'
+      raw_text: 'Thursday, December 17, 2026 : List of accepted workshops released
+        by workshop chairs on the CHI website'
       url: https://chi2027.acm.org/authors/workshops/

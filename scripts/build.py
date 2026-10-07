@@ -255,7 +255,7 @@ def main() -> int:
 
     parser = argparse.ArgumentParser()
     parser.add_argument("--allow-shrink", action="store_true",
-                        help="학회 수가 이전의 80% 미만으로 줄어도 기존 파일을 덮어쓴다")
+                        help="학회 수가 이전의 80%% 미만으로 줄어도 기존 파일을 덮어쓴다")
     args = parser.parse_args()
 
     session = requests.Session()
