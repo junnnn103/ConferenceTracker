@@ -104,6 +104,8 @@ def build_edition_prompt(conference, year, url, page, raw) -> str:
 
 
 def parse_review(text: str) -> dict | None:
+    if not isinstance(text, str):
+        return None
     m = re.search(r"\{.*\}", text or "", re.S)
     if not m:
         return None
@@ -116,10 +118,12 @@ def parse_review(text: str) -> dict | None:
 
 def deadline_mismatches(item: dict, review: dict, year: int) -> list[str]:
     reasons = []
-    if review.get("what") not in WHAT_FOR_TYPE.get(item["type"], set()):
+    what = review.get("what") if isinstance(review.get("what"), str) else None
+    if what not in WHAT_FOR_TYPE.get(item["type"], set()):
         reasons.append(f"what:{review.get('what')}")
     expected_who = "author" if item["type"] in SUBMITTED_BY_AUTHORS else "none"
-    if review.get("who_submits") != expected_who:
+    who_submits = review.get("who_submits") if isinstance(review.get("who_submits"), str) else None
+    if who_submits != expected_who:
         reasons.append(f"who_submits:{review.get('who_submits')}")
     if str(review.get("date", ""))[:10] != str(item["date"])[:10]:
         reasons.append(f"date:{review.get('date')}")
@@ -138,9 +142,16 @@ def edition_mismatches(edition: dict, review: dict, year: int) -> list[str]:
         reasons.append(f"end:{review.get('end')}")
     if review.get("event_year") != year:
         reasons.append(f"event_year:{review.get('event_year')}")
-    a = normalize_place(review.get("place")).lower().replace(" ", "")
-    b = normalize_place(edition.get("place")).lower().replace(" ", "")
-    if edition.get("place") and not (a and (a in b or b in a)):
+    try:
+        place = review.get("place")
+        if isinstance(place, str):
+            a = normalize_place(place).lower().replace(" ", "")
+        else:
+            a = ""
+        b = normalize_place(edition.get("place")).lower().replace(" ", "")
+        if edition.get("place") and not (a and (a in b or b in a)):
+            reasons.append(f"place:{review.get('place')}")
+    except (TypeError, AttributeError):
         reasons.append(f"place:{review.get('place')}")
     return reasons
 
@@ -202,18 +213,26 @@ def review(accepted: dict, pages: dict[str, str], conference: str, year: int,
             approved["edition"] = edition
         else:
             url, raw = edition["evidence"]["url"], edition["evidence"]["raw_text"]
-            value, reasons = _ask(ask, build_edition_prompt(conference, year, url, pages.get(url, ""), raw))
-            reasons = reasons or edition_mismatches(edition, value, year)
-            if reasons:
-                held.append({"item": {**edition, "type": "edition"}, "review": value, "reasons": reasons})
+            exc = excerpt(pages.get(url, ""), raw)
+            if not exc:
+                held.append({"item": {**edition, "type": "edition"}, "review": None, "reasons": ["no_excerpt"]})
             else:
-                approved["edition"] = edition
+                value, reasons = _ask(ask, build_edition_prompt(conference, year, url, pages.get(url, ""), raw))
+                reasons = reasons or edition_mismatches(edition, value, year)
+                if reasons:
+                    held.append({"item": {**edition, "type": "edition"}, "review": value, "reasons": reasons})
+                else:
+                    approved["edition"] = edition
 
     for item in accepted.get("deadlines") or []:
         if _deadline_unchanged(item, current):
             approved["deadlines"].append(item)
             continue
         url, raw = item["evidence"]["url"], item["evidence"]["raw_text"]
+        exc = excerpt(pages.get(url, ""), raw)
+        if not exc:
+            held.append({"item": item, "review": None, "reasons": ["no_excerpt"]})
+            continue
         prompt = build_deadline_prompt(conference, year, url, pages.get(url, ""), raw, item["date"][:10])
         value, reasons = _ask(ask, prompt)
         reasons = reasons or deadline_mismatches(item, value, year)

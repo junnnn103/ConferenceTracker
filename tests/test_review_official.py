@@ -111,3 +111,30 @@ def test_review_model_is_pinned(monkeypatch):
     assert seen["cmd"][seen["cmd"].index("--model") + 1] == ro.REVIEW_MODEL
     ro.ask_claude("q", model="claude-sonnet-5")
     assert "claude-sonnet-5" in seen["cmd"]
+
+
+def test_empty_excerpt_is_not_reviewed():
+    """추출이 실패하면 검토하지 않는다 (추측만으로 일치할 수 있으므로)."""
+    ask = asker(json.dumps(AGREE))
+    # URL이 pages에 없으면 excerpt가 비어있다.
+    accepted = {"edition": None, "deadlines": [NOTICE]}
+    approved, held = ro.review(accepted, {}, "CHI", 2027, None, ask=ask)
+    assert approved["deadlines"] == []
+    assert held[0]["item"] == NOTICE and held[0]["reasons"] == ["no_excerpt"]
+    assert ask.prompts == [], "ask should never be called for empty excerpt"
+
+
+def test_malformed_reviewer_answer_does_not_crash():
+    """잘못된 리뷰 답은 예외를 일으키지 않고 보류된다."""
+    # 비문자열 답 - parse_review가 None을 반환해야 함
+    ask = asker(123)
+    approved, held = ro.review({"edition": None, "deadlines": [NOTICE]}, {URL: PAGE}, "CHI", 2027, None, ask=ask)
+    assert approved["deadlines"] == []
+    assert held[0]["reasons"] == ["unparseable_review"]
+
+    # 해시 불가능한 what 필드 - 비교가 안전해야 함
+    ask = asker(json.dumps({**AGREE, "what": ["workshop_acceptance"]}))
+    approved, held = ro.review({"edition": None, "deadlines": [NOTICE]}, {URL: PAGE}, "CHI", 2027, None, ask=ask)
+    assert approved["deadlines"] == []
+    # what가 리스트이므로 set에서 제외되거나 불일치로 잡혀야 함
+    assert len(held) > 0 and "what:" in str(held[0]["reasons"])
