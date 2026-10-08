@@ -299,3 +299,32 @@ def test_year_near_check_not_skipped_by_url_presence():
         "confidence": "high", "raw_text": "Paper deadline: March 1, 2027", "url": url}]}
     _, rejected = validate_official(extraction, {url: page}, None)
     assert rejected[0]["reject_reason"] == "year_not_near"
+
+
+def test_date_without_time_means_end_of_that_day():
+    """원문이 날짜만 주면 그날이 끝날 때까지다.
+
+    2026-10-08 시험 실행에서 CVPR "Submission Deadline Nov 16 '26 (Anywhere on
+    Earth)"이 2026-11-16 00:00:00으로 추출됐다. 0시로 두면 AoE->KST 환산이 같은 날에
+    머물러 사이트에 하루 이른 Nov 16으로 뜬다(실제로는 KST Nov 17 20:59까지).
+    """
+    url = "https://cvpr.thecvf.com/Conferences/2027/Dates"
+    page = "CVPR 2027 Dates and Deadlines Submission Deadline Nov 16 '26 (Anywhere on Earth)"
+    extraction = {"abbr": "cvpr", "year": 2027, "items": [{
+        "type": "paper", "label": "Submission Deadline", "date": "2026-11-16 00:00:00",
+        "timezone": "AoE", "confidence": "high",
+        "raw_text": "Submission Deadline Nov 16 '26 (Anywhere on Earth)", "url": url}]}
+    accepted, rejected = validate_official(extraction, {url: page}, None)
+    assert rejected == []
+    assert accepted["deadlines"][0]["date"] == "2026-11-16 23:59:59"
+
+
+def test_explicit_time_is_kept():
+    """원문이 시각을 밝혔으면 그대로 둔다 (CVPR 워크숍 결정 Dec 23 02:00 AM UTC)."""
+    url = "https://cvpr.thecvf.com/Conferences/2027/Dates"
+    page = "CVPR 2027 Workshop Proposal Decision Dec 23 '26 02:00 AM UTC"
+    extraction = {"abbr": "cvpr", "year": 2027, "items": [{
+        "type": "notification", "label": "Workshop Proposal Decision", "date": "2026-12-23 02:00:00",
+        "confidence": "high", "raw_text": "Workshop Proposal Decision Dec 23 '26 02:00 AM UTC", "url": url}]}
+    accepted, _ = validate_official(extraction, {url: page}, None)
+    assert accepted["deadlines"][0]["date"] == "2026-12-23 02:00:00"

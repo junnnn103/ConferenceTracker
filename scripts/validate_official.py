@@ -281,6 +281,12 @@ def _accepted_edition(edition: dict) -> dict:
 
 def _accepted_deadline(item: dict) -> dict:
     when = _parse_datetime(item["date"])
+    # 원문이 날짜만 주면 그날이 끝날 때까지다. 추출자가 시각을 0시로 적으면
+    # AoE->KST 환산이 같은 날에 머물러 사이트에 하루 이른 날짜가 뜬다
+    # (2026-10-08 시험 실행의 CVPR "Nov 16 '26 (Anywhere on Earth)").
+    # 원문에 시각이 적힌 값(02:00 AM UTC 등)은 0시가 아니므로 그대로 둔다.
+    if (when.hour, when.minute, when.second) == (0, 0, 0):
+        when = when.replace(hour=23, minute=59, second=59)
     entry = {
         "type": item["type"],
         "label": str(item.get("label") or item["type"]),
