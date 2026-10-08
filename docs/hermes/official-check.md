@@ -15,8 +15,11 @@
    그리고 2단계에서 `--urls`로 다시 받은 `via_alternate` - 에 대해
    `data/official/raw/<key>-<year>.txt`**만** 읽고
    `data/official/raw/<key>-<year>.json`을 아래 형식으로 쓴다.
-4. 마지막에 `.venv/bin/python -m scripts.official_run apply`를 실행한다.
-5. 최종 응답은 한 줄: `apply 종료 코드 <n>`. 결과를 요약하지 않는다 - 보고서는 스크립트가 보낸다.
+4. **`scripts.official_run apply`를 실행하지 않는다.** 검증·검토·반영·알림은 같은 날 12:00에
+   별도 cron 작업(`conference-tracker-apply`)이 스크립트로 실행한다. apply는 검토 호출과
+   빌드·테스트·push 때문에 몇 분 걸려서, 이 대화의 터미널 제한 시간(180초)에 걸리면 중간에
+   끊긴다 - 2026-10-08 첫 실행에서 실제로 그랬다.
+5. 최종 응답은 한 줄: `추출 완료 <쓴 JSON 개수>개`. 결과를 요약하지 않는다 - 보고서는 스크립트가 보낸다.
 
 ## 추출 JSON 형식
 
@@ -32,6 +35,11 @@
 ```
 
 ## 규칙
+
+- `notification`은 **워크숍** 채택 발표(어떤 워크숍이 채택됐는지 공개되는 날)와 워크숍 논문
+  저자 통보만이다. 본 논문의 결과 발표, 리뷰 공개, 단계별 결정 발표는 넣지 않는다 -
+  넣으면 검토에서 보류되어 매주 같은 보류가 반복된다(2026-10-08: CVPR Final Decisions,
+  RSS Decision Stage, SIGIR Full paper notification, HRI Full paper decision).
 
 - 사전 스크립트 출력이 `준비 실패`로 시작하면(예: `준비 실패: git pull 실패 ...`, `준비 실패: master 브랜치가 아님 ...`)
   아무것도 하지 말고 그 줄을 그대로 답하고 멈춘다. 알림은 스크립트가 이미 보냈다.
