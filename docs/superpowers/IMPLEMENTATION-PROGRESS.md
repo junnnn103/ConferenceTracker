@@ -335,3 +335,46 @@ Task 10이 소스 매핑을 채운 뒤 제대로 생성해 커밋한다.
 
 기존 오류 정리: ISMAR/MM/UIST 2026 워크숍 제안 마감과 WACV 2027 `Workshop websites live by`를
 `data/scraped/raw/*.json`에서 제거하고 `mm.yaml`을 삭제, 다시 빌드. `conferences.json`의 `Workshops` 항목은 0개.
+
+## 공식 사이트 주간 확인 - 운영 (2026-10-08)
+
+설계 `docs/superpowers/specs/2026-10-07-hermes-official-check-design.md`, 계획
+`docs/superpowers/plans/2026-10-07-hermes-official-check.md` (Task 1-12는 SDD로 구현, 병합 23e9bac).
+
+### cron (Hermes `research` 프로필)
+
+| 이름 | 일정 | 하는 일 |
+|---|---|---|
+| `conference-tracker-official` | 월 10:00 KST | 사전 스크립트 `conftracker-prep.sh`(대상 선정·수집) → Hermes가 추출 JSON만 씀 |
+| `conference-tracker-apply` | 월 12:00 KST | no-agent `conftracker-apply.sh` → 검증·Claude 검토·반영·push·디스코드 |
+
+- 진입 스크립트는 `~/.hermes/profiles/research/scripts/`에 있고 저장소의 `scripts/hermes_prep.sh`,
+  `scripts/hermes_apply.sh`를 exec한다. Hermes는 그 디렉터리 밖 경로를 받지 않는다(프롬프트 주입 방지).
+- 시간대: 설정이 없어 서버 로컬(KST). `0 10 * * 1` → 다음 실행 2026-10-12T10:00+09:00 확인.
+- cron 환경 확인: `claude -p`(Haiku) 로그인 상태로 응답, `research send` 사용 가능, node는 Hermes 내장 node.
+- no-agent 스크립트 제한 시간은 기본 1시간(`script_timeout_seconds`).
+
+### 첫 실행에서 드러난 것
+
+1. **apply를 LLM이 실행하면 끊긴다.** Hermes 터미널 도구의 제한 시간이 180초인데 apply는 검토·빌드·
+   테스트·push로 약 3분 걸린다. 검토를 통과한 값 3개가 써진 상태에서 끊겼고, Hermes가 다시 돌린 apply는
+   "data/official에 스크립트 밖의 변경" 방지 장치에 걸려 거부했다(디스코드로 실패 알림이 나감).
+   → apply를 12:00 no-agent 작업으로 분리(aeb7634).
+2. **시각 없는 마감이 0시로 추출됐다.** CVPR "Nov 16 '26 (Anywhere on Earth)"가 00:00:00으로 저장되어
+   KST 표시가 하루 일렀다. → 검증 통과 시 0시는 그날 23:59:59로 본다(5d2e810).
+3. **반영 5건, 모두 원문과 대조해 맞음**: ICIP 2027 개최일·장소(29 Nov-3 Dec 2027, Singapore - 예년 추정
+   "September"가 틀렸던 것을 바로잡음)와 논문 마감 3/31, CVPR 2027 논문 마감 11/16(AoE), RSS 2027 확장 초록
+   12/4·최종 논문 4/16(새 2단계 제출 방식).
+4. **보류 11건은 대부분 올바른 보류**: 본 논문 결과 발표를 notification으로 넣은 것(지시문에 범위를 못박음).
+   다만 회차 장소 비교가 엄격해 "Seattle WA"와 "Seattle, United States"가 갈려 CVPR·SIGGRAPH·HRI 개최일이
+   보류됐고, HRI Late-Breaking Reports는 검토자가 short_paper로 읽어 보류됐다. 둘 다 조정 후보다.
+
+### 확인 방법
+
+```
+research cron list
+research cron runs                       # 실행 기록
+ls ~/.hermes/reports/conference-tracker/ # 매주 보고서
+git log --oneline origin/master -5       # "공식 사이트 주간 확인 (날짜)" 커밋
+```
+2026-10-12(월) 실행 후 위 기록으로 **실제로 돌았는지** 확인한다(설정이 아니라 실행을 본다).
