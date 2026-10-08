@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-10-07T07:37:33.595495+00:00",
+  "generated_at": "2026-10-08T05:26:02.985798+00:00",
   "fields": [
     {
       "id": "ML",
@@ -131,8 +131,20 @@
           "end": "2027-06-26",
           "place": "Seattle USA",
           "link": "https://cvpr.thecvf.com/",
-          "deadlines": [],
-          "primary_deadline": null,
+          "deadlines": [
+            {
+              "type": "paper",
+              "label": "Submission Deadline",
+              "date": "2026-11-16T23:59:59",
+              "source": "official",
+              "timezone": "AoE",
+              "evidence": {
+                "raw_text": "Submission Deadline Nov 16 '26 (Anywhere on Earth)",
+                "url": "https://cvpr.thecvf.com/Conferences/2027/Dates"
+              }
+            }
+          ],
+          "primary_deadline": "2026-11-16T23:59:59",
           "source": "ai-deadlines"
         }
       ]
@@ -2537,8 +2549,31 @@
           "end": "2027-07-11",
           "place": "Athens Greece",
           "link": "https://roboticsconference.org/",
-          "deadlines": [],
-          "primary_deadline": null,
+          "deadlines": [
+            {
+              "type": "abstract",
+              "label": "Extended Abstract submission deadline",
+              "date": "2026-12-04T23:59:59",
+              "source": "official",
+              "timezone": "AoE",
+              "evidence": {
+                "raw_text": "December 4, 2026 11:59pm AoE Extended Abstract submission deadline",
+                "url": "https://roboticsconference.org/"
+              }
+            },
+            {
+              "type": "paper",
+              "label": "Final paper submission deadline",
+              "date": "2027-04-16T23:59:59",
+              "source": "official",
+              "timezone": "AoE",
+              "evidence": {
+                "raw_text": "April 16, 2027 11:59pm AoE Final paper submission deadline",
+                "url": "https://roboticsconference.org/"
+              }
+            }
+          ],
+          "primary_deadline": "2027-04-16T23:59:59",
           "source": "manual"
         }
       ]
@@ -2574,15 +2609,25 @@
         },
         {
           "year": 2027,
-          "date_text": "",
-          "start": null,
-          "end": null,
-          "place": "",
+          "date_text": "29 November - 3 December 2027",
+          "start": "2027-11-29",
+          "end": "2027-12-03",
+          "place": "Singapore",
           "link": null,
-          "deadlines": [],
-          "primary_deadline": null,
-          "source": "estimated",
-          "estimated_month": 9
+          "deadlines": [
+            {
+              "type": "paper",
+              "label": "Conference Paper Submission Deadline",
+              "date": "2027-03-31T23:59:59",
+              "source": "official",
+              "evidence": {
+                "raw_text": "Conference Paper Submission Deadline: 31 March 2027",
+                "url": "https://signalprocessingsociety.org/event-names/icip"
+              }
+            }
+          ],
+          "primary_deadline": "2027-03-31T23:59:59",
+          "source": "official"
         }
       ]
     },
@@ -3583,12 +3628,6 @@
       "abbr": "ICML",
       "year": 2027,
       "month": 7,
-      "kind": "차기 회차 미공개"
-    },
-    {
-      "abbr": "ICIP",
-      "year": 2027,
-      "month": 9,
       "kind": "차기 회차 미공개"
     }
   ]

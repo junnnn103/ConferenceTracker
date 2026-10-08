@@ -1,0 +1,132 @@
+ICME/2027:
+  access: ok
+  criteria:
+  - B
+  - E
+  last_checked: '2026-10-08'
+  next_due: '2026-10-15'
+  results:
+    B: none
+    E: found
+  tba: []
+cvpr/2027:
+  access: ok
+  criteria:
+  - B
+  last_checked: '2026-10-08'
+  next_due: '2026-10-15'
+  results:
+    B: found
+  tba:
+  - edition
+  - Final Decisions
+dis/2027:
+  access: ok
+  criteria:
+  - E
+  last_checked: '2026-10-08'
+  next_due: '2026-11-05'
+  results:
+    E: found
+  tba: []
+hri/2027:
+  access: ok
+  criteria:
+  - E
+  last_checked: '2026-10-08'
+  next_due: '2026-10-15'
+  results:
+    E: found
+  tba:
+  - edition
+  - Full paper decision notification
+  - Late-Breaking Reports submission
+  - Late-Breaking Reports acceptance notification
+iccv/2027:
+  access: ok
+  criteria:
+  - B
+  last_checked: '2026-10-08'
+  next_due: '2026-10-15'
+  results:
+    B: none
+  tba: []
+icip/2027:
+  access: ok
+  criteria:
+  - A
+  last_checked: '2026-10-08'
+  next_due: '2026-10-15'
+  results:
+    A: found
+  tba: []
+icml/2027:
+  access: ok
+  criteria:
+  - A
+  last_checked: '2026-10-08'
+  next_due: '2026-10-15'
+  results:
+    A: none
+  tba: []
+ijcai/2027:
+  access: ok
+  criteria:
+  - B
+  - E
+  last_checked: '2026-10-08'
+  next_due: '2026-10-15'
+  results:
+    B: none
+    E: found
+  tba: []
+recsys/2027:
+  access: ok
+  criteria:
+  - B
+  last_checked: '2026-10-08'
+  next_due: '2026-10-15'
+  results:
+    B: none
+  tba: []
+rss/2027:
+  access: ok
+  criteria:
+  - B
+  - E
+  last_checked: '2026-10-08'
+  next_due: '2026-10-15'
+  results:
+    B: found
+    E: found
+  tba:
+  - Decision Stage 1 (Reject or Invitation to Rebuttal)
+  - Decision Stage 2 (Reject or Invitation to execute an Extension Charter)
+  - Paper acceptance notification
+siggraph/2027:
+  access: via_alternate
+  criteria:
+  - B
+  last_checked: '2026-10-08'
+  next_due: '2026-10-15'
+  results:
+    B: none
+  tba:
+  - edition
+sigir/2027:
+  access: ok
+  criteria:
+  - B
+  - E
+  last_checked: '2026-10-08'
+  next_due: '2026-10-15'
+  results:
+    B: tba
+    E: found
+  tba:
+  - 'TBA
+
+    Short, demo, resource, reproducibility, and perspective papers
+
+    Add abstract and submission deadlines.'
+  - Full paper notification

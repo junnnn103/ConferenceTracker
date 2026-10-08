@@ -1,0 +1,20 @@
+abbr: icip
+editions:
+- year: 2027
+  checked: '2026-10-08'
+  edition:
+    date_text: 29 November - 3 December 2027
+    start: '2027-11-29'
+    end: '2027-12-03'
+    place: Singapore
+    evidence:
+      raw_text: '2027 IEEE International Conference on Image Processing (ICIP) Date:
+        29 November - 3 December 2027 Location: Singapore'
+      url: https://signalprocessingsociety.org/event-names/icip
+  deadlines:
+  - type: paper
+    label: Conference Paper Submission Deadline
+    date: '2027-03-31 23:59:59'
+    evidence:
+      raw_text: 'Conference Paper Submission Deadline: 31 March 2027'
+      url: https://signalprocessingsociety.org/event-names/icip

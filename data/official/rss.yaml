@@ -1,0 +1,19 @@
+abbr: rss
+editions:
+- year: 2027
+  checked: '2026-10-08'
+  deadlines:
+  - type: abstract
+    label: Extended Abstract submission deadline
+    date: '2026-12-04 23:59:59'
+    timezone: AoE
+    evidence:
+      raw_text: December 4, 2026 11:59pm AoE Extended Abstract submission deadline
+      url: https://roboticsconference.org/
+  - type: paper
+    label: Final paper submission deadline
+    date: '2027-04-16 23:59:59'
+    timezone: AoE
+    evidence:
+      raw_text: April 16, 2027 11:59pm AoE Final paper submission deadline
+      url: https://roboticsconference.org/
