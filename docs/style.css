@@ -217,7 +217,12 @@ a.abbr:hover { color: var(--accent); text-decoration: underline; }
 .grade-col { white-space: nowrap; }
 .grade-col .badge + .badge { margin-left: 4px; }
 
-.deadline-col { white-space: nowrap; }
+/* 날짜와 D-day는 한 줄로 묶되, 라벨은 줄바꿈되게 둔다. 예전에는 칸 전체에
+   nowrap을 걸어서 "EACL commitment after ARR meta-reviews; reviewed papers only"
+   같은 긴 라벨이 이 칸을 한없이 넓혔고, 그만큼 학회명·개최일·장소가 짓눌려
+   여러 줄로 접혔다(2026-10-12 화면). */
+.deadline-date, .dday { white-space: nowrap; }
+.deadline-label { overflow-wrap: break-word; }
 .deadline-date.past { text-decoration: line-through; color: var(--text-dim); }
 .dday { margin-top: 2px; font-size: 11px; }
 .dday.upcoming { color: var(--accent); font-weight: 600; }
@@ -319,6 +324,18 @@ a.abbr:hover { color: var(--accent); text-decoration: underline; }
 .unresolved h2 { margin: 0 0 4px; font-size: 14px; }
 .unresolved .hint { margin: 0 0 8px; color: var(--text-dim); font-size: 12px; }
 .unresolved ul { margin: 0; padding-left: 18px; color: var(--text-dim); font-size: 13px; }
+
+/* 넓은 화면의 칸 너비. 표가 내용 길이대로 칸을 나누면 가장 긴 문장이 든 칸이
+   공간을 가져가고 나머지가 짓눌린다. 분야·등급·링크는 내용 폭만큼(1%는 "최소로"라는
+   뜻), 나머지는 비율을 정해 두고 그 안에서 줄바꿈한다. */
+@media (min-width: 761px) {
+  th[data-sort="abbr"] { width: 26%; }
+  th[data-sort="field"], th[data-sort="grade"], th.links-col { width: 1%; white-space: nowrap; }
+  th[data-sort="date"] { width: 17%; }
+  th[data-sort="place"] { width: 15%; }
+  th[data-sort="deadline"] { width: 21%; }
+  td.links-col { white-space: nowrap; }
+}
 
 /* 좁은 화면에서는 표를 카드로 바꾼다. 가로 스크롤은 만들지 않는다. */
 @media (max-width: 760px) {
