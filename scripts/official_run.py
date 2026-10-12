@@ -35,11 +35,16 @@ PY = sys.executable
 # cron 환경의 PATH에는 /opt/homebrew/bin이 없을 수 있다.
 NODE = shutil.which("node") or "/opt/homebrew/bin/node"
 
+JS_TEST_FILES = sorted(str(p.relative_to(ROOT)) for p in (ROOT / "tests" / "js").glob("*.test.mjs"))
+
 BUILD_STEPS = [
     ("빌드", [PY, "-m", "scripts.build"]),
     ("정적 자원 도장", [PY, "scripts/stamp_assets.py"]),
     ("Python 테스트", [PY, "-m", "pytest", "-q"]),
-    ("JS 테스트", [NODE, "--test", "tests/js/"]),
+    # 폴더(`tests/js/`)가 아니라 파일을 하나하나 넘긴다. cron 환경의 node(Hermes 내장
+    # v26.7)는 폴더를 모듈로 불러오려다 MODULE_NOT_FOUND로 실패한다 - 2026-10-12 첫 자동
+    # 실행이 이걸로 멈췄다. 파일 목록은 node 버전과 무관하게 돈다.
+    ("JS 테스트", [NODE, "--test", *JS_TEST_FILES]),
 ]
 COMMIT_PATHS = ["data/official", "docs/data/conferences.json", "docs/index.html", "docs/app.js"]
 BOT = ["-c", "user.name=conference-tracker[hermes]", "-c", "user.email=junn103.jeon@gmail.com"]

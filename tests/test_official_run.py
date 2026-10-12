@@ -514,3 +514,15 @@ def test_Md_failed_build_clears_applied(monkeypatch, tmp_path):
     sent, send = capture()
     orun.apply_run(TODAY, ask=agree_with([ACL_PAPER]), run=run, send=send)
     assert "반영 0" in sent[0] and "[반영]" not in sent[0]
+
+
+def test_js_step_names_test_files_not_a_directory():
+    """cron 환경의 node(Hermes 내장 v26.7)는 `--test tests/js/`처럼 폴더를 주면 그 폴더를
+    모듈로 불러오려다 MODULE_NOT_FOUND로 실패한다. 2026-10-12 첫 자동 실행이 이걸로 멈췄다.
+    파일을 하나하나 넘겨야 node 버전과 무관하게 돈다."""
+    js = [cmd for name, cmd in orun.BUILD_STEPS if name == "JS 테스트"][0]
+    args = js[2:]
+    assert js[1] == "--test"
+    assert args and all(a.endswith(".test.mjs") for a in args), args
+    expected = sorted(str(p.relative_to(orun.ROOT)) for p in (orun.ROOT / "tests" / "js").glob("*.test.mjs"))
+    assert args == expected
