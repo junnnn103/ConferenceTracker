@@ -24,3 +24,10 @@ editions:
       raw_text: 'Mandatory Accepted Paper Notification Date*: 26 February 2027, 11.59pm
         AoE'
       url: https://iclr.cc/Conferences/2027/CallForWorkshops
+  - type: abstract
+    label: Abstract deadline
+    date: '2026-09-18 23:59:59'
+    timezone: AoE
+    evidence:
+      raw_text: Abstract deadline Sep 18, 2026 AOE
+      url: https://iclr.cc/Conferences/2027/CallForPapers

@@ -10,3 +10,10 @@ editions:
     evidence:
       raw_text: EMNLP commitment deadline August 2, 2026
       url: https://2026.emnlp.org/calls/main_conference_papers/
+  - type: paper
+    label: ARR submission deadline (long & short papers)
+    date: '2026-05-25 23:59:59'
+    timezone: AoE
+    evidence:
+      raw_text: ARR submission deadline (long & short papers) May 25, 2026
+      url: https://2026.emnlp.org/calls/main_conference_papers/

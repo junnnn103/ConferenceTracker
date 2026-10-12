@@ -19,3 +19,9 @@ editions:
       raw_text: 'Paper submission deadline: September 16, 2026 (23:59 PST) (via Paperplaza
         )'
       url: https://2027.ieee-icra.org/contribute/call-for-icra-2027-papers-now-accepting-submissions/
+  - type: notification
+    label: Workshop/tutorial acceptance notification
+    date: '2027-01-31 23:59:59'
+    evidence:
+      raw_text: 'Jan 31, 2027 : Workshop/tutorial acceptance notification'
+      url: https://2027.ieee-icra.org/contribute/call-for-workshop-and-tutorial/

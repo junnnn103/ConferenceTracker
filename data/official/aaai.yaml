@@ -1,0 +1,19 @@
+abbr: aaai
+editions:
+- year: 2027
+  checked: '2026-10-12'
+  deadlines:
+  - type: abstract
+    label: Abstracts due at 11:59 PM UTC-12
+    date: '2026-07-21 23:59:59'
+    timezone: AoE
+    evidence:
+      raw_text: July 21, 2026 Abstracts due at 11:59 PM UTC-12
+      url: https://aaai.org/conference/aaai/aaai-27/
+  - type: paper
+    label: Full papers due at 11:59 PM UTC-12
+    date: '2026-07-28 23:59:59'
+    timezone: AoE
+    evidence:
+      raw_text: July 28, 2026 Full papers due at 11:59 PM UTC-12
+      url: https://aaai.org/conference/aaai/aaai-27/

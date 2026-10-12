@@ -1,0 +1,11 @@
+abbr: bigdataconf
+editions:
+- year: 2026
+  checked: '2026-10-12'
+  deadlines:
+  - type: paper
+    label: Electronic submission of full papers
+    date: '2026-08-21 23:59:59'
+    evidence:
+      raw_text: 'Electronic submission of full papers : Aug. 21, 2026'
+      url: https://bigdataieee.org/BigData2026/important-dates/

@@ -26,11 +26,33 @@ editions:
       raw_text: September 23, 2026 Recommended Date for Workshops Paper acceptance
         notification
       url: https://cikm2026.diag.uniroma1.it/
-  - type: paper
-    label: Resource Papers Submission Deadline
-    date: '2026-06-06 23:59:59'
+  - type: abstract
+    label: Full Research Papers Abstract Deadline
+    date: '2026-05-16 23:59:59'
     timezone: AoE
     evidence:
-      raw_text: June 6, 2026 Short Research Papers Submission Deadline Resource Papers
-        Submission Deadline
+      raw_text: May 16, 2026 Full Research Papers Abstract Deadline
+      url: https://cikm2026.diag.uniroma1.it/
+  - type: abstract
+    label: Applied Research Papers Abstract Deadline
+    date: '2026-05-16 23:59:59'
+    timezone: AoE
+    evidence:
+      raw_text: May 16, 2026 Full Research Papers Abstract Deadline Applied Research
+        Papers Abstract Deadline
+      url: https://cikm2026.diag.uniroma1.it/
+  - type: paper
+    label: Full Research Papers Submission Deadline
+    date: '2026-05-23 23:59:59'
+    timezone: AoE
+    evidence:
+      raw_text: May 23, 2026 Full Research Papers Submission Deadline
+      url: https://cikm2026.diag.uniroma1.it/
+  - type: paper
+    label: Applied Research Papers Submission Deadline
+    date: '2026-05-23 23:59:59'
+    timezone: AoE
+    evidence:
+      raw_text: May 23, 2026 Full Research Papers Submission Deadline Applied Research
+        Papers Submission Deadline
       url: https://cikm2026.diag.uniroma1.it/

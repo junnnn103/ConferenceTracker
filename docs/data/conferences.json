@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-10-12T06:31:57.087825+00:00",
+  "generated_at": "2026-10-12T06:40:05.694202+00:00",
   "fields": [
     {
       "id": "ML",
@@ -349,13 +349,6 @@
           "link": "https://iclr.cc/Conferences/2027",
           "deadlines": [
             {
-              "type": "abstract",
-              "label": "Abstract Submission",
-              "date": "2026-09-18T23:59:59",
-              "source": "ai-deadlines",
-              "timezone": "AoE"
-            },
-            {
               "type": "submission",
               "label": "Paper Submission",
               "date": "2026-09-25T23:59:59",
@@ -413,6 +406,17 @@
               "evidence": {
                 "raw_text": "Mandatory Accepted Paper Notification Date*: 26 February 2027, 11.59pm AoE",
                 "url": "https://iclr.cc/Conferences/2027/CallForWorkshops"
+              }
+            },
+            {
+              "type": "abstract",
+              "label": "Abstract deadline",
+              "date": "2026-09-18T23:59:59",
+              "source": "official",
+              "timezone": "AoE",
+              "evidence": {
+                "raw_text": "Abstract deadline Sep 18, 2026 AOE",
+                "url": "https://iclr.cc/Conferences/2027/CallForPapers"
               }
             }
           ],
@@ -656,20 +660,6 @@
           "link": "https://aaai.org/conference/aaai/aaai-27/",
           "deadlines": [
             {
-              "type": "abstract",
-              "label": "Abstract submission deadline",
-              "date": "2026-07-21T23:59:59",
-              "source": "ai-deadlines",
-              "timezone": "AoE"
-            },
-            {
-              "type": "paper",
-              "label": "Paper submission deadline",
-              "date": "2026-07-28T23:59:59",
-              "source": "ai-deadlines",
-              "timezone": "AoE"
-            },
-            {
               "type": "supplementary",
               "label": "Supplementary material and code deadline",
               "date": "2026-07-31T23:59:59",
@@ -710,6 +700,28 @@
               "date": "2026-12-14T23:59:59",
               "source": "ai-deadlines",
               "timezone": "AoE"
+            },
+            {
+              "type": "abstract",
+              "label": "Abstracts due at 11:59 PM UTC-12",
+              "date": "2026-07-21T23:59:59",
+              "source": "official",
+              "timezone": "AoE",
+              "evidence": {
+                "raw_text": "July 21, 2026 Abstracts due at 11:59 PM UTC-12",
+                "url": "https://aaai.org/conference/aaai/aaai-27/"
+              }
+            },
+            {
+              "type": "paper",
+              "label": "Full papers due at 11:59 PM UTC-12",
+              "date": "2026-07-28T23:59:59",
+              "source": "official",
+              "timezone": "AoE",
+              "evidence": {
+                "raw_text": "July 28, 2026 Full papers due at 11:59 PM UTC-12",
+                "url": "https://aaai.org/conference/aaai/aaai-27/"
+              }
             }
           ],
           "primary_deadline": "2026-07-28T23:59:59",
@@ -847,13 +859,6 @@
           "link": "https://2026.emnlp.org/",
           "deadlines": [
             {
-              "type": "paper",
-              "label": "Paper submission deadline",
-              "date": "2026-05-25T23:59:59",
-              "source": "ai-deadlines",
-              "timezone": "AoE"
-            },
-            {
               "type": "reviewer_registration",
               "label": "Reviewer registration deadline",
               "date": "2026-05-27T23:59:59",
@@ -903,6 +908,17 @@
               "timezone": "AoE",
               "evidence": {
                 "raw_text": "EMNLP commitment deadline August 2, 2026",
+                "url": "https://2026.emnlp.org/calls/main_conference_papers/"
+              }
+            },
+            {
+              "type": "paper",
+              "label": "ARR submission deadline (long & short papers)",
+              "date": "2026-05-25T23:59:59",
+              "source": "official",
+              "timezone": "AoE",
+              "evidence": {
+                "raw_text": "ARR submission deadline (long & short papers) May 25, 2026",
                 "url": "https://2026.emnlp.org/calls/main_conference_papers/"
               }
             }
@@ -1212,13 +1228,6 @@
           "link": "https://2027.ieeeicassp.org/",
           "deadlines": [
             {
-              "type": "paper",
-              "label": "Paper",
-              "date": "2026-09-23T23:59:59",
-              "source": "ccfddl",
-              "timezone": "UTC-12"
-            },
-            {
               "type": "notification",
               "label": "Workshop Paper Acceptance Notification",
               "date": "2026-12-16T23:59:59",
@@ -1226,6 +1235,16 @@
               "evidence": {
                 "raw_text": "Wednesday, December 16, 2026 Workshop Paper Acceptance Notification",
                 "url": "https://2027.ieeeicassp.org/call-for-satellite-workshops/"
+              }
+            },
+            {
+              "type": "paper",
+              "label": "Full Paper Submission Deadline",
+              "date": "2026-09-23T23:59:59",
+              "source": "official",
+              "evidence": {
+                "raw_text": "Full Paper Submission Deadline September 23, 2026",
+                "url": "https://2027.ieeeicassp.org/call-for-papers/"
               }
             }
           ],
@@ -1336,17 +1355,25 @@
           "deadlines": [
             {
               "type": "abstract",
-              "label": "1st round of 2 total rounds",
+              "label": "Abstract Deadline",
               "date": "2026-07-19T23:59:59",
-              "source": "ccfddl",
-              "timezone": "AoE"
+              "source": "official",
+              "timezone": "AoE",
+              "evidence": {
+                "raw_text": "Abstract Deadline: July 19, 2026",
+                "url": "https://kdd2027.kdd.org/research-track-call-for-papers/"
+              }
             },
             {
               "type": "paper",
-              "label": "1st round of 2 total rounds",
+              "label": "Paper Deadline",
               "date": "2026-07-26T23:59:59",
-              "source": "ccfddl",
-              "timezone": "AoE"
+              "source": "official",
+              "timezone": "AoE",
+              "evidence": {
+                "raw_text": "Paper Deadline: July 26, 2026",
+                "url": "https://kdd2027.kdd.org/research-track-call-for-papers/"
+              }
             }
           ],
           "primary_deadline": "2026-07-26T23:59:59",
@@ -1434,6 +1461,16 @@
               "evidence": {
                 "raw_text": "Paper submission deadline: September 16, 2026 (23:59 PST) (via Paperplaza )",
                 "url": "https://2027.ieee-icra.org/contribute/call-for-icra-2027-papers-now-accepting-submissions/"
+              }
+            },
+            {
+              "type": "notification",
+              "label": "Workshop/tutorial acceptance notification",
+              "date": "2027-01-31T23:59:59",
+              "source": "official",
+              "evidence": {
+                "raw_text": "Jan 31, 2027 : Workshop/tutorial acceptance notification",
+                "url": "https://2027.ieee-icra.org/contribute/call-for-workshop-and-tutorial/"
               }
             }
           ],
@@ -2246,13 +2283,6 @@
           "link": "https://cikm2026.diag.uniroma1.it/",
           "deadlines": [
             {
-              "type": "abstract",
-              "label": "Abstract submission deadline",
-              "date": "2026-05-16T23:59:00",
-              "source": "ai-deadlines",
-              "timezone": "AoE"
-            },
-            {
               "type": "notification",
               "label": "Author notification",
               "date": "2026-08-07T23:59:00",
@@ -2289,13 +2319,46 @@
               }
             },
             {
-              "type": "paper",
-              "label": "Resource Papers Submission Deadline",
-              "date": "2026-06-06T23:59:59",
+              "type": "abstract",
+              "label": "Full Research Papers Abstract Deadline",
+              "date": "2026-05-16T23:59:59",
               "source": "official",
               "timezone": "AoE",
               "evidence": {
-                "raw_text": "June 6, 2026 Short Research Papers Submission Deadline Resource Papers Submission Deadline",
+                "raw_text": "May 16, 2026 Full Research Papers Abstract Deadline",
+                "url": "https://cikm2026.diag.uniroma1.it/"
+              }
+            },
+            {
+              "type": "abstract",
+              "label": "Applied Research Papers Abstract Deadline",
+              "date": "2026-05-16T23:59:59",
+              "source": "official",
+              "timezone": "AoE",
+              "evidence": {
+                "raw_text": "May 16, 2026 Full Research Papers Abstract Deadline Applied Research Papers Abstract Deadline",
+                "url": "https://cikm2026.diag.uniroma1.it/"
+              }
+            },
+            {
+              "type": "paper",
+              "label": "Full Research Papers Submission Deadline",
+              "date": "2026-05-23T23:59:59",
+              "source": "official",
+              "timezone": "AoE",
+              "evidence": {
+                "raw_text": "May 23, 2026 Full Research Papers Submission Deadline",
+                "url": "https://cikm2026.diag.uniroma1.it/"
+              }
+            },
+            {
+              "type": "paper",
+              "label": "Applied Research Papers Submission Deadline",
+              "date": "2026-05-23T23:59:59",
+              "source": "official",
+              "timezone": "AoE",
+              "evidence": {
+                "raw_text": "May 23, 2026 Full Research Papers Submission Deadline Applied Research Papers Submission Deadline",
                 "url": "https://cikm2026.diag.uniroma1.it/"
               }
             }
@@ -2908,10 +2971,13 @@
           "deadlines": [
             {
               "type": "paper",
-              "label": "Paper",
+              "label": "Electronic submission of full papers",
               "date": "2026-08-21T23:59:59",
-              "source": "ccfddl",
-              "timezone": "AoE"
+              "source": "official",
+              "evidence": {
+                "raw_text": "Electronic submission of full papers : Aug. 21, 2026",
+                "url": "https://bigdataieee.org/BigData2026/important-dates/"
+              }
             }
           ],
           "primary_deadline": "2026-08-21T23:59:59",
@@ -3105,13 +3171,6 @@
               "timezone": "AoE"
             },
             {
-              "type": "paper",
-              "label": "Paper",
-              "date": "2026-08-20T23:59:59",
-              "source": "ccfddl",
-              "timezone": "AoE"
-            },
-            {
               "type": "notification",
               "label": "Workshop proposal notification",
               "date": "2026-08-04T23:59:59",
@@ -3134,8 +3193,19 @@
               }
             },
             {
+              "type": "paper",
+              "label": "Full Paper",
+              "date": "2026-08-20T23:59:59",
+              "source": "official",
+              "timezone": "AoE",
+              "evidence": {
+                "raw_text": "Full Paper: August 20th, 2026",
+                "url": "https://iui.acm.org/2027/call-for-papers/"
+              }
+            },
+            {
               "type": "poster",
-              "label": "Submission Deadline:",
+              "label": "Submission Deadline: Call for Posters & Demos",
               "date": "2026-11-10T23:59:59",
               "source": "official",
               "timezone": "AoE",
@@ -3558,20 +3628,6 @@
           "link": "https://2027.eacl.org/",
           "deadlines": [
             {
-              "type": "paper",
-              "label": "ARR Submission",
-              "date": "2026-08-03T23:59:59",
-              "source": "ccfddl",
-              "timezone": "UTC-12"
-            },
-            {
-              "type": "paper",
-              "label": "EACL commitment after ARR meta-reviews; reviewed papers only",
-              "date": "2026-10-11T23:59:59",
-              "source": "ccfddl",
-              "timezone": "UTC-12"
-            },
-            {
               "type": "commitment",
               "label": "EACL 2027 commitment deadline",
               "date": "2026-10-11T23:59:59",
@@ -3585,6 +3641,28 @@
             {
               "type": "notification",
               "label": "Notification of acceptance",
+              "date": "2026-10-02T23:59:59",
+              "source": "official",
+              "timezone": "AoE",
+              "evidence": {
+                "raw_text": "Notification of acceptance: October 2nd, 2026",
+                "url": "https://2027.eacl.org/calls/workshops/"
+              }
+            },
+            {
+              "type": "paper",
+              "label": "ARR submission deadline (long & short papers)",
+              "date": "2026-08-03T23:59:59",
+              "source": "official",
+              "timezone": "AoE",
+              "evidence": {
+                "raw_text": "ARR submission deadline (long & short papers) Aug 3, 2026",
+                "url": "https://2027.eacl.org/calls/papers/"
+              }
+            },
+            {
+              "type": "notification",
+              "label": "Notification of acceptance: Joint Call for Workshops Proposals",
               "date": "2026-10-02T23:59:59",
               "source": "official",
               "timezone": "AoE",

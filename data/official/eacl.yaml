@@ -17,3 +17,17 @@ editions:
     evidence:
       raw_text: 'Notification of acceptance: October 2nd, 2026'
       url: https://2027.eacl.org/calls/workshops/
+  - type: paper
+    label: ARR submission deadline (long & short papers)
+    date: '2026-08-03 23:59:59'
+    timezone: AoE
+    evidence:
+      raw_text: ARR submission deadline (long & short papers) Aug 3, 2026
+      url: https://2027.eacl.org/calls/papers/
+  - type: notification
+    label: 'Notification of acceptance: Joint Call for Workshops Proposals'
+    date: '2026-10-02 23:59:59'
+    timezone: AoE
+    evidence:
+      raw_text: 'Notification of acceptance: October 2nd, 2026'
+      url: https://2027.eacl.org/calls/workshops/

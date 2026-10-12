@@ -10,4 +10,18 @@ editions:
     evidence:
       raw_text: ACM KDD 2027 | San Jose, United States August 1–5, 2027
       url: https://kdd2027.kdd.org/
-  deadlines: []
+  deadlines:
+  - type: abstract
+    label: Abstract Deadline
+    date: '2026-07-19 23:59:59'
+    timezone: AoE
+    evidence:
+      raw_text: 'Abstract Deadline: July 19, 2026'
+      url: https://kdd2027.kdd.org/research-track-call-for-papers/
+  - type: paper
+    label: Paper Deadline
+    date: '2026-07-26 23:59:59'
+    timezone: AoE
+    evidence:
+      raw_text: 'Paper Deadline: July 26, 2026'
+      url: https://kdd2027.kdd.org/research-track-call-for-papers/
