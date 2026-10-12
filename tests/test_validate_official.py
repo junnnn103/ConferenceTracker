@@ -328,3 +328,44 @@ def test_explicit_time_is_kept():
         "confidence": "high", "raw_text": "Workshop Proposal Decision Dec 23 '26 02:00 AM UTC", "url": url}]}
     accepted, _ = validate_official(extraction, {url: page}, None)
     assert accepted["deadlines"][0]["date"] == "2026-12-23 02:00:00"
+
+
+IUI_URL = "https://iui.acm.org/2027/call-for-posters-demos/"
+IUI_PAGE = (
+    "Call for Posters & Demos Skip to content Home Program "
+    "Important Dates (AoE) All deadlines are 11:59 P.M. Anywhere on Earth (UTC -12:00). "
+    "Submission Deadline: November 10th, 2026 Notification of acceptance : December 14th, 2026 "
+    + ("Posters provide an opportunity for sharing ideas. " * 80)
+    + "please select SIGCHI, IUI 2027, and IUI 2027 Posters"
+)
+
+
+def iui_poster(url=IUI_URL):
+    return {"type": "poster", "label": "Submission Deadline", "date": "2026-11-10 23:59:59",
+            "timezone": "AoE", "confidence": "high",
+            "raw_text": "Submission Deadline: November 10th, 2026", "url": url}
+
+
+def test_year_in_url_path_and_page_body_counts():
+    """IUI 2027 포스터 페이지는 제목에 연도가 없고 "2027"이 인용문에서 2,700자 뒤에야 나온다.
+    2026-10-12 자동 실행에서 year_not_near로 잘못 걸러졌다. 주소 경로가 /2027/이고 본문에도
+    2027이 있으면 그 연도의 페이지로 본다."""
+    accepted, rejected = validate_official(
+        {"abbr": "iui", "year": 2027, "items": [iui_poster()]}, {IUI_URL: IUI_PAGE}, None)
+    assert rejected == [] and accepted["deadlines"][0]["type"] == "poster"
+
+
+def test_year_in_url_alone_is_not_enough():
+    """주소에만 연도가 있고 본문 어디에도 없으면 여전히 탈락 (다른 연도 내용일 수 있다)."""
+    page = IUI_PAGE.replace("IUI 2027", "IUI")
+    _, rejected = validate_official(
+        {"abbr": "iui", "year": 2027, "items": [iui_poster()]}, {IUI_URL: page}, None)
+    assert rejected[0]["reject_reason"] == "year_not_near"
+
+
+def test_year_in_page_body_alone_far_away_is_not_enough():
+    """주소 경로에 연도가 없으면 기존 규칙(근처·머리)대로 본다."""
+    url = "https://iui.acm.org/call-for-posters-demos/"
+    _, rejected = validate_official(
+        {"abbr": "iui", "year": 2027, "items": [iui_poster(url)]}, {url: IUI_PAGE}, None)
+    assert rejected[0]["reject_reason"] == "year_not_near"

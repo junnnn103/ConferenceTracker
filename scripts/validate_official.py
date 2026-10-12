@@ -8,6 +8,7 @@ Hermes가 쓴 추출 JSON을 스크립트(fetch_pages.py)가 직접 받은 페�
 from __future__ import annotations
 
 import re
+from urllib.parse import urlparse
 from datetime import date, datetime
 
 from scripts.validate_scraped import (
@@ -224,13 +225,21 @@ _FORBIDDEN_WORDS = re.compile(
 _APPROXIMATE = re.compile(r"\bapproximately\b", re.IGNORECASE)
 
 
-def year_near(page: str, raw: str, year: int, width: int = 1500) -> bool:
-    """인용문 앞뒤 width자 안이나 페이지 머리(제목 등)에 대상 연도가 있는가."""
+def year_near(page: str, raw: str, year: int, width: int = 1500, url: str = "") -> bool:
+    """인용문이 대상 연도의 내용인가.
+
+    인용문 앞뒤 width자 안이나 페이지 머리(제목 등)에 대상 연도가 있으면 그렇다고 본다.
+    또는 주소 경로에 연도 구간이 있고(/2027/) 본문 어딘가에도 그 연도가 있으면 그렇다고
+    본다 - IUI 2027 포스터 페이지는 제목에 연도가 없고 "2027"이 인용문에서 2,700자 뒤에야
+    나와 2026-10-12에 잘못 걸러졌다. 주소만으로는 통과시키지 않는다(본문이 다른 연도일 수 있다).
+    """
     flat, needle, y = squash(page), squash(raw), str(year)
     i = flat.find(needle)
     if i < 0:
         return False
-    return y in flat[max(0, i - width): i + len(needle) + width] or y in flat[:2000]
+    if y in flat[max(0, i - width): i + len(needle) + width] or y in flat[:2000]:
+        return True
+    return bool(re.search(rf"/{y}(/|$)", urlparse(url or "").path)) and y in flat
 
 
 def check_interpretation(item: dict, pages: dict[str, str], year: int) -> str | None:
@@ -245,7 +254,7 @@ def check_interpretation(item: dict, pages: dict[str, str], year: int) -> str | 
             words.discard("registration")
         if words:
             return "forbidden_word"
-    if not year_near(pages[item["url"]], raw, year):
+    if not year_near(pages[item["url"]], raw, year, url=item["url"]):
         return "year_not_near"
     return None
 
