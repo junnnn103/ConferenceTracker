@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-10-08T05:26:02.985798+00:00",
+  "generated_at": "2026-10-12T00:14:49.220417+00:00",
   "fields": [
     {
       "id": "ML",
@@ -2613,7 +2613,7 @@
           "start": "2027-11-29",
           "end": "2027-12-03",
           "place": "Singapore",
-          "link": null,
+          "link": "https://2027.ieeeicip.org/",
           "deadlines": [
             {
               "type": "paper",
@@ -2627,7 +2627,7 @@
             }
           ],
           "primary_deadline": "2027-03-31T23:59:59",
-          "source": "official"
+          "source": "ccfddl"
         }
       ]
     },
@@ -3284,32 +3284,6 @@
       "homepage": "https://ismar.net/",
       "editions": [
         {
-          "year": 2025,
-          "date_text": "October 9-11, 2025",
-          "start": "2025-10-09",
-          "end": "2025-10-11",
-          "place": "Daejeon South Korea",
-          "link": "https://www.ieeeismar.net/2025/",
-          "deadlines": [
-            {
-              "type": "abstract",
-              "label": "Abstract",
-              "date": "2025-04-04T23:59:59",
-              "source": "ccfddl",
-              "timezone": "AoE"
-            },
-            {
-              "type": "paper",
-              "label": "Paper",
-              "date": "2025-04-11T23:59:59",
-              "source": "ccfddl",
-              "timezone": "AoE"
-            }
-          ],
-          "primary_deadline": "2025-04-11T23:59:59",
-          "source": "ccfddl"
-        },
-        {
           "year": 2026,
           "date_text": "October 7-9, 2026",
           "start": "2026-10-07",
@@ -3345,6 +3319,18 @@
           ],
           "primary_deadline": "2026-03-16T23:59:59",
           "source": "ccfddl"
+        },
+        {
+          "year": 2027,
+          "date_text": "",
+          "start": null,
+          "end": null,
+          "place": "",
+          "link": null,
+          "deadlines": [],
+          "primary_deadline": null,
+          "source": "estimated",
+          "estimated_month": 10
         }
       ]
     },
@@ -3628,6 +3614,12 @@
       "abbr": "ICML",
       "year": 2027,
       "month": 7,
+      "kind": "차기 회차 미공개"
+    },
+    {
+      "abbr": "ISMAR",
+      "year": 2027,
+      "month": 10,
       "kind": "차기 회차 미공개"
     }
   ]
