@@ -179,7 +179,9 @@ def ask_claude(prompt: str, timeout: int = 180, model: str | None = None) -> str
 def _deadline_unchanged(item: dict, current: dict | None) -> bool:
     if not current:
         return False
+    # 라벨도 비교한다 - 라벨만 바뀌어도 사이트 표시가 바뀌므로 변화로 본다.
     return any(d["type"] == item["type"] and str(d["date"])[:10] == item["date"][:10]
+               and (d.get("label") or "") == (item.get("label") or "")
                for d in current.get("deadlines") or [])
 
 

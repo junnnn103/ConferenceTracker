@@ -65,7 +65,7 @@ def test_unparseable_review_is_held():
 
 def test_unchanged_value_is_not_reviewed():
     ask = asker(json.dumps(AGREE))
-    current = {"deadlines": [{"type": "notification", "date": "2026-12-17T23:59:59", "label": "x"}]}
+    current = {"deadlines": [{"type": "notification", "date": "2026-12-17T23:59:59", "label": NOTICE["label"]}]}
     approved, held = run(ask, current=current)
     assert ask.prompts == [] and approved["deadlines"] == [{**NOTICE, "unchanged": True}]
 
@@ -148,3 +148,12 @@ def test_malformed_reviewer_answer_does_not_crash():
     assert approved["deadlines"] == []
     # what가 리스트이므로 set에서 제외되거나 불일치로 잡혀야 함
     assert len(held) > 0 and "what:" in str(held[0]["reasons"])
+
+
+def test_label_change_is_not_unchanged():
+    """라벨만 바뀌어도 사이트 표시가 바뀌므로 '변화 없음'으로 건너뛰지 않는다."""
+    ask = asker(json.dumps(AGREE))
+    current = {"deadlines": [{"type": "notification", "date": "2026-12-17T23:59:59", "label": "old label"}]}
+    approved, held = run(ask, current=current)
+    assert len(ask.prompts) == 1
+    assert not approved["deadlines"][0].get("unchanged")

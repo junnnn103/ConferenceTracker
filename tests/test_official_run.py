@@ -479,7 +479,7 @@ def test_Mb_unchanged_items_are_counted_but_not_written(monkeypatch, tmp_path):
     run, calls = wire(monkeypatch, tmp_path, ok_script)
     # 이미 사이트에 같은 paper 날짜가 있다 -> 그대로인 항목
     data = {"conferences": [{"abbr": "ACL", "key": "acl", "editions": [
-        {"year": 2027, "deadlines": [{"type": "paper", "label": "x", "date": "2027-01-04T23:59:59"}]}]}]}
+        {"year": 2027, "deadlines": [{"type": "paper", "label": 'ARR submission deadline (long & short papers)', "date": "2027-01-04T23:59:59"}]}]}]}
     (tmp_path / "conferences.json").write_text(json.dumps(data), encoding="utf-8")
     monkeypatch.setattr(orun, "official_key", lambda conf: conf.get("key"))
     sent, send = capture()
@@ -497,7 +497,7 @@ def test_Mb_changed_item_written_alongside_unchanged(monkeypatch, tmp_path):
     assert len(ext["items"]) >= 1
     paper = ext["items"][0]
     data = {"conferences": [{"abbr": "ACL", "key": "acl", "editions": [
-        {"year": 2027, "deadlines": [{"type": paper["type"], "label": "x", "date": paper["date"][:10] + "T23:59:59"}]}]}]}
+        {"year": 2027, "deadlines": [{"type": paper["type"], "label": paper["label"], "date": paper["date"][:10] + "T23:59:59"}]}]}]}
     (tmp_path / "conferences.json").write_text(json.dumps(data), encoding="utf-8")
     monkeypatch.setattr(orun, "official_key", lambda conf: conf.get("key"))
     o = orun.process_target(target("acl", ["D"]), tmp_path / "raw", data, agree_with([ACL_PAPER]))

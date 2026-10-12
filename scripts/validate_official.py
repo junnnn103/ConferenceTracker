@@ -288,6 +288,52 @@ def _accepted_edition(edition: dict) -> dict:
     }
 
 
+# 라벨에 이 말이 있으면 무슨 마감인지 이미 드러난다고 본다.
+_TRACK_WORDS = re.compile(
+    r"paper|poster|demo|workshop|late[\s-]*breaking|\blbw\b|short|abstract|commitment|"
+    r"tutorial|track|competition|doctoral|consortium|proposal",
+    re.IGNORECASE,
+)
+# 페이지 제목에서 "모집 이름"으로 쓸 만한 조각인지.
+_CALL_WORDS = re.compile(
+    r"\bcall\b|track|papers?|posters?|demos?|workshops?|tutorials?|late[\s-]*breaking|"
+    r"competition|proposals?|submissions?|doctoral|consortium",
+    re.IGNORECASE,
+)
+_TITLE_SEPARATORS = re.compile(r"\s+[|–—-]\s*|\s*[|–—]\s+|\s+-$")
+
+
+def call_title(page: str, key: str) -> str:
+    """페이지 제목(수집 텍스트의 첫 줄)에서 모집 이름만 뽑는다. 없으면 "".
+
+    제목에는 사이트 이름이 앞뒤로 붙는다 - "Accepted Workshops - CIKM 2026",
+    "IEEE ICRA 2027 | Call for Technical Papers". 조각마다 학회 키·연도·IEEE/ACM을
+    지우고, 모집을 뜻하는 말이 남는 조각을 고른다.
+    """
+    first = next((line.strip() for line in (page or "").splitlines() if line.strip()), "")
+    first = first.replace("\ufeff", "").replace("ï»¿", "").strip()
+    noise = re.compile(rf"\b({re.escape(key)}|ieee|acm|\d{{4}})\b", re.IGNORECASE)
+    for part in _TITLE_SEPARATORS.split(first):
+        cleaned = " ".join(noise.sub(" ", part or "").split()).strip(" -–—|:")
+        if cleaned and _CALL_WORDS.search(cleaned):
+            return cleaned
+    return ""
+
+
+def _label_with_call(label: str, page: str, key: str) -> str:
+    """라벨만으로 무슨 마감인지 안 보이면 페이지의 모집 이름을 붙인다.
+
+    IUI 2027 포스터 마감의 원문 라벨은 "Submission Deadline:"뿐이었다 - 그 페이지가
+    Call for Posters & Demos라는 것을 붙여야 무슨 마감인지 보인다(2026-10-12 소유자 요청).
+    원문 표현은 그대로 두고 뒤에 덧붙인다.
+    """
+    base = " ".join(str(label or "").split()).rstrip(" :")
+    if _TRACK_WORDS.search(base):
+        return base
+    title = call_title(page, key)
+    return f"{base}: {title}" if title else base
+
+
 def _accepted_deadline(item: dict) -> dict:
     when = _parse_datetime(item["date"])
     # 원문이 날짜만 주면 그날이 끝날 때까지다. 추출자가 시각을 0시로 적으면
@@ -335,7 +381,10 @@ def validate_official(extraction: dict, pages: dict[str, str], conference_start:
         if reason:
             rejected.append({**item, "reject_reason": reason})
         else:
-            accepted["deadlines"].append(_accepted_deadline(item))
+            entry = _accepted_deadline(item)
+            entry["label"] = _label_with_call(entry["label"], pages.get(item["url"], ""),
+                                              str(extraction.get("abbr") or ""))
+            accepted["deadlines"].append(entry)
 
     kept, out_of_order = check_order(accepted["deadlines"])
     accepted["deadlines"] = kept

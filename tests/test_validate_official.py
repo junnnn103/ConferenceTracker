@@ -369,3 +369,42 @@ def test_year_in_page_body_alone_far_away_is_not_enough():
     _, rejected = validate_official(
         {"abbr": "iui", "year": 2027, "items": [iui_poster(url)]}, {url: IUI_PAGE}, None)
     assert rejected[0]["reject_reason"] == "year_not_near"
+
+
+from scripts.validate_official import call_title
+
+
+def test_call_title_strips_site_names_and_keeps_the_call():
+    cases = {
+        "Call for Posters & Demos": "Call for Posters & Demos",
+        "Accepted Workshops - CIKM 2026": "Accepted Workshops",
+        "CoRL 2026 - Call for Papers": "Call for Papers",
+        "IEEE ICRA 2027 | Call for Technical Papers": "Call for Technical Papers",
+        "Research Track: Call for Papers – KDD 2027": "Research Track: Call for Papers",
+        "Call for Papers -": "Call for Papers",
+        "ICLR 2027 Call for Papers": "Call for Papers",
+        "﻿ IEEE BigData 2026": "",
+        "KDD 2027 – KDD 2027 | San Jose": "",
+    }
+    keys = {"CoRL 2026 - Call for Papers": "corl", "IEEE ICRA 2027 | Call for Technical Papers": "icra",
+            "Research Track: Call for Papers – KDD 2027": "kdd", "ICLR 2027 Call for Papers": "iclr",
+            "﻿ IEEE BigData 2026": "bigdata", "KDD 2027 – KDD 2027 | San Jose": "kdd",
+            "Accepted Workshops - CIKM 2026": "cikm"}
+    for title, want in cases.items():
+        assert call_title(title + "\nbody text", keys.get(title, "iui")) == want, title
+
+
+def test_generic_label_gets_the_call_name():
+    """IUI 2027 포스터 마감의 원문 라벨은 "Submission Deadline:"뿐이라 무슨 마감인지 안 보였다.
+    그 페이지가 Call for Posters & Demos이니 그 이름을 붙인다."""
+    page = "Call for Posters & Demos\n" + IUI_PAGE
+    accepted, _ = validate_official({"abbr": "iui", "year": 2027, "items": [
+        {**iui_poster(), "label": "Submission Deadline:"}]}, {IUI_URL: page}, None)
+    assert accepted["deadlines"][0]["label"] == "Submission Deadline: Call for Posters & Demos"
+
+
+def test_specific_label_is_left_alone():
+    page = "Call for Posters & Demos\n" + IUI_PAGE
+    accepted, _ = validate_official({"abbr": "iui", "year": 2027, "items": [
+        {**iui_poster(), "label": "Poster submission deadline"}]}, {IUI_URL: page}, None)
+    assert accepted["deadlines"][0]["label"] == "Poster submission deadline"
