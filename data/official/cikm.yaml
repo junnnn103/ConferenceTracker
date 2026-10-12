@@ -26,3 +26,11 @@ editions:
       raw_text: September 23, 2026 Recommended Date for Workshops Paper acceptance
         notification
       url: https://cikm2026.diag.uniroma1.it/
+  - type: paper
+    label: Resource Papers Submission Deadline
+    date: '2026-06-06 23:59:59'
+    timezone: AoE
+    evidence:
+      raw_text: June 6, 2026 Short Research Papers Submission Deadline Resource Papers
+        Submission Deadline
+      url: https://cikm2026.diag.uniroma1.it/

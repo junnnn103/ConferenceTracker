@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-10-12T04:24:04.485742+00:00",
+  "generated_at": "2026-10-12T06:31:57.087825+00:00",
   "fields": [
     {
       "id": "ML",
@@ -2253,13 +2253,6 @@
               "timezone": "AoE"
             },
             {
-              "type": "paper",
-              "label": "Full paper submission deadline",
-              "date": "2026-05-23T23:59:00",
-              "source": "ai-deadlines",
-              "timezone": "AoE"
-            },
-            {
               "type": "notification",
               "label": "Author notification",
               "date": "2026-08-07T23:59:00",
@@ -2292,6 +2285,17 @@
               "timezone": "AoE",
               "evidence": {
                 "raw_text": "September 23, 2026 Recommended Date for Workshops Paper acceptance notification",
+                "url": "https://cikm2026.diag.uniroma1.it/"
+              }
+            },
+            {
+              "type": "paper",
+              "label": "Resource Papers Submission Deadline",
+              "date": "2026-06-06T23:59:59",
+              "source": "official",
+              "timezone": "AoE",
+              "evidence": {
+                "raw_text": "June 6, 2026 Short Research Papers Submission Deadline Resource Papers Submission Deadline",
                 "url": "https://cikm2026.diag.uniroma1.it/"
               }
             }
@@ -3127,6 +3131,17 @@
               "evidence": {
                 "raw_text": "Workshop paper notification Dec. 7, 2026",
                 "url": "https://iui.acm.org/2027/call-for-workshops/"
+              }
+            },
+            {
+              "type": "poster",
+              "label": "Submission Deadline:",
+              "date": "2026-11-10T23:59:59",
+              "source": "official",
+              "timezone": "AoE",
+              "evidence": {
+                "raw_text": "Submission Deadline: November 10th, 2026",
+                "url": "https://iui.acm.org/2027/call-for-posters-demos/"
               }
             }
           ],

@@ -36,8 +36,7 @@ cikm/2026:
   next_due: '2026-10-19'
   results:
     C: found
-  tba:
-  - Resource Papers Submission Deadline
+  tba: []
 corl/2026:
   access: ok
   criteria:

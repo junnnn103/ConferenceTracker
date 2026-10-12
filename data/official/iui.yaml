@@ -17,3 +17,10 @@ editions:
     evidence:
       raw_text: Workshop paper notification Dec. 7, 2026
       url: https://iui.acm.org/2027/call-for-workshops/
+  - type: poster
+    label: 'Submission Deadline:'
+    date: '2026-11-10 23:59:59'
+    timezone: AoE
+    evidence:
+      raw_text: 'Submission Deadline: November 10th, 2026'
+      url: https://iui.acm.org/2027/call-for-posters-demos/
