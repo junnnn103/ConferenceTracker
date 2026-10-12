@@ -1,0 +1,26 @@
+abbr: iclr
+editions:
+- year: 2027
+  checked: '2026-10-12'
+  deadlines:
+  - type: paper
+    label: Paper deadline
+    date: '2026-09-25 23:59:59'
+    timezone: AoE
+    evidence:
+      raw_text: Paper deadline Sep 25, 2026 AOE
+      url: https://iclr.cc/Conferences/2027/CallForPapers
+  - type: notification
+    label: Workshop Acceptance Notification
+    date: '2026-11-29 23:59:59'
+    evidence:
+      raw_text: 'Workshop Acceptance Notification : 29 November 2026'
+      url: https://iclr.cc/Conferences/2027/CallForWorkshops
+  - type: notification
+    label: Mandatory Accepted Paper Notification Date*
+    date: '2027-02-26 23:59:59'
+    timezone: AoE
+    evidence:
+      raw_text: 'Mandatory Accepted Paper Notification Date*: 26 February 2027, 11.59pm
+        AoE'
+      url: https://iclr.cc/Conferences/2027/CallForWorkshops

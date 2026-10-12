@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-10-12T00:14:49.220417+00:00",
+  "generated_at": "2026-10-12T04:24:04.485742+00:00",
   "fields": [
     {
       "id": "ML",
@@ -382,6 +382,38 @@
               "date": "2026-12-16T23:59:59",
               "source": "ai-deadlines",
               "timezone": "AoE"
+            },
+            {
+              "type": "paper",
+              "label": "Paper deadline",
+              "date": "2026-09-25T23:59:59",
+              "source": "official",
+              "timezone": "AoE",
+              "evidence": {
+                "raw_text": "Paper deadline Sep 25, 2026 AOE",
+                "url": "https://iclr.cc/Conferences/2027/CallForPapers"
+              }
+            },
+            {
+              "type": "notification",
+              "label": "Workshop Acceptance Notification",
+              "date": "2026-11-29T23:59:59",
+              "source": "official",
+              "evidence": {
+                "raw_text": "Workshop Acceptance Notification : 29 November 2026",
+                "url": "https://iclr.cc/Conferences/2027/CallForWorkshops"
+              }
+            },
+            {
+              "type": "notification",
+              "label": "Mandatory Accepted Paper Notification Date*",
+              "date": "2027-02-26T23:59:59",
+              "source": "official",
+              "timezone": "AoE",
+              "evidence": {
+                "raw_text": "Mandatory Accepted Paper Notification Date*: 26 February 2027, 11.59pm AoE",
+                "url": "https://iclr.cc/Conferences/2027/CallForWorkshops"
+              }
             }
           ],
           "primary_deadline": "2026-09-25T23:59:59",
@@ -850,13 +882,6 @@
               "timezone": "AoE"
             },
             {
-              "type": "commitment_deadline",
-              "label": "EMNLP commitment deadline",
-              "date": "2026-08-02T23:59:59",
-              "source": "ai-deadlines",
-              "timezone": "AoE"
-            },
-            {
               "type": "notification",
               "label": "Author notification date",
               "date": "2026-08-20T23:59:59",
@@ -869,6 +894,17 @@
               "date": "2026-08-30T23:59:59",
               "source": "ai-deadlines",
               "timezone": "AoE"
+            },
+            {
+              "type": "commitment",
+              "label": "EMNLP commitment deadline",
+              "date": "2026-08-02T23:59:59",
+              "source": "official",
+              "timezone": "AoE",
+              "evidence": {
+                "raw_text": "EMNLP commitment deadline August 2, 2026",
+                "url": "https://2026.emnlp.org/calls/main_conference_papers/"
+              }
             }
           ],
           "primary_deadline": "2026-08-02T23:59:59",
@@ -1181,6 +1217,16 @@
               "date": "2026-09-23T23:59:59",
               "source": "ccfddl",
               "timezone": "UTC-12"
+            },
+            {
+              "type": "notification",
+              "label": "Workshop Paper Acceptance Notification",
+              "date": "2026-12-16T23:59:59",
+              "source": "official",
+              "evidence": {
+                "raw_text": "Wednesday, December 16, 2026 Workshop Paper Acceptance Notification",
+                "url": "https://2027.ieeeicassp.org/call-for-satellite-workshops/"
+              }
             }
           ],
           "primary_deadline": "2026-09-23T23:59:59",
@@ -1282,10 +1328,10 @@
         },
         {
           "year": 2027,
-          "date_text": "August 1-5, 2027",
+          "date_text": "August 1–5, 2027",
           "start": "2027-08-01",
           "end": "2027-08-05",
-          "place": "San Jose California USA",
+          "place": "San Jose United States",
           "link": "https://kdd2027.kdd.org/",
           "deadlines": [
             {
@@ -1353,10 +1399,10 @@
         },
         {
           "year": 2027,
-          "date_text": "May 24 - 28, 2027",
+          "date_text": "May 24th to 28th, 2027",
           "start": "2027-05-24",
           "end": "2027-05-28",
-          "place": "Seoul South Korea",
+          "place": "Coex in Seoul South Korea",
           "link": "https://2027.ieee-icra.org/",
           "deadlines": [
             {
@@ -1379,9 +1425,19 @@
               "date": "2027-03-06T23:59:59",
               "source": "ai-deadlines",
               "timezone": "PST"
+            },
+            {
+              "type": "paper",
+              "label": "Paper submission deadline",
+              "date": "2026-09-16T23:59:00",
+              "source": "official",
+              "evidence": {
+                "raw_text": "Paper submission deadline: September 16, 2026 (23:59 PST) (via Paperplaza )",
+                "url": "https://2027.ieee-icra.org/contribute/call-for-icra-2027-papers-now-accepting-submissions/"
+              }
             }
           ],
-          "primary_deadline": "2026-09-15T23:59:59",
+          "primary_deadline": "2026-09-16T23:59:00",
           "source": "ai-deadlines"
         }
       ]
@@ -2186,7 +2242,7 @@
           "date_text": "November 7-11, 2026",
           "start": "2026-11-07",
           "end": "2026-11-11",
-          "place": "Rome Italy",
+          "place": "Rome ITALY",
           "link": "https://cikm2026.diag.uniroma1.it/",
           "deadlines": [
             {
@@ -2216,9 +2272,31 @@
               "date": "2026-08-20T23:59:00",
               "source": "ai-deadlines",
               "timezone": "AoE"
+            },
+            {
+              "type": "short_paper",
+              "label": "Short Research Papers Submission Deadline",
+              "date": "2026-06-06T23:59:59",
+              "source": "official",
+              "timezone": "AoE",
+              "evidence": {
+                "raw_text": "June 6, 2026 Short Research Papers Submission Deadline",
+                "url": "https://cikm2026.diag.uniroma1.it/"
+              }
+            },
+            {
+              "type": "notification",
+              "label": "Recommended Date for Workshops Paper acceptance notification",
+              "date": "2026-09-23T23:59:59",
+              "source": "official",
+              "timezone": "AoE",
+              "evidence": {
+                "raw_text": "September 23, 2026 Recommended Date for Workshops Paper acceptance notification",
+                "url": "https://cikm2026.diag.uniroma1.it/"
+              }
             }
           ],
-          "primary_deadline": "2026-05-23T23:59:00",
+          "primary_deadline": "2026-06-06T23:59:59",
           "source": "ai-deadlines"
         }
       ]
@@ -3028,6 +3106,28 @@
               "date": "2026-08-20T23:59:59",
               "source": "ccfddl",
               "timezone": "AoE"
+            },
+            {
+              "type": "notification",
+              "label": "Workshop proposal notification",
+              "date": "2026-08-04T23:59:59",
+              "source": "official",
+              "timezone": "AoE",
+              "evidence": {
+                "raw_text": "Workshop proposal notification Aug. 4, 2026",
+                "url": "https://iui.acm.org/2027/call-for-workshops/"
+              }
+            },
+            {
+              "type": "notification",
+              "label": "Workshop paper notification",
+              "date": "2026-12-07T23:59:59",
+              "source": "official",
+              "timezone": "AoE",
+              "evidence": {
+                "raw_text": "Workshop paper notification Dec. 7, 2026",
+                "url": "https://iui.acm.org/2027/call-for-workshops/"
+              }
             }
           ],
           "primary_deadline": "2026-08-20T23:59:59",
@@ -3455,6 +3555,28 @@
               "date": "2026-10-11T23:59:59",
               "source": "ccfddl",
               "timezone": "UTC-12"
+            },
+            {
+              "type": "commitment",
+              "label": "EACL 2027 commitment deadline",
+              "date": "2026-10-11T23:59:59",
+              "source": "official",
+              "timezone": "AoE",
+              "evidence": {
+                "raw_text": "EACL 2027 commitment deadline October 11, 2026",
+                "url": "https://2027.eacl.org/calls/papers/"
+              }
+            },
+            {
+              "type": "notification",
+              "label": "Notification of acceptance",
+              "date": "2026-10-02T23:59:59",
+              "source": "official",
+              "timezone": "AoE",
+              "evidence": {
+                "raw_text": "Notification of acceptance: October 2nd, 2026",
+                "url": "https://2027.eacl.org/calls/workshops/"
+              }
             }
           ],
           "primary_deadline": "2026-10-11T23:59:59",

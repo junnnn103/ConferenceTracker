@@ -1,0 +1,12 @@
+abbr: emnlp
+editions:
+- year: 2026
+  checked: '2026-10-12'
+  deadlines:
+  - type: commitment
+    label: EMNLP commitment deadline
+    date: '2026-08-02 23:59:59'
+    timezone: AoE
+    evidence:
+      raw_text: EMNLP commitment deadline August 2, 2026
+      url: https://2026.emnlp.org/calls/main_conference_papers/

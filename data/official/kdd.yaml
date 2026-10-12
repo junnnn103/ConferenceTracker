@@ -1,0 +1,13 @@
+abbr: kdd
+editions:
+- year: 2027
+  checked: '2026-10-12'
+  edition:
+    date_text: August 1–5, 2027
+    start: '2027-08-01'
+    end: '2027-08-05'
+    place: San Jose, United States
+    evidence:
+      raw_text: ACM KDD 2027 | San Jose, United States August 1–5, 2027
+      url: https://kdd2027.kdd.org/
+  deadlines: []

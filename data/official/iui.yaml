@@ -1,0 +1,19 @@
+abbr: iui
+editions:
+- year: 2027
+  checked: '2026-10-12'
+  deadlines:
+  - type: notification
+    label: Workshop proposal notification
+    date: '2026-08-04 23:59:59'
+    timezone: AoE
+    evidence:
+      raw_text: Workshop proposal notification Aug. 4, 2026
+      url: https://iui.acm.org/2027/call-for-workshops/
+  - type: notification
+    label: Workshop paper notification
+    date: '2026-12-07 23:59:59'
+    timezone: AoE
+    evidence:
+      raw_text: Workshop paper notification Dec. 7, 2026
+      url: https://iui.acm.org/2027/call-for-workshops/

@@ -9,6 +9,44 @@ ICME/2027:
     B: none
     E: found
   tba: []
+aaai/2027:
+  access: ok
+  criteria:
+  - C
+  last_checked: '2026-10-12'
+  next_due: '2026-10-19'
+  results:
+    C: tba
+  tba: []
+bigdataconf/2026:
+  access: ok
+  criteria:
+  - C
+  last_checked: '2026-10-12'
+  next_due: '2026-10-19'
+  results:
+    C: tba
+  tba:
+  - edition
+cikm/2026:
+  access: via_edition_link
+  criteria:
+  - C
+  last_checked: '2026-10-12'
+  next_due: '2026-10-19'
+  results:
+    C: found
+  tba:
+  - Resource Papers Submission Deadline
+corl/2026:
+  access: ok
+  criteria:
+  - C
+  last_checked: '2026-10-12'
+  next_due: '2026-10-19'
+  results:
+    C: tba
+  tba: []
 cvpr/2027:
   access: ok
   criteria:
@@ -29,6 +67,25 @@ dis/2027:
   results:
     E: found
   tba: []
+eacl/2027:
+  access: ok
+  criteria:
+  - C
+  last_checked: '2026-10-12'
+  next_due: '2026-10-19'
+  results:
+    C: found
+  tba:
+  - ARR submission deadline (long & short papers)
+emnlp/2026:
+  access: ok
+  criteria:
+  - C
+  last_checked: '2026-10-12'
+  next_due: '2026-10-19'
+  results:
+    C: tba
+  tba: []
 hri/2027:
   access: ok
   criteria:
@@ -42,6 +99,16 @@ hri/2027:
   - Full paper decision notification
   - Late-Breaking Reports submission
   - Late-Breaking Reports acceptance notification
+icassp/2027:
+  access: ok
+  criteria:
+  - C
+  last_checked: '2026-10-12'
+  next_due: '2026-10-19'
+  results:
+    C: found
+  tba:
+  - Workshop Paper Submission Deadline
 iccv/2027:
   access: ok
   criteria:
@@ -60,6 +127,15 @@ icip/2027:
   results:
     A: found
   tba: []
+iclr/2027:
+  access: ok
+  criteria:
+  - C
+  last_checked: '2026-10-12'
+  next_due: '2026-10-19'
+  results:
+    C: found
+  tba: []
 icml/2027:
   access: ok
   criteria:
@@ -68,6 +144,15 @@ icml/2027:
   next_due: '2026-10-15'
   results:
     A: none
+  tba: []
+icra/2027:
+  access: ok
+  criteria:
+  - C
+  last_checked: '2026-10-12'
+  next_due: '2026-10-19'
+  results:
+    C: found
   tba: []
 ijcai/2027:
   access: ok
@@ -79,6 +164,38 @@ ijcai/2027:
   results:
     B: none
     E: found
+  tba: []
+ismar/2027:
+  access: via_alternate
+  criteria:
+  - A
+  last_checked: '2026-10-12'
+  next_due: '2026-10-19'
+  results:
+    A: tba
+  tba:
+  - Papers submission deadline
+  - Workshops submission deadline
+  - Posters submission deadline
+  - Conference dates
+iui/2027:
+  access: ok
+  criteria:
+  - C
+  last_checked: '2026-10-12'
+  next_due: '2026-10-19'
+  results:
+    C: found
+  tba:
+  - Workshop papers deadline
+kdd/2027:
+  access: ok
+  criteria:
+  - C
+  last_checked: '2026-10-12'
+  next_due: '2026-10-19'
+  results:
+    C: tba
   tba: []
 recsys/2027:
   access: ok

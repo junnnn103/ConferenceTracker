@@ -1,0 +1,11 @@
+abbr: icassp
+editions:
+- year: 2027
+  checked: '2026-10-12'
+  deadlines:
+  - type: notification
+    label: Workshop Paper Acceptance Notification
+    date: '2026-12-16 23:59:59'
+    evidence:
+      raw_text: Wednesday, December 16, 2026 Workshop Paper Acceptance Notification
+      url: https://2027.ieeeicassp.org/call-for-satellite-workshops/

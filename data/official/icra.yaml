@@ -1,0 +1,21 @@
+abbr: icra
+editions:
+- year: 2027
+  checked: '2026-10-12'
+  edition:
+    date_text: May 24th to 28th, 2027
+    start: '2027-05-24'
+    end: '2027-05-28'
+    place: Coex in Seoul, South Korea
+    evidence:
+      raw_text: Save the date for ICRA 2027, May 24th to 28th, 2027 at Coex in Seoul,
+        South Korea!
+      url: https://2027.ieee-icra.org/
+  deadlines:
+  - type: paper
+    label: Paper submission deadline
+    date: '2026-09-16 23:59:00'
+    evidence:
+      raw_text: 'Paper submission deadline: September 16, 2026 (23:59 PST) (via Paperplaza
+        )'
+      url: https://2027.ieee-icra.org/contribute/call-for-icra-2027-papers-now-accepting-submissions/
