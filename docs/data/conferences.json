@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-10-12T06:40:05.694202+00:00",
+  "generated_at": "2026-10-18T22:48:18.187057+00:00",
   "fields": [
     {
       "id": "ML",
@@ -2996,32 +2996,6 @@
       "homepage": "https://ubicomp.org/",
       "editions": [
         {
-          "year": 2025,
-          "date_text": "October 12-16, 2025",
-          "start": "2025-10-12",
-          "end": "2025-10-16",
-          "place": "Espoo Finland",
-          "link": "https://www.ubicomp.org/ubicomp-iswc-2025",
-          "deadlines": [
-            {
-              "type": "paper",
-              "label": "first round",
-              "date": "2025-02-01T23:59:59",
-              "source": "ccfddl",
-              "timezone": "AoE"
-            },
-            {
-              "type": "paper",
-              "label": "second round",
-              "date": "2025-05-01T23:59:59",
-              "source": "ccfddl",
-              "timezone": "AoE"
-            }
-          ],
-          "primary_deadline": "2025-05-01T23:59:59",
-          "source": "ccfddl"
-        },
-        {
           "year": 2026,
           "date_text": "October 11-15, 2026",
           "start": "2026-10-11",
@@ -3045,6 +3019,17 @@
             }
           ],
           "primary_deadline": "2026-05-01T23:59:59",
+          "source": "ccfddl"
+        },
+        {
+          "year": 2027,
+          "date_text": "October 3-7, 2027",
+          "start": "2027-10-03",
+          "end": "2027-10-07",
+          "place": "Seoul Republic of Korea",
+          "link": "https://sigchi.org/events/ubicomp-2027/",
+          "deadlines": [],
+          "primary_deadline": null,
           "source": "ccfddl"
         }
       ]
@@ -3688,32 +3673,6 @@
       "homepage": "https://cscw.acm.org/",
       "editions": [
         {
-          "year": 2025,
-          "date_text": "October 18-22, 2025",
-          "start": "2025-10-18",
-          "end": "2025-10-22",
-          "place": "Bergen Norway",
-          "link": "https://cscw.acm.org/2025/",
-          "deadlines": [
-            {
-              "type": "paper",
-              "label": "JULY 2024 CYCLE",
-              "date": "2024-07-02T23:59:59",
-              "source": "ccfddl",
-              "timezone": "AoE"
-            },
-            {
-              "type": "paper",
-              "label": "OCTOBER 2024 CYCLE",
-              "date": "2024-10-29T23:59:59",
-              "source": "ccfddl",
-              "timezone": "AoE"
-            }
-          ],
-          "primary_deadline": "2024-10-29T23:59:59",
-          "source": "ccfddl"
-        },
-        {
           "year": 2026,
           "date_text": "October 10-14, 2026",
           "start": "2026-10-10",
@@ -3731,6 +3690,18 @@
           ],
           "primary_deadline": "2025-05-14T12:00:00",
           "source": "ccfddl"
+        },
+        {
+          "year": 2027,
+          "date_text": "",
+          "start": null,
+          "end": null,
+          "place": "",
+          "link": null,
+          "deadlines": [],
+          "primary_deadline": null,
+          "source": "estimated",
+          "estimated_month": 10
         }
       ]
     },
@@ -3833,6 +3804,12 @@
     },
     {
       "abbr": "ISMAR",
+      "year": 2027,
+      "month": 10,
+      "kind": "차기 회차 미공개"
+    },
+    {
+      "abbr": "CSCW",
       "year": 2027,
       "month": 10,
       "kind": "차기 회차 미공개"
