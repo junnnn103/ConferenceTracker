@@ -1,12 +1,12 @@
 abbr: cvpr
 editions:
 - year: 2027
-  checked: '2026-10-08'
+  checked: '2026-10-26'
   deadlines:
   - type: paper
-    label: Submission Deadline
-    date: '2026-11-16 23:59:59'
+    label: 'Submission Deadline*: Call for Papers'
+    date: '2026-11-16 23:59:00'
     timezone: AoE
     evidence:
-      raw_text: Submission Deadline Nov 16 '26 (Anywhere on Earth)
-      url: https://cvpr.thecvf.com/Conferences/2027/Dates
+      raw_text: Submission Deadline* Nov 16, 2026 11:59 PM AOE or
+      url: https://cvpr.thecvf.com/Conferences/2027/CallForPapers

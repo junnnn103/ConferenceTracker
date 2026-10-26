@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-10-18T22:48:18.187057+00:00",
+  "generated_at": "2026-10-26T03:02:14.753084+00:00",
   "fields": [
     {
       "id": "ML",
@@ -134,17 +134,17 @@
           "deadlines": [
             {
               "type": "paper",
-              "label": "Submission Deadline",
-              "date": "2026-11-16T23:59:59",
+              "label": "Submission Deadline*: Call for Papers",
+              "date": "2026-11-16T23:59:00",
               "source": "official",
               "timezone": "AoE",
               "evidence": {
-                "raw_text": "Submission Deadline Nov 16 '26 (Anywhere on Earth)",
-                "url": "https://cvpr.thecvf.com/Conferences/2027/Dates"
+                "raw_text": "Submission Deadline* Nov 16, 2026 11:59 PM AOE or",
+                "url": "https://cvpr.thecvf.com/Conferences/2027/CallForPapers"
               }
             }
           ],
-          "primary_deadline": "2026-11-16T23:59:59",
+          "primary_deadline": "2026-11-16T23:59:00",
           "source": "ai-deadlines"
         }
       ]
@@ -2864,20 +2864,6 @@
           "link": "https://humanrobotinteraction.org/2027/",
           "deadlines": [
             {
-              "type": "abstract",
-              "label": "Abstract",
-              "date": "2026-09-11T23:59:59",
-              "source": "manual",
-              "timezone": "AoE"
-            },
-            {
-              "type": "paper",
-              "label": "Full Papers",
-              "date": "2026-09-18T23:59:59",
-              "source": "manual",
-              "timezone": "AoE"
-            },
-            {
               "type": "submission",
               "label": "Short Contributions",
               "date": "2026-10-01T23:59:59",
@@ -2925,9 +2911,42 @@
               "date": "2026-11-20T23:59:59",
               "source": "manual",
               "timezone": "AoE"
+            },
+            {
+              "type": "abstract",
+              "label": "Abstract Submission Deadline (required for all full papers)",
+              "date": "2026-09-11T23:59:00",
+              "source": "official",
+              "timezone": "AoE",
+              "evidence": {
+                "raw_text": "Abstract Submission Deadline (required for all full papers) September 11, 2026",
+                "url": "https://humanrobotinteraction.org/2027/full-papers/"
+              }
+            },
+            {
+              "type": "paper",
+              "label": "Submission Deadline (only if you submitted the abstract by Sep 11)",
+              "date": "2026-09-18T23:59:00",
+              "source": "official",
+              "timezone": "AoE",
+              "evidence": {
+                "raw_text": "Submission Deadline (only if you submitted the abstract by Sep 11) September 18, 2026",
+                "url": "https://humanrobotinteraction.org/2027/full-papers/"
+              }
+            },
+            {
+              "type": "short_paper",
+              "label": "Short Contributions",
+              "date": "2026-10-01T23:59:00",
+              "source": "official",
+              "timezone": "AoE",
+              "evidence": {
+                "raw_text": "Short Contributions Submission Deadline October 1, 2026",
+                "url": "https://humanrobotinteraction.org/2027/"
+              }
             }
           ],
-          "primary_deadline": "2026-09-18T23:59:59",
+          "primary_deadline": "2026-10-01T23:59:00",
           "source": "manual"
         }
       ]
@@ -3023,10 +3042,10 @@
         },
         {
           "year": 2027,
-          "date_text": "October 3-7, 2027",
+          "date_text": "Sun, Oct 3, 2027 - Thu, Oct 7, 2027",
           "start": "2027-10-03",
           "end": "2027-10-07",
-          "place": "Seoul Republic of Korea",
+          "place": "Seoul Dragon City Seoul Republic of Korea",
           "link": "https://sigchi.org/events/ubicomp-2027/",
           "deadlines": [],
           "primary_deadline": null,
@@ -3316,8 +3335,19 @@
           "end": "2027-07-17",
           "place": "Xiamen China",
           "link": "https://ieee-cas.org/event/conference/2027-ieee-international-conference-multimedia-expo-icme",
-          "deadlines": [],
-          "primary_deadline": null,
+          "deadlines": [
+            {
+              "type": "paper",
+              "label": "Conference Paper Submission Deadline",
+              "date": "2026-12-30T23:59:59",
+              "source": "official",
+              "evidence": {
+                "raw_text": "Conference Paper Submission Deadline: December 30, 2026",
+                "url": "https://signalprocessingsociety.org/event-names/icme"
+              }
+            }
+          ],
+          "primary_deadline": "2026-12-30T23:59:59",
           "source": "manual"
         }
       ]

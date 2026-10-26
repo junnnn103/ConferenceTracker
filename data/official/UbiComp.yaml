@@ -1,0 +1,14 @@
+abbr: UbiComp
+editions:
+- year: 2027
+  checked: '2026-10-26'
+  edition:
+    date_text: Sun, Oct 3, 2027 - Thu, Oct 7, 2027
+    start: '2027-10-03'
+    end: '2027-10-07'
+    place: Seoul Dragon City, Seoul, Republic of Korea
+    evidence:
+      raw_text: Time Sun, Oct 3, 2027 - Thu, Oct 7, 2027 Venue Seoul Dragon City,
+        Seoul, Republic of Korea
+      url: https://sigchi.org/events/ubicomp-2027/
+  deadlines: []

@@ -1,0 +1,28 @@
+abbr: hri
+editions:
+- year: 2027
+  checked: '2026-10-26'
+  deadlines:
+  - type: abstract
+    label: Abstract Submission Deadline (required for all full papers)
+    date: '2026-09-11 23:59:00'
+    timezone: AoE
+    evidence:
+      raw_text: Abstract Submission Deadline (required for all full papers) September
+        11, 2026
+      url: https://humanrobotinteraction.org/2027/full-papers/
+  - type: paper
+    label: Submission Deadline (only if you submitted the abstract by Sep 11)
+    date: '2026-09-18 23:59:00'
+    timezone: AoE
+    evidence:
+      raw_text: Submission Deadline (only if you submitted the abstract by Sep 11)
+        September 18, 2026
+      url: https://humanrobotinteraction.org/2027/full-papers/
+  - type: short_paper
+    label: Short Contributions
+    date: '2026-10-01 23:59:00'
+    timezone: AoE
+    evidence:
+      raw_text: Short Contributions Submission Deadline October 1, 2026
+      url: https://humanrobotinteraction.org/2027/

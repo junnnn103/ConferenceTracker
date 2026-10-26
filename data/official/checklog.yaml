@@ -2,12 +2,19 @@ ICME/2027:
   access: ok
   criteria:
   - B
-  - E
-  last_checked: '2026-10-08'
-  next_due: '2026-10-15'
+  last_checked: '2026-10-26'
+  next_due: '2026-11-02'
+  results:
+    B: found
+  tba: []
+UbiComp/2027:
+  access: ok
+  criteria:
+  - B
+  last_checked: '2026-10-26'
+  next_due: '2026-11-02'
   results:
     B: none
-    E: found
   tba: []
 aaai/2027:
   access: ok
@@ -46,17 +53,25 @@ corl/2026:
   results:
     C: tba
   tba: []
+cscw/2027:
+  access: ok
+  criteria:
+  - A
+  last_checked: '2026-10-26'
+  next_due: '2026-11-02'
+  results:
+    A: none
+  tba: []
 cvpr/2027:
   access: ok
   criteria:
-  - B
-  last_checked: '2026-10-08'
-  next_due: '2026-10-15'
+  - D
+  last_checked: '2026-10-26'
+  next_due: '2026-11-02'
   results:
-    B: found
+    D: tba
   tba:
   - edition
-  - Final Decisions
 dis/2027:
   access: ok
   criteria:
@@ -88,16 +103,15 @@ emnlp/2026:
 hri/2027:
   access: ok
   criteria:
+  - D
   - E
-  last_checked: '2026-10-08'
-  next_due: '2026-10-15'
+  last_checked: '2026-10-26'
+  next_due: '2026-11-02'
   results:
+    D: tba
     E: found
   tba:
-  - edition
-  - Full paper decision notification
-  - Late-Breaking Reports submission
-  - Late-Breaking Reports acceptance notification
+  - Late Breaking Reports
 icassp/2027:
   access: ok
   criteria:
@@ -112,8 +126,8 @@ iccv/2027:
   access: ok
   criteria:
   - B
-  last_checked: '2026-10-08'
-  next_due: '2026-10-15'
+  last_checked: '2026-10-26'
+  next_due: '2026-11-02'
   results:
     B: none
   tba: []
@@ -139,8 +153,8 @@ icml/2027:
   access: ok
   criteria:
   - A
-  last_checked: '2026-10-08'
-  next_due: '2026-10-15'
+  last_checked: '2026-10-26'
+  next_due: '2026-11-02'
   results:
     A: none
   tba: []
@@ -157,26 +171,29 @@ ijcai/2027:
   access: ok
   criteria:
   - B
-  - E
-  last_checked: '2026-10-08'
-  next_due: '2026-10-15'
+  last_checked: '2026-10-26'
+  next_due: '2026-11-02'
   results:
     B: none
-    E: found
   tba: []
 ismar/2027:
   access: via_alternate
   criteria:
   - A
-  last_checked: '2026-10-12'
-  next_due: '2026-10-19'
+  - D
+  last_checked: '2026-10-26'
+  next_due: '2026-11-02'
   results:
     A: tba
+    D: tba
   tba:
-  - Papers submission deadline
-  - Workshops submission deadline
-  - Posters submission deadline
-  - Conference dates
+  - Conference dates to be announced
+  - 'Papers
+
+    To be announced'
+  - 'Posters & Demos
+
+    To be announced'
 iui/2027:
   access: ok
   criteria:
@@ -200,11 +217,12 @@ recsys/2027:
   access: ok
   criteria:
   - B
-  last_checked: '2026-10-08'
-  next_due: '2026-10-15'
+  last_checked: '2026-10-26'
+  next_due: '2026-11-02'
   results:
     B: none
-  tba: []
+  tba:
+  - edition
 rss/2027:
   access: ok
   criteria:
@@ -223,26 +241,72 @@ siggraph/2027:
   access: via_alternate
   criteria:
   - B
-  last_checked: '2026-10-08'
-  next_due: '2026-10-15'
+  - D
+  last_checked: '2026-10-26'
+  next_due: '2026-11-02'
   results:
-    B: none
+    B: tba
+    D: tba
   tba:
+  - 'Technical Papers
+
+    Submissions Form & Conflicts
+
+    Deadline
+
+    To Be Announced'
+  - 'Technical Papers
+
+    Paper Deadline
+
+    Deadline
+
+    To Be Announced'
+  - 'Technical Papers
+
+    Upload Deadline
+
+    Deadline
+
+    To Be Announced'
+  - 'Art Papers
+
+    Long
+
+    Deadline
+
+    To Be Announced'
+  - 'Art Papers
+
+    Short
+
+    Deadline
+
+    To Be Announced'
+  - 'Posters
+
+    Deadline
+
+    To Be Announced'
   - edition
 sigir/2027:
   access: ok
   criteria:
   - B
-  - E
-  last_checked: '2026-10-08'
-  next_due: '2026-10-15'
+  - D
+  last_checked: '2026-10-26'
+  next_due: '2026-11-02'
   results:
     B: tba
-    E: found
+    D: tba
   tba:
+  - 'Important Dates (AoE) — PROPOSED
+
+    Full paper abstract submission: January 14, 2027
+
+    Full paper submission: January 21, 2027'
   - 'TBA
 
     Short, demo, resource, reproducibility, and perspective papers
 
     Add abstract and submission deadlines.'
-  - Full paper notification

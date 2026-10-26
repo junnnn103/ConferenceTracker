@@ -1,0 +1,11 @@
+abbr: ICME
+editions:
+- year: 2027
+  checked: '2026-10-26'
+  deadlines:
+  - type: paper
+    label: Conference Paper Submission Deadline
+    date: '2026-12-30 23:59:59'
+    evidence:
+      raw_text: 'Conference Paper Submission Deadline: December 30, 2026'
+      url: https://signalprocessingsociety.org/event-names/icme
