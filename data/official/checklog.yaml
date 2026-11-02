@@ -11,8 +11,8 @@ UbiComp/2027:
   access: ok
   criteria:
   - B
-  last_checked: '2026-10-26'
-  next_due: '2026-11-02'
+  last_checked: '2026-11-02'
+  next_due: '2026-11-09'
   results:
     B: none
   tba: []
@@ -29,10 +29,12 @@ bigdataconf/2026:
   access: ok
   criteria:
   - C
-  last_checked: '2026-10-12'
-  next_due: '2026-10-19'
+  - D
+  last_checked: '2026-11-02'
+  next_due: '2026-11-09'
   results:
     C: tba
+    D: tba
   tba:
   - edition
 cikm/2026:
@@ -56,11 +58,11 @@ corl/2026:
 cscw/2027:
   access: ok
   criteria:
-  - A
-  last_checked: '2026-10-26'
-  next_due: '2026-11-02'
+  - B
+  last_checked: '2026-11-02'
+  next_due: '2026-11-09'
   results:
-    A: none
+    B: none
   tba: []
 cvpr/2027:
   access: ok
@@ -100,6 +102,15 @@ emnlp/2026:
   results:
     C: tba
   tba: []
+emnlp/2027:
+  access: blocked
+  criteria:
+  - A
+  last_checked: '2026-11-02'
+  next_due: '2026-11-09'
+  results:
+    A: blocked
+  tba: []
 hri/2027:
   access: ok
   criteria:
@@ -126,8 +137,8 @@ iccv/2027:
   access: ok
   criteria:
   - B
-  last_checked: '2026-10-26'
-  next_due: '2026-11-02'
+  last_checked: '2026-11-02'
+  next_due: '2026-11-09'
   results:
     B: none
   tba: []
@@ -153,8 +164,8 @@ icml/2027:
   access: ok
   criteria:
   - A
-  last_checked: '2026-10-26'
-  next_due: '2026-11-02'
+  last_checked: '2026-11-02'
+  next_due: '2026-11-09'
   results:
     A: none
   tba: []
@@ -171,8 +182,8 @@ ijcai/2027:
   access: ok
   criteria:
   - B
-  last_checked: '2026-10-26'
-  next_due: '2026-11-02'
+  last_checked: '2026-11-02'
+  next_due: '2026-11-09'
   results:
     B: none
   tba: []
@@ -181,19 +192,16 @@ ismar/2027:
   criteria:
   - A
   - D
-  last_checked: '2026-10-26'
-  next_due: '2026-11-02'
+  last_checked: '2026-11-02'
+  next_due: '2026-11-09'
   results:
     A: tba
     D: tba
   tba:
   - Conference dates to be announced
-  - 'Papers
-
-    To be announced'
-  - 'Posters & Demos
-
-    To be announced'
+  - 'Papers: To be announced'
+  - 'Workshops & Tutorials: To be announced'
+  - 'Posters & Demos: To be announced'
 iui/2027:
   access: ok
   criteria:
@@ -217,96 +225,47 @@ recsys/2027:
   access: ok
   criteria:
   - B
-  last_checked: '2026-10-26'
-  next_due: '2026-11-02'
+  - D
+  last_checked: '2026-11-02'
+  next_due: '2026-11-09'
   results:
     B: none
+    D: tba
   tba:
   - edition
 rss/2027:
   access: ok
   criteria:
-  - B
-  - E
-  last_checked: '2026-10-08'
-  next_due: '2026-10-15'
+  - D
+  last_checked: '2026-11-02'
+  next_due: '2026-11-09'
   results:
-    B: found
-    E: found
-  tba:
-  - Decision Stage 1 (Reject or Invitation to Rebuttal)
-  - Decision Stage 2 (Reject or Invitation to execute an Extension Charter)
-  - Paper acceptance notification
+    D: found
+  tba: []
 siggraph/2027:
   access: via_alternate
   criteria:
   - B
   - D
-  last_checked: '2026-10-26'
-  next_due: '2026-11-02'
+  last_checked: '2026-11-02'
+  next_due: '2026-11-09'
   results:
     B: tba
     D: tba
   tba:
-  - 'Technical Papers
-
-    Submissions Form & Conflicts
-
-    Deadline
-
-    To Be Announced'
-  - 'Technical Papers
-
-    Paper Deadline
-
-    Deadline
-
-    To Be Announced'
-  - 'Technical Papers
-
-    Upload Deadline
-
-    Deadline
-
-    To Be Announced'
-  - 'Art Papers
-
-    Long
-
-    Deadline
-
-    To Be Announced'
-  - 'Art Papers
-
-    Short
-
-    Deadline
-
-    To Be Announced'
-  - 'Posters
-
-    Deadline
-
-    To Be Announced'
+  - Bookmark this page — submissions open soon!
   - edition
 sigir/2027:
   access: ok
   criteria:
   - B
   - D
-  last_checked: '2026-10-26'
-  next_due: '2026-11-02'
+  last_checked: '2026-11-02'
+  next_due: '2026-11-09'
   results:
     B: tba
     D: tba
   tba:
-  - 'Important Dates (AoE) — PROPOSED
-
-    Full paper abstract submission: January 14, 2027
-
-    Full paper submission: January 21, 2027'
-  - 'TBA
-
-    Short, demo, resource, reproducibility, and perspective papers
-
-    Add abstract and submission deadlines.'
+  - 'Short, demo, resource, reproducibility, and perspective papers: TBA.'
+  - edition
+  - Workshop paper notification
