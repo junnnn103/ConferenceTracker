@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-10-26T03:02:14.753084+00:00",
+  "generated_at": "2026-11-02T00:17:55.932639+00:00",
   "fields": [
     {
       "id": "ML",
@@ -825,32 +825,6 @@
       "homepage": "https://aclanthology.org/venues/emnlp/",
       "editions": [
         {
-          "year": 2025,
-          "date_text": "November 5-7, 2025",
-          "start": "2025-11-05",
-          "end": "2025-11-07",
-          "place": "Suzhou China (Hybrid)",
-          "link": "https://2025.emnlp.org/",
-          "deadlines": [
-            {
-              "type": "paper",
-              "label": "ARR Submission",
-              "date": "2025-05-19T23:59:59",
-              "source": "ccfddl",
-              "timezone": "UTC-12"
-            },
-            {
-              "type": "paper",
-              "label": "Commitment deadline for papers reviewed by ARR",
-              "date": "2025-08-01T23:59:59",
-              "source": "ccfddl",
-              "timezone": "UTC-12"
-            }
-          ],
-          "primary_deadline": "2025-08-01T23:59:59",
-          "source": "ccfddl"
-        },
-        {
           "year": 2026,
           "date_text": "October 24 - 29, 2026",
           "start": "2026-10-24",
@@ -925,6 +899,18 @@
           ],
           "primary_deadline": "2026-08-02T23:59:59",
           "source": "ai-deadlines"
+        },
+        {
+          "year": 2027,
+          "date_text": "",
+          "start": null,
+          "end": null,
+          "place": "",
+          "link": null,
+          "deadlines": [],
+          "primary_deadline": null,
+          "source": "estimated",
+          "estimated_month": 11
         }
       ]
     },
@@ -2484,8 +2470,8 @@
         },
         {
           "year": 2027,
-          "date_text": "September 26 - October 1, 2027",
-          "start": "2027-09-26",
+          "date_text": "September 27 - October 1, 2027",
+          "start": "2027-09-27",
           "end": "2027-10-01",
           "place": "Florence Italy",
           "link": "https://2027.ieee-iros.org/",
@@ -2816,12 +2802,12 @@
             {
               "type": "paper",
               "label": "Paper",
-              "date": "2026-10-30T20:00:00",
+              "date": "2026-10-30T21:00:00",
               "source": "ccfddl",
               "timezone": "UTC"
             }
           ],
-          "primary_deadline": "2026-10-30T20:00:00",
+          "primary_deadline": "2026-10-30T21:00:00",
           "source": "ccfddl"
         }
       ]
@@ -3723,15 +3709,14 @@
         },
         {
           "year": 2027,
-          "date_text": "",
-          "start": null,
-          "end": null,
-          "place": "",
-          "link": null,
+          "date_text": "October 16-20, 2027",
+          "start": "2027-10-16",
+          "end": "2027-10-20",
+          "place": "Philadelphia USA",
+          "link": "https://cscw.acm.org/2027/",
           "deadlines": [],
           "primary_deadline": null,
-          "source": "estimated",
-          "estimated_month": 10
+          "source": "ccfddl"
         }
       ]
     },
@@ -3833,13 +3818,13 @@
       "kind": "차기 회차 미공개"
     },
     {
-      "abbr": "ISMAR",
+      "abbr": "EMNLP",
       "year": 2027,
-      "month": 10,
+      "month": 11,
       "kind": "차기 회차 미공개"
     },
     {
-      "abbr": "CSCW",
+      "abbr": "ISMAR",
       "year": 2027,
       "month": 10,
       "kind": "차기 회차 미공개"
