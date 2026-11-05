@@ -20,7 +20,7 @@ EXCERPT_WIDTH = 1500
 # 검토 모델은 세션 기본값을 따르지 않고 고정한다. Task 12 역검증을 가벼운 모델부터
 # 돌려 14/14를 맞힌 가장 가벼운 모델로 정한다. 2026-10-07 실측: 검토 한 건에 입력
 # 4-7천 토큰. 같은 사례에서 Sonnet 5는 who_submits를 틀렸고 Haiku 4.5와 Opus는 맞혔다.
-REVIEW_MODEL = "claude-haiku-4-5-20251001"
+REVIEW_MODEL = "claude-opus-5-5"
 
 # 추출자의 type -> 검토자의 what으로 인정하는 값.
 # poster와 lbw는 같은 층이다. 워크숍 논문 저자 통보는 소유자가 2026-09-14에
