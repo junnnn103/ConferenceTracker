@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-11-02T03:01:30.312964+00:00",
+  "generated_at": "2026-11-09T00:34:44.480939+00:00",
   "fields": [
     {
       "id": "ML",
@@ -491,9 +491,9 @@
         },
         {
           "year": 2027,
-          "date_text": "October 2-8, 2027",
-          "start": "2027-10-02",
-          "end": "2027-10-08",
+          "date_text": "October 5-7, 2027",
+          "start": "2027-10-05",
+          "end": "2027-10-07",
           "place": "Hong Kong China",
           "link": "https://iccv.thecvf.com/Conferences/2027",
           "deadlines": [],
@@ -561,15 +561,14 @@
         },
         {
           "year": 2027,
-          "date_text": "",
-          "start": null,
-          "end": null,
-          "place": "",
-          "link": null,
+          "date_text": "August 2-4, 2027",
+          "start": "2027-08-02",
+          "end": "2027-08-04",
+          "place": "Riocentro Rio de Janeiro Brazil",
+          "link": "https://icml.cc/Conferences/2027",
           "deadlines": [],
           "primary_deadline": null,
-          "source": "estimated",
-          "estimated_month": 7
+          "source": "ccfddl"
         }
       ]
     },
@@ -1666,13 +1665,13 @@
           "deadlines": [
             {
               "type": "paper",
-              "label": "Paper",
-              "date": "2027-02-09T23:59:59",
+              "label": "Regular papers; rebuttal April 13-20. Date-only milestones use AoE end-of-day convention, converted to UTC.",
+              "date": "2027-02-10T11:59:59",
               "source": "ccfddl",
               "timezone": "UTC+0"
             }
           ],
-          "primary_deadline": "2027-02-09T23:59:59",
+          "primary_deadline": "2027-02-10T11:59:59",
           "source": "ccfddl"
         }
       ]
@@ -3221,32 +3220,6 @@
       "homepage": "https://uist.acm.org/",
       "editions": [
         {
-          "year": 2025,
-          "date_text": "Sep 28 - Oct 1, 2025",
-          "start": "2025-09-28",
-          "end": "2025-10-01",
-          "place": "Busan Korea",
-          "link": "https://uist.acm.org/2025/",
-          "deadlines": [
-            {
-              "type": "abstract",
-              "label": "Abstract",
-              "date": "2025-04-02T23:59:59",
-              "source": "ccfddl",
-              "timezone": "AoE"
-            },
-            {
-              "type": "paper",
-              "label": "Paper",
-              "date": "2025-04-09T23:59:59",
-              "source": "ccfddl",
-              "timezone": "AoE"
-            }
-          ],
-          "primary_deadline": "2025-04-09T23:59:59",
-          "source": "ccfddl"
-        },
-        {
           "year": 2026,
           "date_text": "November 2 - 5, 2026",
           "start": "2026-11-02",
@@ -3282,6 +3255,18 @@
           ],
           "primary_deadline": "2026-03-31T23:59:59",
           "source": "ccfddl"
+        },
+        {
+          "year": 2027,
+          "date_text": "",
+          "start": null,
+          "end": null,
+          "place": "",
+          "link": null,
+          "deadlines": [],
+          "primary_deadline": null,
+          "source": "estimated",
+          "estimated_month": 10
         }
       ]
     },
@@ -3378,7 +3363,7 @@
             {
               "type": "abstract",
               "label": "Abstract registration / full paper",
-              "date": "2026-06-24T23:59:59",
+              "date": "2026-06-24T23:59:00",
               "source": "ccfddl",
               "timezone": "AoE"
             },
@@ -3812,15 +3797,15 @@
   ],
   "estimated": [
     {
-      "abbr": "ICML",
-      "year": 2027,
-      "month": 7,
-      "kind": "차기 회차 미공개"
-    },
-    {
       "abbr": "EMNLP",
       "year": 2027,
       "month": 11,
+      "kind": "차기 회차 미공개"
+    },
+    {
+      "abbr": "UIST",
+      "year": 2027,
+      "month": 10,
       "kind": "차기 회차 미공개"
     },
     {
