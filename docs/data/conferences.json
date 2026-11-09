@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-11-09T00:34:44.480939+00:00",
+  "generated_at": "2026-11-09T03:01:57.784513+00:00",
   "fields": [
     {
       "id": "ML",
@@ -2090,8 +2090,51 @@
           "end": "2027-07-24",
           "place": "Silicon Valley USA",
           "link": "https://sigir2027.org/",
-          "deadlines": [],
-          "primary_deadline": null,
+          "deadlines": [
+            {
+              "type": "abstract",
+              "label": "Full paper abstract submission",
+              "date": "2027-01-14T23:59:59",
+              "source": "official",
+              "timezone": "AoE",
+              "evidence": {
+                "raw_text": "Full paper abstract submission: January 14, 2027",
+                "url": "https://sigir2027.org/pages/submit-full.html"
+              }
+            },
+            {
+              "type": "paper",
+              "label": "Full paper submission",
+              "date": "2027-01-21T23:59:59",
+              "source": "official",
+              "timezone": "AoE",
+              "evidence": {
+                "raw_text": "Full paper submission: January 21, 2027",
+                "url": "https://sigir2027.org/pages/submit-full.html"
+              }
+            },
+            {
+              "type": "notification",
+              "label": "Workshop notification",
+              "date": "2027-02-15T23:59:59",
+              "source": "official",
+              "evidence": {
+                "raw_text": "Workshop notification: February 15, 2027",
+                "url": "https://sigir2027.org/pages/submit-workshops.html"
+              }
+            },
+            {
+              "type": "notification",
+              "label": "Workshop paper notification",
+              "date": "2027-05-17T23:59:59",
+              "source": "official",
+              "evidence": {
+                "raw_text": "Suggested timelines for workshop submissions Milestone Date Workshop paper submission: April 17, 2027 (recommended) Workshop paper notification: May 17, 2027 (recommended)",
+                "url": "https://sigir2027.org/pages/submit-workshops.html"
+              }
+            }
+          ],
+          "primary_deadline": "2027-01-21T23:59:59",
           "source": "manual"
         }
       ]
