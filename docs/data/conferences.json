@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-11-13T17:20:22.594233+00:00",
+  "generated_at": "2026-11-13T17:20:57.735849+00:00",
   "fields": [
     {
       "id": "ML",
@@ -3399,10 +3399,10 @@
         },
         {
           "year": 2027,
-          "date_text": "",
-          "start": null,
-          "end": null,
-          "place": "",
+          "date_text": "October 27-29, 2027",
+          "start": "2027-10-27",
+          "end": "2027-10-29",
+          "place": "Vienna Austria",
           "link": null,
           "deadlines": [
             {
@@ -3427,8 +3427,7 @@
             }
           ],
           "primary_deadline": "2027-04-07T23:59:59",
-          "source": "official",
-          "estimated_month": 10
+          "source": "official"
         }
       ]
     },
@@ -4007,12 +4006,6 @@
       "year": 2027,
       "month": 11,
       "kind": "차기 회차 미공개"
-    },
-    {
-      "abbr": "UIST",
-      "year": 2027,
-      "month": 10,
-      "kind": "개최일 미정"
     }
   ]
 }

@@ -318,9 +318,8 @@ uist/2027:
   last_checked: '2026-11-14'
   next_due: '2026-11-21'
   results:
-    A: none
-  tba:
-  - edition
+    A: found
+  tba: []
 vr/2027:
   access: ok
   criteria:

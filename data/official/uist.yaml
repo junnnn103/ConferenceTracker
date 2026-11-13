@@ -2,6 +2,16 @@ abbr: uist
 editions:
 - year: 2027
   checked: '2026-11-14'
+  edition:
+    date_text: October 27-29, 2027
+    start: '2027-10-27'
+    end: '2027-10-29'
+    place: Vienna, Austria
+    evidence:
+      raw_text: 'Location & Date Vienna, Austria Venue: VIECON - Vienna Congress &
+        Convention Center Workshops + Doctoral Symposium: October 26, 2027 Main conference:
+        October 27-29, 2027'
+      url: https://uist.acm.org/
   deadlines:
   - type: abstract
     label: Abstract
