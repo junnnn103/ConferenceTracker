@@ -533,15 +533,13 @@ export function matchesFilters(conf, filters, now) {
   if (filters.aiOnly && !conf.ai_specialist) return false;
 
   if (filters.hidePast) {
-    // 셀에 실제로 뜨는 값(nextDeadline)으로 판단해야 한다. primary_deadline은
-    // deadlines 배열에 있는 모든 타입 중 가장 늦은 것의 최댓값이라 - CVPR,
-    // ACL, SIGGRAPH 2027처럼 deadlines에 paper/submission 타입이 하나도
-    // 없이 poster/workshop/demo 등만 있는 회차에서는 nextDeadline이 null(셀:
-    // 미정)을 돌려주는데도 primary_deadline은 그 workshop 마감으로 값을
-    // 가진다. 그러면 셀은 미정인데 hidePast는 그 마감을 기준으로 판단해
-    // 필터와 화면이 서로 다른 근거로 어긋난다.
+    // "본 논문 마감 지난 것 숨기기". 본 논문 칸에 실제로 뜨는 값(mainDeadline)으로
+    // 판단한다 - 포스터·워크숍이 남아 있어도 본 논문이 지났으면 숨긴다. 예전에는
+    // 제출마감 칸(nextDeadline) 기준이라 CHI처럼 포스터가 남은 학회가 계속 보였다.
+    // primary_deadline으로 판단하지 않는 이유도 같다: 셀이 미정인데 필터만
+    // 다른 근거로 통과시키면 화면과 필터가 어긋난다.
     const edition = pickEdition(conf.editions, now);
-    const chosen = nextDeadline(edition, now);
+    const chosen = mainDeadline(edition, now);
     const delta = dayDelta(chosen?.date, now);
     if (delta === null || delta < 0) return false;
   }

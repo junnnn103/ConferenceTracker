@@ -254,10 +254,10 @@ test("matchesFilters hidePast drops conferences whose deadline has passed", () =
   assert.equal(matchesFilters(conf(), filters, NOW), false);
 });
 
-test("matchesFilters hidePast follows nextDeadline, not primary_deadline, when they diverge", () => {
-  // hidePast는 셀에 뜨는 값과 같은 근거(nextDeadline)로 판단해야 한다.
+test("matchesFilters hidePast follows mainDeadline, not primary_deadline, when they diverge", () => {
+  // hidePast는 본 논문 칸에 뜨는 값과 같은 근거(mainDeadline)로 판단해야 한다.
   // 여기서는 제출 계열이 하나도 없고 통보/카메라레디만 있는 회차를 쓴다 -
-  // 셀은 미정으로 뜨는데(nextDeadline이 null), primary_deadline은 그 통보
+  // 셀은 미정으로 뜨는데(mainDeadline이 null), primary_deadline은 그 통보
   // 날짜를 갖고 있어 아직 미래처럼 보인다. primary_deadline을 기준으로
   // 판단하면 화면엔 미정이라 써 있는 학회가 "곧 마감"인 척 필터를 통과한다.
   const adminOnly = conf({
@@ -976,4 +976,12 @@ test("main sort key orders by the main paper deadline", () => {
   const sorted = [conf("B", "2026-12-01T23:59:59"), conf("A", "2026-10-01T23:59:59")]
     .sort(compareBy("main", "asc", now));
   assert.deepEqual(sorted.map((c) => c.abbr), ["A", "B"]);
+});
+
+test("matchesFilters hidePast hides a conference once its main paper deadline has passed, even with posters open", () => {
+  // 버튼은 "본 논문 마감 지난 것 숨기기"다 - 포스터·워크숍이 남아도 본 논문이 지났으면 숨긴다.
+  const filters = { fields: new Set(), grades: new Set(), aiOnly: false, hidePast: true, query: "" };
+  const confWith = (ed) => ({ abbr: "CHI", full_name: "CHI", field: "HCI", editions: [ed] });
+  assert.equal(matchesFilters(confWith(chiLike()), filters, new Date(2026, 10, 14)), false);
+  assert.equal(matchesFilters(confWith(chiLike()), filters, new Date(2026, 8, 5)), true);
 });
