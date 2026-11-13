@@ -157,3 +157,22 @@ def test_label_change_is_not_unchanged():
     approved, held = run(ask, current=current)
     assert len(ask.prompts) == 1
     assert not approved["deadlines"][0].get("unchanged")
+
+
+def test_same_city_written_differently_is_not_a_place_mismatch():
+    """도시가 같으면 표기 차이(주·SAR·나라 이름)로 보류하지 않는다 (2026-11-09: CSCW·RecSys·SIGGRAPH 보류)."""
+    cases = [("Philadelphia, PA, USA", "Philadelphia, USA"),
+             ("Hong Kong SAR, China", "Hong Kong, China"),
+             ("Anaheim, California", "Anaheim, United States"),
+             ("Honolulu, O‘ahu, Hawaii, US", "Honolulu, USA"),
+             ("Riocentro, Rio de Janeiro, Brazil", "Rio de Janeiro, Brazil")]
+    for extracted, reviewed in cases:
+        edition = {"start": "2027-10-16", "end": "2027-10-20", "place": extracted}
+        review = {"start": "2027-10-16", "end": "2027-10-20", "place": reviewed, "event_year": 2027}
+        assert ro.edition_mismatches(edition, review, 2027) == [], extracted
+
+
+def test_different_city_is_still_a_place_mismatch():
+    edition = {"start": "2027-10-16", "end": "2027-10-20", "place": "Philadelphia, PA, USA"}
+    review = {"start": "2027-10-16", "end": "2027-10-20", "place": "Pittsburgh, USA", "event_year": 2027}
+    assert ro.edition_mismatches(edition, review, 2027) == ["place:Pittsburgh, USA"]

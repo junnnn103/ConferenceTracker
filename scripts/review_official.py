@@ -134,6 +134,22 @@ def deadline_mismatches(item: dict, review: dict, year: int) -> list[str]:
     return reasons
 
 
+def _squash_place(value: str) -> str:
+    return normalize_place(value).lower().replace(" ", "")
+
+
+def _same_city(a: str, b: str) -> bool:
+    """한쪽의 첫 조각(대개 도시, 때로 행사장)이 다른 쪽에 들어 있으면 같은 곳으로 본다.
+
+    표기는 사람마다 다르다: "Philadelphia, PA, USA" / "Philadelphia, USA",
+    "Hong Kong SAR, China" / "Hong Kong, China". 통째로 비교하면 이런 차이로
+    회차가 매주 보류된다(2026-11-09: CSCW·RecSys·SIGGRAPH).
+    """
+    full_a, full_b = _squash_place(a), _squash_place(b)
+    city_a, city_b = _squash_place(a.split(",")[0]), _squash_place(b.split(",")[0])
+    return bool(full_a and full_b) and ((bool(city_a) and city_a in full_b) or (bool(city_b) and city_b in full_a))
+
+
 def edition_mismatches(edition: dict, review: dict, year: int) -> list[str]:
     reasons = []
     if str(review.get("start", ""))[:10] != edition["start"]:
@@ -144,12 +160,7 @@ def edition_mismatches(edition: dict, review: dict, year: int) -> list[str]:
         reasons.append(f"event_year:{review.get('event_year')}")
     try:
         place = review.get("place")
-        if isinstance(place, str):
-            a = normalize_place(place).lower().replace(" ", "")
-        else:
-            a = ""
-        b = normalize_place(edition.get("place")).lower().replace(" ", "")
-        if edition.get("place") and not (a and (a in b or b in a)):
+        if edition.get("place") and not (isinstance(place, str) and _same_city(place, edition["place"])):
             reasons.append(f"place:{review.get('place')}")
     except (TypeError, AttributeError):
         reasons.append(f"place:{review.get('place')}")
