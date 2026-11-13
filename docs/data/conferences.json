@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-11-13T17:18:35.960593+00:00",
+  "generated_at": "2026-11-13T17:20:22.594233+00:00",
   "fields": [
     {
       "id": "ML",
@@ -3404,9 +3404,30 @@
           "end": null,
           "place": "",
           "link": null,
-          "deadlines": [],
-          "primary_deadline": null,
-          "source": "estimated",
+          "deadlines": [
+            {
+              "type": "abstract",
+              "label": "Abstract",
+              "date": "2027-03-31T23:59:59",
+              "source": "official",
+              "evidence": {
+                "raw_text": "Paper submission deadlines: Abstract - March 31",
+                "url": "https://uist.acm.org/"
+              }
+            },
+            {
+              "type": "paper",
+              "label": "Full paper",
+              "date": "2027-04-07T23:59:59",
+              "source": "official",
+              "evidence": {
+                "raw_text": "Full paper - April 7",
+                "url": "https://uist.acm.org/"
+              }
+            }
+          ],
+          "primary_deadline": "2027-04-07T23:59:59",
+          "source": "official",
           "estimated_month": 10
         }
       ]
@@ -3991,7 +4012,7 @@
       "abbr": "UIST",
       "year": 2027,
       "month": 10,
-      "kind": "차기 회차 미공개"
+      "kind": "개최일 미정"
     }
   ]
 }

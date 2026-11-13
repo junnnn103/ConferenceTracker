@@ -76,10 +76,12 @@ def _same_entry(a: Deadline, b: Deadline) -> bool:
 def apply_official(edition: Edition | None, off: OfficialEdition) -> Edition | None:
     """공식 사이트에서 확인한 칸만 덮는다 (설계 §8).
 
-    해당 연도 회차가 없으면 개최일이 있을 때만 새로 만든다.
+    해당 연도 회차가 없으면 개최일이나 마감이 있을 때만 새로 만든다. 마감만 있으면
+    날짜 없는 회차가 된다 - 회차 선택은 남은 마감으로, 개최 월은 추정으로 채운다
+    (2026-11-14: 업스트림에 UIST 2027이 없어 공식 마감이 버려졌다).
     """
     if edition is None:
-        if off.start is None:
+        if off.start is None and not off.deadlines:
             return None
         return Edition(
             year=off.year, date_text=off.date_text, start=off.start, end=off.end or off.start,

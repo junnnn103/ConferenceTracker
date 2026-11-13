@@ -337,3 +337,16 @@ def test_official_dates_clear_an_estimate():
     out = apply_official(est, OfficialEdition(year=2027, date_text="July 6-11, 2027",
                                              start=date(2027, 7, 6), end=date(2027, 7, 11)))
     assert out.estimated_month is None and out.start == date(2027, 7, 6)
+
+
+def test_official_deadlines_create_an_undated_edition():
+    """업스트림에 그 연도가 없어도 공식 마감은 버리지 않는다 (2026-11-14: UIST 2027 마감이 사라짐).
+
+    개최일이 없으니 날짜 없는 회차로 만든다 - 회차 선택은 남은 마감으로, 개최 월은 추정으로 채운다.
+    """
+    paper = Deadline("paper", "Full paper", datetime(2027, 4, 7, 23, 59, 59), None, "official")
+    out = apply_official(None, OfficialEdition(year=2027, deadlines=[paper]))
+    assert out is not None and out.start is None and out.end is None
+    assert out.deadlines == [paper] and out.source == "official"
+    picked = select_editions([out], date(2026, 11, 14))
+    assert picked == [out]
