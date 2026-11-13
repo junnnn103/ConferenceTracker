@@ -9,11 +9,13 @@ import {
   dayDelta,
   formatDateRange,
   formatDeadline,
+  formatMainDeadline,
   formatStage,
   gradeCellText,
   isAoeDeadline,
   isEnded,
   isFeaturedDeadline,
+  mainDeadline,
   matchesFilters,
   nextDeadline,
   pickEdition,
@@ -932,4 +934,46 @@ test("commitment_deadline과 short_paper도 본 논문 후보다", () => {
   };
   assert.equal(formatDeadline(edition, new Date(2026, 0, 20)).label, "Short papers");
   assert.equal(formatDeadline(edition, new Date(2026, 1, 10)).label, "ARR commitment deadline");
+});
+
+
+// 본 논문 마감 칸. 제출마감 칸과 달리 포스터·LBW·워크숍으로 넘어가지 않는다.
+const chiLike = () => ({
+  year: 2027, date_text: "", start: "2027-05-10", end: "2027-05-14", place: "", link: null,
+  primary_deadline: "2026-09-10T23:59:59",
+  deadlines: [
+    { type: "abstract", label: "Abstract", date: "2026-09-03T23:59:59" },
+    { type: "paper", label: "Papers", date: "2026-09-10T23:59:59" },
+    { type: "poster", label: "Posters", date: "2027-01-21T23:59:59" },
+    { type: "notification", label: "List of accepted workshops", date: "2026-12-17T23:59:59" },
+  ],
+});
+
+test("mainDeadline shows the abstract while it comes first", () => {
+  assert.equal(mainDeadline(chiLike(), new Date(2026, 8, 1)).label, "Abstract");
+  assert.equal(mainDeadline(chiLike(), new Date(2026, 8, 5)).label, "Papers");
+});
+
+test("mainDeadline stays on the passed paper deadline instead of moving to posters", () => {
+  const now = new Date(2026, 10, 14);
+  assert.equal(nextDeadline(chiLike(), now).label, "Posters", "제출마감 칸은 지금처럼 포스터로 넘어간다");
+  assert.equal(mainDeadline(chiLike(), now).label, "Papers");
+  const info = formatMainDeadline(chiLike(), now);
+  assert.equal(info.state, "past");
+  assert.equal(info.dday, "");
+});
+
+test("mainDeadline is unknown when only non-paper tracks exist", () => {
+  const ed = { ...chiLike(), deadlines: [{ type: "poster", label: "Posters", date: "2027-01-21T23:59:59" }] };
+  assert.equal(mainDeadline(ed, NOW), null);
+  assert.equal(formatMainDeadline(ed, NOW).text, "미정");
+});
+
+test("main sort key orders by the main paper deadline", () => {
+  const conf = (abbr, date) => ({ abbr, field: "HCI", editions: [{
+    ...chiLike(), deadlines: [{ type: "paper", label: "Paper", date }] }] });
+  const now = new Date(2026, 8, 1);
+  const sorted = [conf("B", "2026-12-01T23:59:59"), conf("A", "2026-10-01T23:59:59")]
+    .sort(compareBy("main", "asc", now));
+  assert.deepEqual(sorted.map((c) => c.abbr), ["A", "B"]);
 });

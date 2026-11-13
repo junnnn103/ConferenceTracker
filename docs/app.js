@@ -5,6 +5,7 @@ import {
   compareBy,
   formatDateRange,
   formatDeadline,
+  formatMainDeadline,
   formatStage,
   gradeCellText,
   isEnded,
@@ -13,7 +14,7 @@ import {
   pickEdition,
   srGradeBadgeClass,
   srGradeLabel,
-} from "./lib.js?v=52829fd0";
+} from "./lib.js?v=c6aaacae";
 import { safeHref } from "./url-safety.js?v=5de46b35";
 
 const STORAGE_KEY = "conference-manager-filters";
@@ -195,6 +196,35 @@ function deadlineLabelText(info) {
   return FROM_TYPE[info.type] || "";
 }
 
+// 마감 칸 하나. 본 논문 칸과 제출마감 칸이 같이 쓴다. caption은 좁은 화면에서
+// 머리글이 숨으므로 어느 칸인지 앞에 붙여 보여준다(style.css의 data-caption).
+function deadlineCell(info, className, caption) {
+  const cell = document.createElement("td");
+  cell.className = className;
+  cell.dataset.caption = caption;
+  const when = document.createElement("div");
+  when.className = `deadline-date ${info.state}`;
+  when.textContent = info.text;
+  cell.append(when);
+  if (info.dday) {
+    const dday = document.createElement("div");
+    dday.className = `dday ${info.state}`;
+    dday.textContent = info.dday;
+    cell.append(dday);
+  }
+  // 어느 마감인지는 항상 밝힌다 - 본 논문이든 포스터든. 본 논문에만 라벨이
+  // 없으면 "라벨 없음 = 본 논문"이라는 암묵적 규칙이 생겨 읽는 사람이
+  // 매번 추론해야 한다.
+  const labelText = deadlineLabelText(info);
+  if (labelText) {
+    const lbl = document.createElement("div");
+    lbl.className = "deadline-label";
+    lbl.textContent = labelText;
+    cell.append(lbl);
+  }
+  return cell;
+}
+
 function renderRow(conf, now) {
   const edition = pickEdition(conf.editions, now);
   const row = document.createElement("tr");
@@ -269,29 +299,9 @@ function renderRow(conf, now) {
   placeCell.textContent = edition?.place || "미정";
   row.append(placeCell);
 
-  const deadlineCell = document.createElement("td");
-  deadlineCell.className = "deadline-col";
-  const info = formatDeadline(edition, now);
-  const when = document.createElement("div");
-  when.className = `deadline-date ${info.state}`;
-  when.textContent = info.text;
-  deadlineCell.append(when);
-  if (info.dday) {
-    const dday = document.createElement("div");
-    dday.className = `dday ${info.state}`;
-    dday.textContent = info.dday;
-    deadlineCell.append(dday);
-  }
-  // 어느 마감인지는 항상 밝힌다 - 본 논문이든 포스터든. 본 논문에만 라벨이
-  // 없으면 "라벨 없음 = 본 논문"이라는 암묵적 규칙이 생겨 읽는 사람이
-  // 매번 추론해야 한다.
-  const labelText = deadlineLabelText(info);
-  if (labelText) {
-    const lbl = document.createElement("div");
-    lbl.className = "deadline-label";
-    lbl.textContent = labelText;
-    deadlineCell.append(lbl);
-  }
+  row.append(deadlineCell(formatMainDeadline(edition, now), "main-col", "본 논문"));
+
+  const deadlineCellEl = deadlineCell(formatDeadline(edition, now), "deadline-col", "제출마감");
   // 펼치면 이제 아무것도 빼지 않은 전체 일정을 보여주므로(allDeadlines),
   // 숫자의 의미도 "숨겨진 개수"에서 "전체 단계 수"로 바뀐다. 마감이 하나뿐인
   // 학회는 펼쳐봐야 셀에 이미 쓰인 것과 같은 한 줄만 나오므로 여전히 토글을
@@ -306,16 +316,16 @@ function renderRow(conf, now) {
     toggle.setAttribute("aria-expanded", String(open));
     toggle.textContent = `${open ? "▾" : "▸"} 총 ${stages.length}개`;
     toggle.title = "전체 일정 보기";
-    deadlineCell.append(toggle);
+    deadlineCellEl.append(toggle);
   }
-  row.append(deadlineCell);
+  row.append(deadlineCellEl);
 
   row.append(linkCell(conf, edition));
   return row;
 }
 
 // 표에 표시할 컬럼 수. 결과가 없을 때 안내 행을 표 너비 전체로 펼치는 데 쓴다.
-const COLUMN_COUNT = 7;
+const COLUMN_COUNT = 8;
 
 function emptyRow() {
   const row = document.createElement("tr");

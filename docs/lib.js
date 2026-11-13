@@ -44,6 +44,37 @@ function workshopNotifications(deadlines) {
   );
 }
 
+/** 본 논문 계열 마감. paper 계열이 있으면 그것만, 없으면 submission. */
+function mainPaperDeadlines(deadlines) {
+  const papers = deadlines.filter((d) => PAPER_TYPES.includes(d.type));
+  return papers.length > 0
+    ? papers
+    : deadlines.filter((d) => SUBMISSION_FALLBACK_TYPES.includes(d.type));
+}
+
+/**
+ * 본 논문이 아직 남았을 때의 후보. 다 지났으면 null.
+ *
+ * 그보다 앞선 abstract가 있으면 그쪽을 돌려준다 - 초록을 놓치면 본문을
+ * 아예 못 내므로 그쪽이 실질적인 마감이다.
+ */
+function openMainCandidates(deadlines, now) {
+  const main = mainPaperDeadlines(deadlines);
+  const today = startOfDay(now);
+  const mainOpen = main.filter((d) => startOfDay(d.date) >= today);
+  if (mainOpen.length === 0) return null;
+  const earliestMain = mainOpen
+    .map((d) => startOfDay(d.date))
+    .reduce((a, b) => Math.min(a, b));
+  const abstracts = deadlines.filter(
+    (d) =>
+      ABSTRACT_TYPES.includes(d.type) &&
+      startOfDay(d.date) >= today &&
+      startOfDay(d.date) <= earliestMain,
+  );
+  return abstracts.length > 0 ? abstracts : main;
+}
+
 /**
  * D-day를 셀 후보. 제출 계열만 센다.
  *
@@ -57,31 +88,14 @@ function workshopNotifications(deadlines) {
  * 대표로 보여주면 정작 중요한 쪽을 가리기 때문이다.
  */
 function paperCandidates(deadlines, now) {
-  const papers = deadlines.filter((d) => PAPER_TYPES.includes(d.type));
-  const main = papers.length > 0
-    ? papers
-    : deadlines.filter((d) => SUBMISSION_FALLBACK_TYPES.includes(d.type));
+  const main = mainPaperDeadlines(deadlines);
 
   // now가 없으면(정렬 등 시점 무관 호출) 기존대로 본 논문 계열만 돌려준다.
   if (!now) return main;
 
   const today = startOfDay(now);
-  const mainOpen = main.filter((d) => startOfDay(d.date) >= today);
-
-  if (mainOpen.length > 0) {
-    // 본 논문이 아직 남았다면, 그보다 앞선 abstract가 있는지 먼저 본다.
-    // 초록을 놓치면 본문을 아예 못 내므로 그쪽이 실질적인 마감이다.
-    const earliestMain = mainOpen
-      .map((d) => startOfDay(d.date))
-      .reduce((a, b) => Math.min(a, b));
-    const abstracts = deadlines.filter(
-      (d) =>
-        ABSTRACT_TYPES.includes(d.type) &&
-        startOfDay(d.date) >= today &&
-        startOfDay(d.date) <= earliestMain,
-    );
-    return abstracts.length > 0 ? abstracts : main;
-  }
+  const open = openMainCandidates(deadlines, now);
+  if (open) return open;
 
   const late = deadlines.filter((d) => LATE_SUBMISSION_TYPES.includes(d.type));
   const lateOpen = late.filter((d) => startOfDay(d.date) >= today);
@@ -291,6 +305,37 @@ export function formatDeadline(edition, now) {
 }
 
 /**
+ * 본 논문 마감 칸에 보여줄 마감. nextDeadline과 달리 본 논문이 다 지나도
+ * 포스터·LBW·워크숍으로 넘어가지 않는다 - 그 칸은 "본 논문이 언제였고
+ * 지났는가"만 답한다. 남은 다른 트랙은 옆의 제출마감 칸이 보여준다.
+ */
+export function mainDeadline(edition, now) {
+  const deadlines = edition?.deadlines ?? [];
+  const main = mainPaperDeadlines(deadlines);
+  if (main.length === 0) {
+    // nextDeadline과 같은 규칙 - 마감 배열이 아예 없을 때만 primary_deadline을 쓴다.
+    if (deadlines.length > 0) return null;
+    return edition?.primary_deadline
+      ? { type: "paper", label: "Paper", date: edition.primary_deadline }
+      : null;
+  }
+  const byDate = (a, b) => (a.date < b.date ? -1 : a.date > b.date ? 1 : 0);
+  const open = openMainCandidates(deadlines, now);
+  if (open) {
+    const today = startOfDay(now);
+    return open.slice().sort(byDate).find((d) => startOfDay(d.date) >= today);
+  }
+  return main.slice().sort(byDate).pop();
+}
+
+/** 본 논문 마감 셀에 표시할 값. */
+export function formatMainDeadline(edition, now) {
+  const chosen = mainDeadline(edition, now);
+  if (!chosen) return { state: "unknown", text: "미정", dday: "", label: "", aoe: false };
+  return formatStage(chosen, now);
+}
+
+/**
  * 회차의 모든 단계를 시간순으로 돌려준다. 셀에 뜨는 주 마감을 포함해
  * 아무것도 빼지 않는다 - 토글을 펼쳤을 때 보여줄 전체 일정표다.
  *
@@ -419,6 +464,10 @@ function sortKey(conf, key, now) {
       return (edition?.place || "").toLowerCase();
     case "deadline": {
       const chosen = nextDeadline(edition, now);
+      return chosen ? startOfDay(chosen.date) : Number.POSITIVE_INFINITY;
+    }
+    case "main": {
+      const chosen = mainDeadline(edition, now);
       return chosen ? startOfDay(chosen.date) : Number.POSITIVE_INFINITY;
     }
     case "date":
