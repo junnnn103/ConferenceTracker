@@ -1,0 +1,11 @@
+abbr: interspeech
+editions:
+- year: 2027
+  checked: '2026-11-14'
+  deadlines:
+  - type: paper
+    label: Paper submission deadline
+    date: '2027-02-09 23:59:59'
+    evidence:
+      raw_text: 09 Feb 2027 Paper submission deadline
+      url: https://interspeech2027.org/calls/call_for_papers/

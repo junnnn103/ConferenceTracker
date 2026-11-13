@@ -1,0 +1,28 @@
+abbr: vr
+editions:
+- year: 2027
+  checked: '2026-11-14'
+  deadlines:
+  - type: poster
+    label: Title, category, abstract (100-120 words) and authors information due
+    date: '2026-12-02 23:59:59'
+    timezone: AoE
+    evidence:
+      raw_text: 'December 2, 2026: Title, category, abstract (100-120 words) and authors
+        information due'
+      url: https://ieeevr.org/2027/contribute/posters/
+  - type: poster
+    label: Two-page pdf extended abstract due
+    date: '2026-12-07 23:59:59'
+    timezone: AoE
+    evidence:
+      raw_text: 'December 7, 2026: Two-page pdf extended abstract due'
+      url: https://ieeevr.org/2027/contribute/posters/
+  - type: notification
+    label: Latest date for workshops to send out their paper notifications
+    date: '2027-01-07 23:59:59'
+    timezone: AoE
+    evidence:
+      raw_text: 'January 7, 2027 : Latest date for workshops to send out their paper
+        notifications'
+      url: https://ieeevr.org/2027/contribute/workshops/

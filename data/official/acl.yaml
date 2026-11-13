@@ -1,0 +1,12 @@
+abbr: acl
+editions:
+- year: 2027
+  checked: '2026-11-14'
+  deadlines:
+  - type: notification
+    label: 'Workshop papers: Notification of acceptance'
+    date: '2027-05-22 23:59:59'
+    evidence:
+      raw_text: 'Pre-reviewed ARR commitment deadline: April 2027 Notification of
+        acceptance: May 22, 2027'
+      url: https://www.aclweb.org/portal/content/joint-call-workshops-proposals-2027

@@ -1,0 +1,20 @@
+abbr: www
+editions:
+- year: 2027
+  checked: '2026-11-14'
+  deadlines:
+  - type: short_paper
+    label: 'Short Papers: Paper Submission'
+    date: '2026-11-16 23:59:59'
+    timezone: AoE
+    evidence:
+      raw_text: Short Papers Abstract Submission 09 November 2026 Paper Submission
+        16 November 2026
+      url: https://www2027.thewebconf.org/important-dates/
+  - type: notification
+    label: Accepted Workshop Paper Notification
+    date: '2027-02-01 23:59:59'
+    timezone: AoE
+    evidence:
+      raw_text: Accepted Workshop Paper Notification 01 February 2027
+      url: https://www2027.thewebconf.org/important-dates/

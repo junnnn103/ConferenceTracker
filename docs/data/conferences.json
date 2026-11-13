@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-11-09T03:01:57.784513+00:00",
+  "generated_at": "2026-11-13T17:18:35.960593+00:00",
   "fields": [
     {
       "id": "ML",
@@ -141,6 +141,16 @@
               "evidence": {
                 "raw_text": "Submission Deadline* Nov 16, 2026 11:59 PM AOE or",
                 "url": "https://cvpr.thecvf.com/Conferences/2027/CallForPapers"
+              }
+            },
+            {
+              "type": "notification",
+              "label": "Workshop Proposal Decision",
+              "date": "2026-12-22T23:59:59",
+              "source": "official",
+              "evidence": {
+                "raw_text": "Workshop Proposal Decision December 22, 2026",
+                "url": "https://cvpr.thecvf.com/Conferences/2027/CallForWorkshops"
               }
             }
           ],
@@ -566,8 +576,31 @@
           "end": "2027-08-04",
           "place": "Riocentro Rio de Janeiro Brazil",
           "link": "https://icml.cc/Conferences/2027",
-          "deadlines": [],
-          "primary_deadline": null,
+          "deadlines": [
+            {
+              "type": "abstract",
+              "label": "Abstract submission deadline",
+              "date": "2027-01-14T23:59:59",
+              "source": "official",
+              "timezone": "AoE",
+              "evidence": {
+                "raw_text": "Abstract submission deadline: January 14, 2027 11:59 PM AOE",
+                "url": "https://icml.cc/Conferences/2027/CallForPapers"
+              }
+            },
+            {
+              "type": "paper",
+              "label": "Full paper submission deadline",
+              "date": "2027-01-22T23:59:59",
+              "source": "official",
+              "timezone": "AoE",
+              "evidence": {
+                "raw_text": "Full paper submission deadline: January 22, 2027 11:59 PM AOE",
+                "url": "https://icml.cc/Conferences/2027/CallForPapers"
+              }
+            }
+          ],
+          "primary_deadline": "2027-01-22T23:59:59",
           "source": "ccfddl"
         }
       ]
@@ -794,8 +827,8 @@
         },
         {
           "year": 2027,
-          "date_text": "August 17-22, 2027",
-          "start": "2027-08-17",
+          "date_text": "August 20-22, 2027",
+          "start": "2027-08-20",
           "end": "2027-08-22",
           "place": "Kyoto Japan",
           "link": "https://2027.aclweb.org/",
@@ -806,6 +839,16 @@
               "date": "2027-01-04T23:59:59",
               "source": "ccfddl",
               "timezone": "UTC-12"
+            },
+            {
+              "type": "notification",
+              "label": "Workshop papers: Notification of acceptance",
+              "date": "2027-05-22T23:59:59",
+              "source": "official",
+              "evidence": {
+                "raw_text": "Pre-reviewed ARR commitment deadline: April 2027 Notification of acceptance: May 22, 2027",
+                "url": "https://www.aclweb.org/portal/content/joint-call-workshops-proposals-2027"
+              }
             }
           ],
           "primary_deadline": "2027-01-04T23:59:59",
@@ -991,8 +1034,31 @@
           "end": "2027-08-17",
           "place": "Kyoto Japan & Hengqin China",
           "link": "https://www.ijcai.org/future_conferences",
-          "deadlines": [],
-          "primary_deadline": null,
+          "deadlines": [
+            {
+              "type": "abstract",
+              "label": "Abstract submission deadline",
+              "date": "2027-01-04T23:59:59",
+              "source": "official",
+              "timezone": "AoE",
+              "evidence": {
+                "raw_text": "Abstract submission deadline : January 4, 2027",
+                "url": "https://2027.ijcai.org/ijcai-2027-call-for-papers-main-track/"
+              }
+            },
+            {
+              "type": "paper",
+              "label": "Full paper submission deadline (including Appendix)",
+              "date": "2027-01-11T23:59:59",
+              "source": "official",
+              "timezone": "AoE",
+              "evidence": {
+                "raw_text": "Full paper submission deadline (including Appendix): January 11, 2027",
+                "url": "https://2027.ijcai.org/ijcai-2027-call-for-papers-main-track/"
+              }
+            }
+          ],
+          "primary_deadline": "2027-01-11T23:59:59",
           "source": "manual"
         }
       ]
@@ -1040,9 +1106,29 @@
               "date": "2026-10-12T23:59:59",
               "source": "ai-deadlines",
               "timezone": "AoE"
+            },
+            {
+              "type": "commitment",
+              "label": "NAACL commitment deadline",
+              "date": "2026-12-23T23:59:59",
+              "source": "official",
+              "evidence": {
+                "raw_text": "NAACL commitment deadline December 23, 2026",
+                "url": "https://2027.naacl.org/"
+              }
+            },
+            {
+              "type": "notification",
+              "label": "Workshop papers: Notification of acceptance",
+              "date": "2027-03-26T23:59:59",
+              "source": "official",
+              "evidence": {
+                "raw_text": "Pre-reviewed ARR commitment deadline March 12, 2027 Notification of acceptance March 26, 2027",
+                "url": "https://2027.naacl.org/calls/workshops/"
+              }
             }
           ],
-          "primary_deadline": "2026-10-12T23:59:59",
+          "primary_deadline": "2026-12-23T23:59:59",
           "source": "ai-deadlines"
         }
       ]
@@ -1584,9 +1670,31 @@
               "date": "2027-01-31T23:59:59",
               "source": "ai-deadlines",
               "timezone": "AoE"
+            },
+            {
+              "type": "short_paper",
+              "label": "Short Papers: Paper Submission",
+              "date": "2026-11-16T23:59:59",
+              "source": "official",
+              "timezone": "AoE",
+              "evidence": {
+                "raw_text": "Short Papers Abstract Submission 09 November 2026 Paper Submission 16 November 2026",
+                "url": "https://www2027.thewebconf.org/important-dates/"
+              }
+            },
+            {
+              "type": "notification",
+              "label": "Accepted Workshop Paper Notification",
+              "date": "2027-02-01T23:59:59",
+              "source": "official",
+              "timezone": "AoE",
+              "evidence": {
+                "raw_text": "Accepted Workshop Paper Notification 01 February 2027",
+                "url": "https://www2027.thewebconf.org/important-dates/"
+              }
             }
           ],
-          "primary_deadline": "2026-10-25T23:59:59",
+          "primary_deadline": "2026-11-16T23:59:59",
           "source": "ai-deadlines"
         }
       ]
@@ -1665,13 +1773,16 @@
           "deadlines": [
             {
               "type": "paper",
-              "label": "Regular papers; rebuttal April 13-20. Date-only milestones use AoE end-of-day convention, converted to UTC.",
-              "date": "2027-02-10T11:59:59",
-              "source": "ccfddl",
-              "timezone": "UTC+0"
+              "label": "Paper submission deadline",
+              "date": "2027-02-09T23:59:59",
+              "source": "official",
+              "evidence": {
+                "raw_text": "09 Feb 2027 Paper submission deadline",
+                "url": "https://interspeech2027.org/calls/call_for_papers/"
+              }
             }
           ],
-          "primary_deadline": "2027-02-10T11:59:59",
+          "primary_deadline": "2027-02-09T23:59:59",
           "source": "ccfddl"
         }
       ]
@@ -2263,46 +2374,6 @@
       "homepage": "https://dl.acm.org/conference/cikm",
       "editions": [
         {
-          "year": 2025,
-          "date_text": "November 10-14, 2025",
-          "start": "2025-11-10",
-          "end": "2025-11-14",
-          "place": "Seoul South Korea",
-          "link": "https://cikm2025.org/",
-          "deadlines": [
-            {
-              "type": "abstract",
-              "label": "Abstract submission deadline",
-              "date": "2025-05-16T23:59:00",
-              "source": "ai-deadlines",
-              "timezone": "AoE"
-            },
-            {
-              "type": "paper",
-              "label": "Full paper submission deadline",
-              "date": "2025-05-23T23:59:00",
-              "source": "ai-deadlines",
-              "timezone": "AoE"
-            },
-            {
-              "type": "notification",
-              "label": "Author notification",
-              "date": "2025-08-04T23:59:00",
-              "source": "ai-deadlines",
-              "timezone": "AoE"
-            },
-            {
-              "type": "camera_ready",
-              "label": "Camera-ready deadline",
-              "date": "2025-08-27T23:59:00",
-              "source": "ai-deadlines",
-              "timezone": "AoE"
-            }
-          ],
-          "primary_deadline": "2025-05-23T23:59:00",
-          "source": "ai-deadlines"
-        },
-        {
           "year": 2026,
           "date_text": "November 7-11, 2026",
           "start": "2026-11-07",
@@ -2393,6 +2464,18 @@
           ],
           "primary_deadline": "2026-06-06T23:59:59",
           "source": "ai-deadlines"
+        },
+        {
+          "year": 2027,
+          "date_text": "",
+          "start": null,
+          "end": null,
+          "place": "",
+          "link": null,
+          "deadlines": [],
+          "primary_deadline": null,
+          "source": "estimated",
+          "estimated_month": 10
         }
       ]
     },
@@ -2406,25 +2489,6 @@
       "field": "Robotics",
       "homepage": "https://www.corl.org/",
       "editions": [
-        {
-          "year": 2025,
-          "date_text": "September 27-30, 2025",
-          "start": "2025-09-27",
-          "end": "2025-09-30",
-          "place": "Seoul South Korea",
-          "link": "https://www.corl.org/",
-          "deadlines": [
-            {
-              "type": "paper",
-              "label": "Paper",
-              "date": "2025-04-30T23:59:59",
-              "source": "ai-deadlines",
-              "timezone": "AoE"
-            }
-          ],
-          "primary_deadline": "2025-04-30T23:59:59",
-          "source": "ai-deadlines"
-        },
         {
           "year": 2026,
           "date_text": "November 9-12, 2026",
@@ -2457,6 +2521,18 @@
           ],
           "primary_deadline": "2026-05-29T11:59:00",
           "source": "ai-deadlines"
+        },
+        {
+          "year": 2027,
+          "date_text": "",
+          "start": null,
+          "end": null,
+          "place": "",
+          "link": null,
+          "deadlines": [],
+          "primary_deadline": null,
+          "source": "estimated",
+          "estimated_month": 11
         }
       ]
     },
@@ -2972,6 +3048,28 @@
                 "raw_text": "Short Contributions Submission Deadline October 1, 2026",
                 "url": "https://humanrobotinteraction.org/2027/"
               }
+            },
+            {
+              "type": "lbw",
+              "label": "Late Breaking Reports Submission Deadline",
+              "date": "2026-12-08T23:59:59",
+              "source": "official",
+              "timezone": "AoE",
+              "evidence": {
+                "raw_text": "Late Breaking Reports Submission Deadline December 8, 2026",
+                "url": "https://humanrobotinteraction.org/2027/"
+              }
+            },
+            {
+              "type": "notification",
+              "label": "Workshops & Tutorials Notification of Acceptance",
+              "date": "2026-11-19T23:59:59",
+              "source": "official",
+              "timezone": "AoE",
+              "evidence": {
+                "raw_text": "Workshops & Tutorials Submission of Proposals October 5, 2026 Notification of Acceptance November 19, 2026",
+                "url": "https://humanrobotinteraction.org/2027/"
+              }
             }
           ],
           "primary_deadline": "2026-10-01T23:59:00",
@@ -3480,6 +3578,39 @@
               "date": "2026-08-31T23:59:59",
               "source": "ccfddl",
               "timezone": "AoE"
+            },
+            {
+              "type": "poster",
+              "label": "Title, category, abstract (100-120 words) and authors information due",
+              "date": "2026-12-02T23:59:59",
+              "source": "official",
+              "timezone": "AoE",
+              "evidence": {
+                "raw_text": "December 2, 2026: Title, category, abstract (100-120 words) and authors information due",
+                "url": "https://ieeevr.org/2027/contribute/posters/"
+              }
+            },
+            {
+              "type": "poster",
+              "label": "Two-page pdf extended abstract due",
+              "date": "2026-12-07T23:59:59",
+              "source": "official",
+              "timezone": "AoE",
+              "evidence": {
+                "raw_text": "December 7, 2026: Two-page pdf extended abstract due",
+                "url": "https://ieeevr.org/2027/contribute/posters/"
+              }
+            },
+            {
+              "type": "notification",
+              "label": "Latest date for workshops to send out their paper notifications",
+              "date": "2027-01-07T23:59:59",
+              "source": "official",
+              "timezone": "AoE",
+              "evidence": {
+                "raw_text": "January 7, 2027 : Latest date for workshops to send out their paper notifications",
+                "url": "https://ieeevr.org/2027/contribute/workshops/"
+              }
             }
           ],
           "primary_deadline": "2026-08-31T23:59:59",
@@ -3536,15 +3667,14 @@
         },
         {
           "year": 2027,
-          "date_text": "",
-          "start": null,
-          "end": null,
-          "place": "",
+          "date_text": "Oct 11 - Oct 15 2027",
+          "start": "2027-10-11",
+          "end": "2027-10-15",
+          "place": "Kobe Japan",
           "link": null,
           "deadlines": [],
           "primary_deadline": null,
-          "source": "estimated",
-          "estimated_month": 10
+          "source": "official"
         }
       ]
     },
@@ -3846,13 +3976,19 @@
       "kind": "차기 회차 미공개"
     },
     {
-      "abbr": "UIST",
+      "abbr": "CIKM",
       "year": 2027,
       "month": 10,
       "kind": "차기 회차 미공개"
     },
     {
-      "abbr": "ISMAR",
+      "abbr": "CoRL",
+      "year": 2027,
+      "month": 11,
+      "kind": "차기 회차 미공개"
+    },
+    {
+      "abbr": "UIST",
       "year": 2027,
       "month": 10,
       "kind": "차기 회차 미공개"

@@ -1,0 +1,14 @@
+abbr: mm
+editions:
+- year: 2027
+  checked: '2026-11-14'
+  edition:
+    date_text: 8–12 November 2027
+    start: '2027-11-08'
+    end: '2027-11-12'
+    place: Hong Kong SAR, China
+    evidence:
+      raw_text: The 35th ACM International Conference on Multimedia 8–12 November
+        2027 AsiaWorld-Expo, Hong Kong SAR, China
+      url: https://2027.acmmm.org/
+  deadlines: []

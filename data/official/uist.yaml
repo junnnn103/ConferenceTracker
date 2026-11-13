@@ -1,0 +1,17 @@
+abbr: uist
+editions:
+- year: 2027
+  checked: '2026-11-14'
+  deadlines:
+  - type: abstract
+    label: Abstract
+    date: '2027-03-31 23:59:59'
+    evidence:
+      raw_text: 'Paper submission deadlines: Abstract - March 31'
+      url: https://uist.acm.org/
+  - type: paper
+    label: Full paper
+    date: '2027-04-07 23:59:59'
+    evidence:
+      raw_text: Full paper - April 7
+      url: https://uist.acm.org/

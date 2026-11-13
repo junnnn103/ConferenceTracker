@@ -1,0 +1,14 @@
+abbr: ismar
+editions:
+- year: 2027
+  checked: '2026-11-14'
+  edition:
+    date_text: Oct 11 - Oct 15 2027
+    start: '2027-10-11'
+    end: '2027-10-15'
+    place: Kobe, Japan
+    evidence:
+      raw_text: 'The ISMAR 2027 symposium will be held in Kobe, Japan. Dates: Oct
+        11 - Oct 15 2027.'
+      url: https://ismar.net/
+  deadlines: []

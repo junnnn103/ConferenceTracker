@@ -1,7 +1,7 @@
 abbr: hri
 editions:
 - year: 2027
-  checked: '2026-10-26'
+  checked: '2026-11-14'
   deadlines:
   - type: abstract
     label: Abstract Submission Deadline (required for all full papers)
@@ -25,4 +25,19 @@ editions:
     timezone: AoE
     evidence:
       raw_text: Short Contributions Submission Deadline October 1, 2026
+      url: https://humanrobotinteraction.org/2027/
+  - type: lbw
+    label: Late Breaking Reports Submission Deadline
+    date: '2026-12-08 23:59:59'
+    timezone: AoE
+    evidence:
+      raw_text: Late Breaking Reports Submission Deadline December 8, 2026
+      url: https://humanrobotinteraction.org/2027/
+  - type: notification
+    label: Workshops & Tutorials Notification of Acceptance
+    date: '2026-11-19 23:59:59'
+    timezone: AoE
+    evidence:
+      raw_text: Workshops & Tutorials Submission of Proposals October 5, 2026 Notification
+        of Acceptance November 19, 2026
       url: https://humanrobotinteraction.org/2027/

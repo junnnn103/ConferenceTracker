@@ -1,0 +1,18 @@
+abbr: naacl
+editions:
+- year: 2027
+  checked: '2026-11-14'
+  deadlines:
+  - type: commitment
+    label: NAACL commitment deadline
+    date: '2026-12-23 23:59:59'
+    evidence:
+      raw_text: NAACL commitment deadline December 23, 2026
+      url: https://2027.naacl.org/
+  - type: notification
+    label: 'Workshop papers: Notification of acceptance'
+    date: '2027-03-26 23:59:59'
+    evidence:
+      raw_text: Pre-reviewed ARR commitment deadline March 12, 2027 Notification of
+        acceptance March 26, 2027
+      url: https://2027.naacl.org/calls/workshops/

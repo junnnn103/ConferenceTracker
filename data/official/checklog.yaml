@@ -25,6 +25,15 @@ aaai/2027:
   results:
     C: tba
   tba: []
+acl/2027:
+  access: via_alternate
+  criteria:
+  - survey
+  last_checked: '2026-11-14'
+  next_due: '2026-11-21'
+  results:
+    survey: found
+  tba: []
 bigdataconf/2026:
   access: ok
   criteria:
@@ -69,12 +78,11 @@ cvpr/2027:
   access: ok
   criteria:
   - D
-  last_checked: '2026-10-26'
-  next_due: '2026-11-02'
+  last_checked: '2026-11-14'
+  next_due: '2026-11-21'
   results:
-    D: tba
-  tba:
-  - edition
+    D: found
+  tba: []
 dis/2027:
   access: ok
   criteria:
@@ -85,15 +93,15 @@ dis/2027:
     E: found
   tba: []
 eacl/2027:
-  access: ok
+  access: via_alternate
   criteria:
   - D
-  last_checked: '2026-11-09'
-  next_due: '2026-11-16'
+  last_checked: '2026-11-14'
+  next_due: '2026-11-21'
   results:
     D: tba
   tba:
-  - ARR submission deadline (long & short papers)
+  - 'Workshop papers: Notification of acceptance'
 emnlp/2026:
   access: ok
   criteria:
@@ -117,13 +125,12 @@ hri/2027:
   criteria:
   - D
   - E
-  last_checked: '2026-10-26'
-  next_due: '2026-11-02'
+  last_checked: '2026-11-14'
+  next_due: '2026-11-21'
   results:
-    D: tba
+    D: found
     E: found
-  tba:
-  - Late Breaking Reports
+  tba: []
 icassp/2027:
   access: ok
   criteria:
@@ -165,13 +172,14 @@ icml/2027:
   access: ok
   criteria:
   - B
-  last_checked: '2026-11-09'
-  next_due: '2026-11-16'
+  - D
+  last_checked: '2026-11-14'
+  next_due: '2026-11-21'
   results:
-    B: tba
+    B: found
+    D: tba
   tba:
-  - The ICML 2027 Call for Papers will be posted here soon.
-  - edition
+  - ICML 2027 Call for Workshops will be posted here soon
 icra/2027:
   access: ok
   criteria:
@@ -182,27 +190,36 @@ icra/2027:
     C: found
   tba: []
 ijcai/2027:
-  access: ok
+  access: via_alternate
   criteria:
   - B
-  last_checked: '2026-11-09'
-  next_due: '2026-11-16'
+  - E
+  last_checked: '2026-11-14'
+  next_due: '2026-11-21'
   results:
-    B: none
+    B: found
+    E: found
+  tba: []
+interspeech/2027:
+  access: ok
+  criteria:
+  - survey
+  last_checked: '2026-11-14'
+  next_due: '2026-11-21'
+  results:
+    survey: found
   tba: []
 ismar/2027:
   access: via_alternate
   criteria:
   - A
-  - D
-  last_checked: '2026-11-09'
-  next_due: '2026-11-16'
+  last_checked: '2026-11-14'
+  next_due: '2026-11-21'
   results:
-    A: tba
-    D: tba
+    A: found
   tba:
   - 'Papers: To be announced'
-  - 'Posters: To be announced'
+  - 'Posters & Demos: To be announced'
 iui/2027:
   access: ok
   criteria:
@@ -221,6 +238,25 @@ kdd/2027:
   next_due: '2026-10-19'
   results:
     C: tba
+  tba: []
+mm/2027:
+  access: via_alternate
+  criteria:
+  - A
+  last_checked: '2026-11-14'
+  next_due: '2026-11-21'
+  results:
+    A: found
+  tba:
+  - More information will be posted here soon.
+naacl/2027:
+  access: ok
+  criteria:
+  - C
+  last_checked: '2026-11-14'
+  next_due: '2026-11-21'
+  results:
+    C: found
   tba: []
 recsys/2027:
   access: ok
@@ -279,8 +315,27 @@ uist/2027:
   access: ok
   criteria:
   - A
-  last_checked: '2026-11-09'
-  next_due: '2026-11-16'
+  last_checked: '2026-11-14'
+  next_due: '2026-11-21'
   results:
     A: none
+  tba:
+  - edition
+vr/2027:
+  access: ok
+  criteria:
+  - C
+  last_checked: '2026-11-14'
+  next_due: '2026-11-21'
+  results:
+    C: found
+  tba: []
+www/2027:
+  access: ok
+  criteria:
+  - C
+  last_checked: '2026-11-14'
+  next_due: '2026-11-21'
+  results:
+    C: found
   tba: []

@@ -1,0 +1,20 @@
+abbr: ijcai
+editions:
+- year: 2027
+  checked: '2026-11-14'
+  deadlines:
+  - type: abstract
+    label: Abstract submission deadline
+    date: '2027-01-04 23:59:59'
+    timezone: AoE
+    evidence:
+      raw_text: 'Abstract submission deadline : January 4, 2027'
+      url: https://2027.ijcai.org/ijcai-2027-call-for-papers-main-track/
+  - type: paper
+    label: Full paper submission deadline (including Appendix)
+    date: '2027-01-11 23:59:59'
+    timezone: AoE
+    evidence:
+      raw_text: 'Full paper submission deadline (including Appendix): January 11,
+        2027'
+      url: https://2027.ijcai.org/ijcai-2027-call-for-papers-main-track/
