@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-11-13T17:20:57.735849+00:00",
+  "generated_at": "2026-11-16T00:47:14.052996+00:00",
   "fields": [
     {
       "id": "ML",
@@ -2261,46 +2261,6 @@
       "homepage": "https://www.acmmm.org/",
       "editions": [
         {
-          "year": 2025,
-          "date_text": "October 27-31, 2025",
-          "start": "2025-10-27",
-          "end": "2025-10-31",
-          "place": "Dublin Ireland",
-          "link": "https://acmmm2025.org/",
-          "deadlines": [
-            {
-              "type": "abstract",
-              "label": "Abstract submission for regular papers",
-              "date": "2025-04-04T23:59:59",
-              "source": "ai-deadlines",
-              "timezone": "AoE"
-            },
-            {
-              "type": "paper",
-              "label": "Regular paper submission (including supplementary materials, if applicable)",
-              "date": "2025-04-11T23:59:59",
-              "source": "ai-deadlines",
-              "timezone": "AoE"
-            },
-            {
-              "type": "rebuttal_start",
-              "label": "Rebuttal period start",
-              "date": "2025-06-09T23:59:59",
-              "source": "ai-deadlines",
-              "timezone": "AoE"
-            },
-            {
-              "type": "rebuttal_end",
-              "label": "Rebuttal period end",
-              "date": "2025-06-19T23:59:59",
-              "source": "ai-deadlines",
-              "timezone": "AoE"
-            }
-          ],
-          "primary_deadline": "2025-04-11T23:59:59",
-          "source": "ai-deadlines"
-        },
-        {
           "year": 2026,
           "date_text": "November 10-14, 2026",
           "start": "2026-11-10",
@@ -2360,6 +2320,17 @@
           ],
           "primary_deadline": "2026-04-01T23:59:59",
           "source": "ai-deadlines"
+        },
+        {
+          "year": 2027,
+          "date_text": "8–12 November 2027",
+          "start": "2027-11-08",
+          "end": "2027-11-12",
+          "place": "Hong Kong SAR China",
+          "link": null,
+          "deadlines": [],
+          "primary_deadline": null,
+          "source": "official"
         }
       ]
     },
